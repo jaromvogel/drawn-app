@@ -16,7 +16,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             return true
     }
     
-    
     @IBOutlet weak var canvasView: CanvasView!
     @IBOutlet weak var gestureControlView: UIView!
     @IBOutlet weak var menuBGMask: UIView!
@@ -114,7 +113,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func zoomCanvas(sender: UIPinchGestureRecognizer) {
-        canvasGestures().zoomCanvas(self.canvasView, containerView: self.view, sender: sender)
+        canvasGestures().zoomCanvas(self.canvasView, sender: sender)
+    }
+    
+    @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
+        canvasGestures().panCanvas(self.canvasView, containerView: self.view, sender: sender)
     }
     
     // Expand Radial Menus

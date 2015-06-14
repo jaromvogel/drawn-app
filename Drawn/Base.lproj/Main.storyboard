@@ -260,21 +260,27 @@
                 <panGestureRecognizer minimumNumberOfTouches="1" id="8Zk-p9-LMr">
                     <connections>
                         <action selector="toolPickerGesture:" destination="BYZ-38-t0r" id="eBj-Wd-1Ak"/>
-                        <outlet property="delegate" destination="8bC-Xf-vdC" id="qOb-Ci-801"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="Udp-ql-lAU"/>
                     </connections>
                 </panGestureRecognizer>
                 <pinchGestureRecognizer id="xO1-L7-b5G">
                     <connections>
                         <action selector="zoomCanvas:" destination="BYZ-38-t0r" id="2CC-3B-B1H"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="1Gk-mO-fZo"/>
                     </connections>
                 </pinchGestureRecognizer>
                 <rotationGestureRecognizer id="lfo-r7-PWa">
                     <connections>
-                        <action selector="rotateCanvas:" destination="BYZ-38-t0r" id="uMl-Gy-9LH"/>
+                        <action selector="rotateCanvas:" destination="BYZ-38-t0r" id="AIA-mJ-UFL"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="80N-uK-aeB"/>
                     </connections>
                 </rotationGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="XHJ-U6-HnS"/>
+                <panGestureRecognizer minimumNumberOfTouches="2" maximumNumberOfTouches="2" id="XHJ-U6-HnS">
+                    <connections>
+                        <action selector="panCanvas:" destination="BYZ-38-t0r" id="hbv-Xx-9ap"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="mF7-ka-un0"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
         </scene>
     </scenes>
