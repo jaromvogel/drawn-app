@@ -12,6 +12,7 @@
 		8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */; };
 		8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C81B2D03D100BAF1CB /* Line.swift */; };
 		8A66765F1B2D09C9003DA547 /* canvasGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A66765E1B2D09C9003DA547 /* canvasGestures.swift */; };
+		8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6676601B2D31C9003DA547 /* drawingFunctions.swift */; };
 		8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */; };
 		8A9FCC7D1B252C10003DD303 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7C1B252C10003DD303 /* ViewController.swift */; };
 		8A9FCC801B252C10003DD303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7E1B252C10003DD303 /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 		8A1EF4C81B2D03D100BAF1CB /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		8A66765D1B2D05E4003DA547 /* Drawn-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Drawn-Bridging-Header.h"; sourceTree = "<group>"; };
 		8A66765E1B2D09C9003DA547 /* canvasGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = canvasGestures.swift; sourceTree = "<group>"; };
+		8A6676601B2D31C9003DA547 /* drawingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = drawingFunctions.swift; sourceTree = "<group>"; };
 		8A9FCC751B252C10003DD303 /* Drawn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9FCC791B252C10003DD303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				8A9FCC7C1B252C10003DD303 /* ViewController.swift */,
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
+				8A6676601B2D31C9003DA547 /* drawingFunctions.swift */,
 				8A1EF4C41B2CEC6B00BAF1CB /* Images.xcassets */,
 				8A9FCC831B252C10003DD303 /* LaunchScreen.xib */,
 				8A9FCC781B252C10003DD303 /* Supporting Files */,
@@ -307,6 +310,7 @@
 				8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */,
 				8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */,
 				8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */,
+				8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */,
 				8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

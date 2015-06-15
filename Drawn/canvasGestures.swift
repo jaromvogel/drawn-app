@@ -20,7 +20,7 @@ var scale = 1 as CGFloat
 class canvasGestures {
 
     
-    func rotateCanvas(canvas: CanvasView!, containerView: UIView, sender: UIRotationGestureRecognizer) {
+    func rotateCanvas(canvas: UIView!, containerView: UIView, sender: UIRotationGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Began {
             let touch1 = sender.locationOfTouch(0, inView: canvas)
             let touch2 = sender.locationOfTouch(1, inView: canvas)
@@ -62,14 +62,14 @@ class canvasGestures {
         }
     }
     
-    func zoomCanvas(canvas: CanvasView!, sender: UIPinchGestureRecognizer) {
+    func zoomCanvas(canvas: UIView!, sender: UIPinchGestureRecognizer) {
         canvas.transform = CGAffineTransformScale(canvas.transform,
             sender.scale, sender.scale)
         scale = sender.scale
         sender.scale = 1
     }
     
-    func panCanvas(canvas: CanvasView!, containerView: UIView!, sender: UIPanGestureRecognizer) {
+    func panCanvas(canvas: UIView!, containerView: UIView!, sender: UIPanGestureRecognizer) {
         if sender.numberOfTouches() == 2 {
             let translation = sender.translationInView(containerView)
             canvas.center = CGPoint(x:canvas.center.x + translation.x, y:canvas.center.y + translation.y)
