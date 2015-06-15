@@ -38,6 +38,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var toolsneedsscale = true
     var toolsneedsscale2 = true
     var defaultColor = UIColor.blackColor().CGColor
+    var selectedcolor = UIColor.blackColor()
     let pencilwhite = UIImage(named: "pencil_white") as UIImage!
     let pencilblack = UIImage(named: "pencil_black") as UIImage!
     let shapewhite = UIImage(named: "star_white") as UIImage!
@@ -103,6 +104,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             addShadow(toolPickerButton)
             removeBorder(toolPickerButton)
             resetTools()
+            offsetdistance = CGFloat(0.0)
             toggleMask(menuBGMask, hide: true, opacity: 0)
         }
     }
@@ -120,7 +122,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         toggleMask(menuBGMask, hide: false, opacity: 0.2)
     }
     
+    
     // Actions for Size/Opacity Button
+    @IBAction func sizeOpacityGesture(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(toolPickerButton)
+        let center = CGPoint(x: 20, y: 20)
+        offsetdistance = calcDistance(center, point2: location)
+        let offsetangle = calcAngle(center, point2: location)
+        println("distance")
+        println(offsetdistance)
+        println("angle")
+        println(offsetangle)
+    }
     @IBAction func sizeOpacityTouchUpInside(sender: AnyObject) {
         resetRadialMenu(sizeOpacityButton)
         resetRadialMenu(sizeOpacityLayer2)
@@ -133,6 +146,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         expandRadialMenu(sizeOpacityLayer2, scalefactor: 7.0)
         toggleMask(menuBGMask, hide: false, opacity: 0.2)
     }
+    
     
     @IBAction func rotateCanvas(sender: UIRotationGestureRecognizer) {
         canvasGestures().rotateCanvas(self.canvasContainer, containerView: self.view, sender: sender)
@@ -150,10 +164,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
     }
     
-    @IBAction func clearCanvas(sender: UISwipeGestureRecognizer) {
+    @IBAction func clearCanvas(sender: UITapGestureRecognizer) {
         cacheDrawingView.image = nil
     }
-    
     
     // Expand Radial Menus
     func expandRadialMenu(item:UIView, scalefactor:CGFloat) {
@@ -195,6 +208,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         )
     }
     
+    // Add drop shadow to radial menu
     func addShadow(item:UIView) {
         item.layer.shadowColor = UIColor.blackColor().CGColor
         item.layer.shadowOpacity = 0.05
@@ -202,55 +216,67 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         item.layer.shadowOffset = CGSize(width: 0, height: 0)
     }
     
+    // Remove drop shadow from radial menu
     func removeShadow(item:UIView) {
         item.layer.shadowColor = nil
         item.layer.shadowOpacity = 0
         item.layer.shadowRadius = 0
     }
     
+    // Add border to inner radial menu
     func addBorder(item:UIView) {
         item.layer.borderWidth = 0.15
         let lightgray = UIColor(red: 0, green: 0, blue: 0, alpha: 0.05).CGColor
         item.layer.borderColor = lightgray
     }
     
+    // Remove border from inner radial menu
     func removeBorder(item:UIView) {
         item.layer.borderWidth = 0
         item.layer.borderColor = nil
     }
     
+    
     func setEraserActive() {
         canvasView.lineColor = UIColor.whiteColor()
+        toolPickerButtonInner.setImage(eraserwhite, forState: .Normal)
         eraserImage.layer.backgroundColor = UIColor.blackColor().CGColor
         eraserImage.image = eraserwhite
     }
     
     func setShapeActive() {
+        canvasView.lineColor = selectedcolor
+        toolPickerButtonInner.setImage(shapewhite, forState: .Normal)
         shapeImage.layer.backgroundColor = UIColor.blackColor().CGColor
         shapeImage.image = shapewhite
     }
     
     func setPencilActive() {
-        canvasView.lineColor = UIColor.blackColor()
+        canvasView.lineColor = selectedcolor
+        toolPickerButtonInner.setImage(pencilwhite, forState: .Normal)
         pencilImage.layer.backgroundColor = UIColor.blackColor().CGColor
         pencilImage.image = pencilwhite
     }
     
+    // Reset eraser icon
     func resetEraser() {
         eraserImage.layer.backgroundColor = defaultColor
         eraserImage.image = eraserblack
     }
     
+    // Reset shape icon
     func resetShape() {
         shapeImage.layer.backgroundColor = defaultColor
         shapeImage.image = shapeblack
     }
     
+    // Reset pencil icon
     func resetPencil() {
         pencilImage.layer.backgroundColor = defaultColor
         pencilImage.image = pencilblack
     }
     
+    // Reset backgrounds and color on tool icons in picker
     func resetTools() {
         resetShape()
         resetEraser()

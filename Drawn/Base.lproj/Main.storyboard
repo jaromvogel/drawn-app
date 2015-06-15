@@ -47,7 +47,7 @@
                                     <outletCollection property="gestureRecognizers" destination="lfo-r7-PWa" appends="YES" id="zpa-4z-c10"/>
                                     <outletCollection property="gestureRecognizers" destination="XHJ-U6-HnS" appends="YES" id="9ht-1F-iO2"/>
                                     <outletCollection property="gestureRecognizers" destination="1QS-D0-YZb" appends="YES" id="TPo-4p-aXn"/>
-                                    <outletCollection property="gestureRecognizers" destination="ZAj-pp-Ye5" appends="YES" id="80P-CT-nvv"/>
+                                    <outletCollection property="gestureRecognizers" destination="Z7D-NA-UFY" appends="YES" id="UMH-Uf-j4Z"/>
                                 </connections>
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
@@ -131,6 +131,7 @@
                                     <button opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5yJ-Rd-cpt" userLabel="Size/OpacityPickerColor">
                                         <rect key="frame" x="548" y="18" width="34" height="34"/>
                                         <color key="backgroundColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="4OD-kU-meq"/>
                                             <constraint firstAttribute="height" constant="34" id="jvH-1f-GDZ"/>
@@ -146,6 +147,7 @@
                                         <connections>
                                             <action selector="sizeOpacityPickerTouchDown:" destination="BYZ-38-t0r" eventType="touchDown" id="Jz4-cg-Sid"/>
                                             <action selector="sizeOpacityTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZLc-4G-NMJ"/>
+                                            <outletCollection property="gestureRecognizers" destination="fI3-pm-VQ1" appends="YES" id="DmB-1p-5oI"/>
                                         </connections>
                                     </button>
                                     <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tNT-1p-ylv" userLabel="ToolPickerLayer2">
@@ -341,42 +343,48 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="8Zk-p9-LMr">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="8Zk-p9-LMr" userLabel="panToolPicker">
                     <connections>
                         <action selector="toolPickerGesture:" destination="BYZ-38-t0r" id="eBj-Wd-1Ak"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="Udp-ql-lAU"/>
                     </connections>
                 </panGestureRecognizer>
-                <pinchGestureRecognizer id="xO1-L7-b5G">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="fI3-pm-VQ1" userLabel="panSizeOpacity">
+                    <connections>
+                        <action selector="sizeOpacityGesture:" destination="BYZ-38-t0r" id="kQW-ke-zyw"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="6g6-z2-9VE"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="xO1-L7-b5G" userLabel="zoomCanvas">
                     <connections>
                         <action selector="zoomCanvas:" destination="BYZ-38-t0r" id="2CC-3B-B1H"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="1Gk-mO-fZo"/>
                     </connections>
                 </pinchGestureRecognizer>
-                <rotationGestureRecognizer id="lfo-r7-PWa">
+                <rotationGestureRecognizer id="lfo-r7-PWa" userLabel="rotateCanvas">
                     <connections>
                         <action selector="rotateCanvas:" destination="BYZ-38-t0r" id="AIA-mJ-UFL"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="80N-uK-aeB"/>
                     </connections>
                 </rotationGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="2" maximumNumberOfTouches="2" id="XHJ-U6-HnS">
+                <panGestureRecognizer minimumNumberOfTouches="2" maximumNumberOfTouches="2" id="XHJ-U6-HnS" userLabel="panCanvas">
                     <connections>
                         <action selector="panCanvas:" destination="BYZ-38-t0r" id="hbv-Xx-9ap"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="mF7-ka-un0"/>
                     </connections>
                 </panGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="1QS-D0-YZb">
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="1QS-D0-YZb" userLabel="drawOnCanvas">
                     <connections>
                         <action selector="drawOnCanvas:" destination="BYZ-38-t0r" id="rmF-w6-Rfs"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="oIn-6s-Btz"/>
                     </connections>
                 </panGestureRecognizer>
-                <swipeGestureRecognizer direction="left" numberOfTouchesRequired="3" id="ZAj-pp-Ye5">
+                <tapGestureRecognizer numberOfTapsRequired="2" numberOfTouchesRequired="2" id="Z7D-NA-UFY" userLabel="clear">
                     <connections>
-                        <action selector="clearCanvas:" destination="BYZ-38-t0r" id="cOt-CF-rTc"/>
-                        <outlet property="delegate" destination="BYZ-38-t0r" id="h8d-Me-ycN"/>
+                        <action selector="clearCanvas:" destination="BYZ-38-t0r" id="yLF-qw-Xd7"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="qrv-xj-pwH"/>
                     </connections>
-                </swipeGestureRecognizer>
+                </tapGestureRecognizer>
             </objects>
         </scene>
     </scenes>
