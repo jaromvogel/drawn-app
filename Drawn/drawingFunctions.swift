@@ -15,6 +15,7 @@ var previousPoint2 = CGPointZero
 var currentPoint = CGPoint()
 
 class drawingFunctions {
+    
     func tapOnCanvas(canvas: CanvasView!, sender: UITapGestureRecognizer) {
         if sender.numberOfTouches() == 1 {
             let touchLocation = sender.locationInView(canvas)
@@ -30,7 +31,6 @@ class drawingFunctions {
             canvas.setNeedsDisplay()
         }
     }
-
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, sender: UIPanGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Began {
@@ -57,9 +57,8 @@ class drawingFunctions {
                 opacity: canvas.lineOpacity
             ))
             
-            UIGraphicsBeginImageContext(canvas.frame.size)
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             let context = UIGraphicsGetCurrentContext()
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
             for line in canvas.lines {
                 var myBezier = UIBezierPath()
@@ -71,14 +70,17 @@ class drawingFunctions {
                 myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: line.opacity)
                 myBezier.closePath()
             }
-            
+
+            cache.drawViewHierarchyInRect(cache.bounds, afterScreenUpdates: true)
             cache.image = UIGraphicsGetImageFromCurrentImageContext()
-            cache.alpha = CGFloat(1)
-            UIGraphicsEndImageContext()
             
         }
         else if sender.state == UIGestureRecognizerState.Ended {
             canvas.lines.removeAll(keepCapacity: true)
+
+            cache.alpha = CGFloat(1)
+            UIGraphicsEndImageContext()
+            
             canvas.setNeedsDisplay()
         }
     }

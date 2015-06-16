@@ -52,6 +52,12 @@
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2IX-r1-lan">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JsZ-Kc-SQI" userLabel="Toolbar">
@@ -379,7 +385,7 @@
                         <outlet property="delegate" destination="BYZ-38-t0r" id="oIn-6s-Btz"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer numberOfTapsRequired="2" numberOfTouchesRequired="2" id="Z7D-NA-UFY" userLabel="clear">
+                <tapGestureRecognizer numberOfTapsRequired="2" numberOfTouchesRequired="3" id="Z7D-NA-UFY" userLabel="clear">
                     <connections>
                         <action selector="clearCanvas:" destination="BYZ-38-t0r" id="yLF-qw-Xd7"/>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="qrv-xj-pwH"/>

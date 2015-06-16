@@ -125,14 +125,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Actions for Size/Opacity Button
     @IBAction func sizeOpacityGesture(sender: UIPanGestureRecognizer) {
-        let location = sender.locationInView(toolPickerButton)
-        let center = CGPoint(x: 20, y: 20)
+        let location = sender.locationInView(sizeOpacityButton)
+        let center = CGPoint(x:20,y:20)
         offsetdistance = calcDistance(center, point2: location)
         let offsetangle = calcAngle(center, point2: location)
-        println("distance")
-        println(offsetdistance)
-        println("angle")
-        println(offsetangle)
+        canvasView.lineWeight = offsetdistance * 2
+        let adjustedangle = (offsetangle + 360) / 3
+        if adjustedangle >= 0 && adjustedangle <= 270 {
+            canvasView.lineOpacity = CGFloat(adjustedangle/90)
+            sizeOpacityButtonInner.alpha = CGFloat(adjustedangle/90)
+        }
     }
     @IBAction func sizeOpacityTouchUpInside(sender: AnyObject) {
         resetRadialMenu(sizeOpacityButton)
