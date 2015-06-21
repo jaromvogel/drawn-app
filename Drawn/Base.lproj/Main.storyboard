@@ -47,7 +47,6 @@
                                     <outletCollection property="gestureRecognizers" destination="lfo-r7-PWa" appends="YES" id="zpa-4z-c10"/>
                                     <outletCollection property="gestureRecognizers" destination="XHJ-U6-HnS" appends="YES" id="9ht-1F-iO2"/>
                                     <outletCollection property="gestureRecognizers" destination="1QS-D0-YZb" appends="YES" id="TPo-4p-aXn"/>
-                                    <outletCollection property="gestureRecognizers" destination="Z7D-NA-UFY" appends="YES" id="UMH-Uf-j4Z"/>
                                 </connections>
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
@@ -389,12 +388,6 @@
                         <outlet property="delegate" destination="BYZ-38-t0r" id="oIn-6s-Btz"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer numberOfTapsRequired="2" numberOfTouchesRequired="3" id="Z7D-NA-UFY" userLabel="clear">
-                    <connections>
-                        <action selector="clearCanvas:" destination="BYZ-38-t0r" id="yLF-qw-Xd7"/>
-                        <outlet property="delegate" destination="BYZ-38-t0r" id="qrv-xj-pwH"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
         </scene>
     </scenes>

@@ -46,7 +46,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     let eraserwhite = UIImage(named: "eraser_white") as UIImage!
     let eraserblack = UIImage(named: "eraser_black") as UIImage!
     var offsetdistance = CGFloat(0)
-    var position = CGPoint()
+    var canvasTranslation = CGPoint()
     
     
     // Actions for ToolPicker Button
@@ -172,15 +172,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
-        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender, viewController: self)
+        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender)
+        canvasTranslation = canvasContainer.center
     }
     
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
         drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
     }
     
-    @IBAction func clearCanvas(sender: UITapGestureRecognizer) {
-        cacheDrawingView.image = nil
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+        if motion == .MotionShake {
+            cacheDrawingView.image = nil
+        }
     }
     
     // Expand Radial Menus
@@ -337,7 +340,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        position = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        canvasTranslation = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
         
         defaultColor = pencilImage.layer.backgroundColor
         
@@ -348,7 +351,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewDidLayoutSubviews() {
-        canvasContainer.center = position
+        canvasContainer.center = canvasTranslation
     }
 
     override func didReceiveMemoryWarning() {
