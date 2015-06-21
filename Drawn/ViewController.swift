@@ -46,35 +46,40 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     let eraserwhite = UIImage(named: "eraser_white") as UIImage!
     let eraserblack = UIImage(named: "eraser_black") as UIImage!
     var offsetdistance = CGFloat(0)
+    var position = CGPoint()
     
     
     // Actions for ToolPicker Button
     @IBAction func toolPickerGesture(sender: UIPanGestureRecognizer) {
+        
+        let location = sender.locationInView(toolPickerButton)
+        let buttonCenter = CGPoint(x: 20, y: 20)
+        offsetdistance = calcDistance(buttonCenter, point2: location)
+        let offsetangle = calcAngle(buttonCenter, point2: location)
+        
         if (offsetdistance > 4 && toolsneedsscale == true) {
             expandRadialMenu(toolPickerButton, scalefactor: 1.1)
             expandRadialMenu(toolPickerLayer2, scalefactor: 1.1)
             toolsneedsscale = false
         }
-        
-        let location = sender.locationInView(toolPickerButton)
-        let center = CGPoint(x: 20, y: 20)
-        offsetdistance = calcDistance(center, point2: location)
-        let offsetangle = calcAngle(center, point2: location)
 
         if (offsetangle < -60 && offsetdistance > 12) {
-            setPencilActive()
-            resetEraser()
-            resetShape()
+            setActive("Pencil")
+        //    setPencilActive()
+        //    resetEraser()
+        //    resetShape()
         }
         else if (offsetangle < 0 && offsetangle >= -30 && offsetdistance > 12) {
-            setEraserActive()
-            resetPencil()
-            resetShape()
+            setActive("Eraser")
+        //    setEraserActive()
+        //    resetPencil()
+        //    resetShape()
         }
         else if (offsetangle < -30 && offsetangle >= -60 && offsetdistance > 12) {
-            setShapeActive()
-            resetEraser()
-            resetPencil()
+            setActive("Shape")
+        //    setShapeActive()
+        //    resetEraser()
+        //    resetPencil()
         }
         
         if ( offsetdistance > 12 && toolsneedsscale2) {
@@ -96,7 +101,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             expandRadialMenu(toolPickerLayer2, scalefactor: 0.90909091)
             toolsneedsscale = true
         }
-        
         // Close menu when gesture is ended
         if sender.state == UIGestureRecognizerState.Ended {
             resetRadialMenu(toolPickerButton)
@@ -135,7 +139,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             canvasView.lineOpacity = CGFloat(adjustedangle/90)
             sizeOpacityButtonInner.alpha = CGFloat(adjustedangle/90)
         }
+        
+        // Close menu when gesture is ended
+        if sender.state == UIGestureRecognizerState.Ended {
+            resetRadialMenu(sizeOpacityButton)
+            resetRadialMenu(sizeOpacityLayer2)
+            offsetdistance = CGFloat(0.0)
+            toggleMask(menuBGMask, hide: true, opacity: 0)
+        }
     }
+    
     @IBAction func sizeOpacityTouchUpInside(sender: AnyObject) {
         resetRadialMenu(sizeOpacityButton)
         resetRadialMenu(sizeOpacityLayer2)
@@ -159,7 +172,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
-        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender)
+        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender, viewController: self)
     }
     
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
@@ -238,6 +251,24 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         item.layer.borderColor = nil
     }
     
+    func setActive(tool: String) {
+        let toolBox: [[String:AnyObject]] = [
+            ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": "pencilblack", "color": UIColor.blackColor()],
+            ["name": "Shape", "image": shapeImage, "white": shapewhite, "black": "shapeblack", "color": UIColor.blackColor()],
+            ["name": "Eraser", "image": eraserImage, "white": eraserwhite, "black": "eraserblack", "color": UIColor.whiteColor()]
+        ]
+        for (var i=0; i<toolBox.count; i++) {
+            if toolBox[i]["name"] as! String == tool {
+                canvasView.lineColor = toolBox[i]["color"] as! UIColor
+                let activeImage = toolBox[i]["white"] as! UIImage
+                toolPickerButtonInner.setImage(activeImage, forState: UIControlState.Normal)
+                let iconImage = toolBox[i]["image"] as! UIImageView
+                iconImage.layer.backgroundColor = UIColor.blackColor().CGColor
+                iconImage.image = activeImage
+            }
+        }
+        
+    }
     
     func setEraserActive() {
         canvasView.lineColor = UIColor.whiteColor()
@@ -306,12 +337,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        position = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        
         defaultColor = pencilImage.layer.backgroundColor
         
         // Rotate Images 45 Degrees
         checkerBoardImage.transform = CGAffineTransformRotate(checkerBoardImage.transform, CGFloat(M_PI/4))
         toolPickerButtonInner.transform = CGAffineTransformRotate(toolPickerButtonInner.transform, CGFloat(M_PI/4))
 
+    }
+    
+    override func viewDidLayoutSubviews() {
+        canvasContainer.center = position
     }
 
     override func didReceiveMemoryWarning() {

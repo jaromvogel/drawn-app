@@ -33,6 +33,10 @@ class drawingFunctions {
     }
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, sender: UIPanGestureRecognizer) {
+        var myBezier = UIBezierPath()
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
@@ -47,6 +51,7 @@ class drawingFunctions {
             var mid1 = midpoint(previousPoint1, point2: previousPoint2)
             var mid2 = midpoint(currentPoint, point2: previousPoint1)
             
+            /*
             canvas.lines.append(Line(
                 start: mid1,
                 end: mid2,
@@ -56,32 +61,25 @@ class drawingFunctions {
                 weight: canvas.lineWeight,
                 opacity: canvas.lineOpacity
             ))
+            */
             
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            let context = UIGraphicsGetCurrentContext()
+            myBezier.lineCapStyle = kCGLineCapRound
+            myBezier.lineWidth = canvas.lineWeight
+            canvas.lineColor.setStroke()
             
-            for line in canvas.lines {
-                var myBezier = UIBezierPath()
-                myBezier.lineCapStyle = kCGLineCapRound
-                myBezier.moveToPoint(CGPoint(x: line.start.x, y: line.start.y))
-                myBezier.addQuadCurveToPoint(line.end, controlPoint: line.ctr1)
-                line.color.setStroke()
-                myBezier.lineWidth = line.weight
-                myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: line.opacity)
-                myBezier.closePath()
-            }
+            myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
+            myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
 
+            myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: canvas.lineOpacity)
             cache.drawViewHierarchyInRect(cache.bounds, afterScreenUpdates: true)
             cache.image = UIGraphicsGetImageFromCurrentImageContext()
             
+            canvas.setNeedsDisplay()
+            
         }
         else if sender.state == UIGestureRecognizerState.Ended {
-            canvas.lines.removeAll(keepCapacity: true)
-
             cache.alpha = CGFloat(1)
             UIGraphicsEndImageContext()
-            
-            canvas.setNeedsDisplay()
         }
     }
     

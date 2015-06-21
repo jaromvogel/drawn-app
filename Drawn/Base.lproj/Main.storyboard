@@ -51,13 +51,7 @@
                                 </connections>
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2IX-r1-lan">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JsZ-Kc-SQI" userLabel="Toolbar">
@@ -304,10 +298,15 @@
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JxD-bV-wwx"/>
                             <constraint firstAttribute="trailing" secondItem="aI1-fb-hNs" secondAttribute="trailing" id="Lz5-AI-hj4"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="bottom" id="MkJ-8H-Uzr"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="NFa-Wz-L6q"/>
                             <constraint firstItem="JsZ-Kc-SQI" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="QfC-4B-Ylx"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="Reg-J3-sC4"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="bottom" id="Yzd-GS-bBl"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="Zdh-PQ-wLb"/>
                             <constraint firstItem="zeV-18-IyC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dOu-bl-yGG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="bottom" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="jZJ-eJ-uLK"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="la9-oC-HfJ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="qLh-16-bpG"/>
                             <constraint firstAttribute="trailing" secondItem="aI1-fb-hNs" secondAttribute="trailing" id="qae-tn-aKh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JsZ-Kc-SQI" secondAttribute="bottom" id="rIC-CJ-L9i"/>
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="rbJ-mk-3ur"/>
@@ -320,10 +319,15 @@
                                 <exclude reference="Lz5-AI-hj4"/>
                                 <exclude reference="rbJ-mk-3ur"/>
                                 <exclude reference="zIN-O2-MNd"/>
+                                <exclude reference="7Y5-0H-8KI"/>
                                 <exclude reference="QfC-4B-Ylx"/>
                                 <exclude reference="7f9-9V-1PZ"/>
                                 <exclude reference="EZl-9c-ptw"/>
+                                <exclude reference="MkJ-8H-Uzr"/>
+                                <exclude reference="NFa-Wz-L6q"/>
                                 <exclude reference="Reg-J3-sC4"/>
+                                <exclude reference="Zdh-PQ-wLb"/>
+                                <exclude reference="jZJ-eJ-uLK"/>
                             </mask>
                         </variation>
                     </view>
