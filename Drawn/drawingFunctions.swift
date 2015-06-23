@@ -13,6 +13,7 @@ import UIKit
 var previousPoint1 = CGPointZero
 var previousPoint2 = CGPointZero
 var currentPoint = CGPoint()
+var myBezier = UIBezierPath()
 
 class drawingFunctions {
     
@@ -55,6 +56,14 @@ class drawingFunctions {
     }
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, sender: UIPanGestureRecognizer) {
+        
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
+        
+        myBezier.lineCapStyle = kCGLineCapRound
+        myBezier.lineWidth = canvas.lineWeight
+        canvas.lineColor.setStroke()
+
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
@@ -79,37 +88,18 @@ class drawingFunctions {
                 opacity: canvas.lineOpacity
             ))
 
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
-            
-            /*
-            for line in canvas.lines {
-                var myBezier = UIBezierPath()
-                myBezier.lineCapStyle = kCGLineCapRound
-                myBezier.moveToPoint(CGPoint(x: line.start.x, y: line.start.y))
-                myBezier.addQuadCurveToPoint(line.end, controlPoint: line.ctr1)
-                line.color.setStroke()
-                myBezier.lineWidth = line.weight
-                myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: line.opacity)
-                myBezier.closePath()
-            }
-            */
-            var myBezier = UIBezierPath()
-            myBezier.lineCapStyle = kCGLineCapRound
             myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
             myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
-            canvas.lineColor.setStroke()
-            myBezier.lineWidth = canvas.lineWeight
             myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: canvas.lineOpacity)
-            myBezier.closePath()
-            myBezier.removeAllPoints()
-            
+
             cache.image = UIGraphicsGetImageFromCurrentImageContext()
             cache.alpha = CGFloat(1)
             UIGraphicsEndImageContext()
             
         }
         else if sender.state == UIGestureRecognizerState.Ended {
+            myBezier.closePath()
+            myBezier.removeAllPoints()
             canvas.lines.removeAll(keepCapacity: true)
             canvas.setNeedsDisplay()
         }
