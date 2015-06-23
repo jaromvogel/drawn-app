@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -47,6 +49,63 @@
                                     <outletCollection property="gestureRecognizers" destination="lfo-r7-PWa" appends="YES" id="zpa-4z-c10"/>
                                     <outletCollection property="gestureRecognizers" destination="XHJ-U6-HnS" appends="YES" id="9ht-1F-iO2"/>
                                     <outletCollection property="gestureRecognizers" destination="1QS-D0-YZb" appends="YES" id="TPo-4p-aXn"/>
+                                    <outletCollection property="gestureRecognizers" destination="mK9-Fj-uEz" appends="YES" id="q0F-Ba-rlV"/>
+                                </connections>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJe-fQ-ERD" userLabel="colorPickerView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="530"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1TN-zd-YC0" userLabel="colorPickerBorder">
+                                        <rect key="frame" x="100" y="65" width="400" height="400"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorPicker" translatesAutoresizingMaskIntoConstraints="NO" id="xMs-j0-csb" userLabel="colorPickerImage">
+                                                <rect key="frame" x="5" y="5" width="390" height="390"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="xMs-j0-csb" secondAttribute="height" multiplier="1:1" id="O96-CJ-vbN"/>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="b7N-xI-qFI"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qun-gH-p8H"/>
+                                                </constraints>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="O96-CJ-vbN"/>
+                                                        <exclude reference="b7N-xI-qFI"/>
+                                                        <exclude reference="qun-gH-p8H"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="cgX-il-rnp" appends="YES" id="qOG-SF-Lie"/>
+                                                </connections>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="xMs-j0-csb" secondAttribute="trailing" constant="5" id="AzR-qU-Hxc"/>
+                                            <constraint firstAttribute="width" secondItem="1TN-zd-YC0" secondAttribute="height" id="Cqp-hI-hrv"/>
+                                            <constraint firstAttribute="bottom" secondItem="xMs-j0-csb" secondAttribute="bottom" constant="5" id="FIO-kD-SDp"/>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="f6y-Mp-D1u"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qIY-Fe-Oo4"/>
+                                            <constraint firstItem="xMs-j0-csb" firstAttribute="leading" secondItem="1TN-zd-YC0" secondAttribute="leading" constant="5" id="rBE-VY-cz8"/>
+                                            <constraint firstItem="xMs-j0-csb" firstAttribute="top" secondItem="1TN-zd-YC0" secondAttribute="top" constant="5" id="tKr-Ms-gUF"/>
+                                            <constraint firstAttribute="width" secondItem="1TN-zd-YC0" secondAttribute="height" multiplier="1:1" id="ycD-a4-Tdj"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Cqp-hI-hrv"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="1TN-zd-YC0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oJe-fQ-ERD" secondAttribute="leading" constant="50" id="8pl-ha-ADz"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1TN-zd-YC0" secondAttribute="trailing" constant="50" id="IjH-bS-uaE"/>
+                                    <constraint firstAttribute="centerX" secondItem="1TN-zd-YC0" secondAttribute="centerX" id="asI-5u-lvx"/>
+                                    <constraint firstAttribute="centerY" secondItem="1TN-zd-YC0" secondAttribute="centerY" id="jwc-Dg-fg8"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="emj-PC-c9a" appends="YES" id="ulN-wp-8TF"/>
                                 </connections>
                             </view>
                             <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
@@ -56,30 +115,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JsZ-Kc-SQI" userLabel="Toolbar">
                                 <rect key="frame" x="0.0" y="530" width="600" height="70"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSZ-8J-xGd" userLabel="ColorPickerOuter">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdM-db-c9o" userLabel="ColorPickerLayer2">
                                         <rect key="frame" x="280" y="15" width="40" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="my5-KX-mlQ" userLabel="ColorPickerInner">
-                                                <rect key="frame" x="3" y="3" width="34" height="34"/>
-                                                <color key="backgroundColor" red="0.91666666666666663" green="0.25784966620859939" blue="0.062451450196811961" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="17"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
-                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="my5-KX-mlQ" secondAttribute="trailing" constant="3" id="0ik-nc-zBE"/>
-                                            <constraint firstItem="my5-KX-mlQ" firstAttribute="leading" secondItem="hSZ-8J-xGd" secondAttribute="leading" constant="3" id="1j7-U6-FVb"/>
-                                            <constraint firstItem="my5-KX-mlQ" firstAttribute="top" secondItem="hSZ-8J-xGd" secondAttribute="top" constant="3" id="C4s-zu-73Q"/>
-                                            <constraint firstAttribute="width" constant="40" id="TX1-Yz-Tu7"/>
-                                            <constraint firstAttribute="height" constant="40" id="ebo-jY-wqH"/>
-                                            <constraint firstAttribute="bottom" secondItem="my5-KX-mlQ" secondAttribute="bottom" constant="3" id="zzg-bm-5QA"/>
+                                            <constraint firstAttribute="height" constant="40" id="bEF-9M-S8F"/>
+                                            <constraint firstAttribute="width" constant="40" id="znw-ex-wlM"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -87,6 +128,42 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSZ-8J-xGd" userLabel="ColorPickerOuter">
+                                        <rect key="frame" x="280" y="15" width="40" height="40"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="TX1-Yz-Tu7"/>
+                                            <constraint firstAttribute="height" constant="40" id="ebo-jY-wqH"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="my5-KX-mlQ" userLabel="ColorPickerInner">
+                                        <rect key="frame" x="283" y="18" width="34" height="34"/>
+                                        <color key="backgroundColor" red="0.91666666666666663" green="0.25784966620859939" blue="0.062451450196811961" alpha="1" colorSpace="calibratedRGB"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="4xH-RB-itT"/>
+                                            <constraint firstAttribute="width" constant="34" id="VsN-eJ-oly"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="17"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="colorPickerTouchDown:" destination="BYZ-38-t0r" eventType="touchDown" id="ceY-Tt-7Vc"/>
+                                            <action selector="displayColorPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GhN-aG-tBf"/>
+                                            <outletCollection property="gestureRecognizers" destination="rHF-YR-9U1" appends="YES" id="lHc-bZ-sxy"/>
+                                        </connections>
+                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w25-Uh-6OM" userLabel="Size/OpacityPickerLayer2">
                                         <rect key="frame" x="545" y="15" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -256,6 +333,7 @@
                                     <constraint firstItem="tNT-1p-ylv" firstAttribute="leading" secondItem="JsZ-Kc-SQI" secondAttribute="leading" constant="15" id="1Jm-wJ-hc5"/>
                                     <constraint firstAttribute="centerY" secondItem="CL6-wq-8op" secondAttribute="centerY" id="21d-iC-3Jz"/>
                                     <constraint firstItem="5yJ-Rd-cpt" firstAttribute="top" secondItem="JsZ-Kc-SQI" secondAttribute="top" constant="18" id="2rM-xm-frS"/>
+                                    <constraint firstAttribute="centerY" secondItem="FdM-db-c9o" secondAttribute="centerY" id="6d4-78-7Nv"/>
                                     <constraint firstAttribute="centerY" secondItem="E0p-TG-GsB" secondAttribute="centerY" id="9aI-kU-N8b"/>
                                     <constraint firstItem="CL6-wq-8op" firstAttribute="leading" secondItem="JsZ-Kc-SQI" secondAttribute="leading" constant="18" id="K2e-xJ-ABE"/>
                                     <constraint firstItem="E0p-TG-GsB" firstAttribute="leading" secondItem="JsZ-Kc-SQI" secondAttribute="leading" constant="15" id="KWh-IB-QAP"/>
@@ -267,10 +345,13 @@
                                     <constraint firstAttribute="trailing" secondItem="nHc-a0-Pqf" secondAttribute="trailing" constant="18" id="Ra6-HJ-0xH"/>
                                     <constraint firstAttribute="height" constant="70" id="UTr-zs-MP5"/>
                                     <constraint firstItem="w25-Uh-6OM" firstAttribute="top" secondItem="JsZ-Kc-SQI" secondAttribute="top" constant="15" id="VO2-Hf-vwC"/>
+                                    <constraint firstAttribute="centerY" secondItem="my5-KX-mlQ" secondAttribute="centerY" id="Yab-2s-hci"/>
                                     <constraint firstAttribute="centerY" secondItem="tNT-1p-ylv" secondAttribute="centerY" id="ZAH-18-KzM"/>
                                     <constraint firstAttribute="centerY" secondItem="TUE-CR-7ph" secondAttribute="centerY" id="aCE-7H-jaX"/>
                                     <constraint firstAttribute="trailing" secondItem="w25-Uh-6OM" secondAttribute="trailing" constant="15" id="cJm-c5-fAG"/>
+                                    <constraint firstAttribute="centerX" secondItem="my5-KX-mlQ" secondAttribute="centerX" id="or8-co-hYj"/>
                                     <constraint firstItem="E0p-TG-GsB" firstAttribute="leading" secondItem="JsZ-Kc-SQI" secondAttribute="leading" constant="-48" id="rhP-Ip-b1L"/>
+                                    <constraint firstAttribute="centerX" secondItem="FdM-db-c9o" secondAttribute="centerX" id="sM8-e6-lbE"/>
                                     <constraint firstAttribute="centerY" secondItem="hSZ-8J-xGd" secondAttribute="centerY" id="vAk-N5-L98"/>
                                     <constraint firstAttribute="trailing" secondItem="TUE-CR-7ph" secondAttribute="trailing" constant="15" id="yye-cA-5bq"/>
                                 </constraints>
@@ -287,9 +368,12 @@
                         <constraints>
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2i7-GY-yKk"/>
                             <constraint firstAttribute="trailing" secondItem="JsZ-Kc-SQI" secondAttribute="trailing" id="5Fm-4E-GJi"/>
+                            <constraint firstAttribute="trailing" secondItem="oJe-fQ-ERD" secondAttribute="trailing" id="7Ws-JU-FkZ"/>
                             <constraint firstItem="JsZ-Kc-SQI" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="7Y5-0H-8KI"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="7f9-9V-1PZ"/>
+                            <constraint firstItem="oJe-fQ-ERD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="7vo-8e-M28"/>
                             <constraint firstAttribute="trailing" secondItem="mnI-OC-HaA" secondAttribute="trailing" id="9qT-po-99P"/>
+                            <constraint firstItem="oJe-fQ-ERD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="AGZ-pD-KRR"/>
                             <constraint firstItem="zeV-18-IyC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CQd-6g-RY8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="EZl-9c-ptw"/>
                             <constraint firstItem="mnI-OC-HaA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Eaz-iP-GhZ"/>
@@ -304,7 +388,9 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="Zdh-PQ-wLb"/>
                             <constraint firstItem="zeV-18-IyC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dOu-bl-yGG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="bottom" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="jZJ-eJ-uLK"/>
+                            <constraint firstItem="JsZ-Kc-SQI" firstAttribute="top" secondItem="oJe-fQ-ERD" secondAttribute="bottom" id="k76-F5-HwA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="la9-oC-HfJ"/>
+                            <constraint firstItem="oJe-fQ-ERD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ln3-C9-N11"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="qLh-16-bpG"/>
                             <constraint firstAttribute="trailing" secondItem="aI1-fb-hNs" secondAttribute="trailing" id="qae-tn-aKh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JsZ-Kc-SQI" secondAttribute="bottom" id="rIC-CJ-L9i"/>
@@ -318,6 +404,7 @@
                                 <exclude reference="Lz5-AI-hj4"/>
                                 <exclude reference="rbJ-mk-3ur"/>
                                 <exclude reference="zIN-O2-MNd"/>
+                                <exclude reference="AGZ-pD-KRR"/>
                                 <exclude reference="7Y5-0H-8KI"/>
                                 <exclude reference="QfC-4B-Ylx"/>
                                 <exclude reference="7f9-9V-1PZ"/>
@@ -335,8 +422,12 @@
                         <outlet property="canvasContainer" destination="aI1-fb-hNs" id="7um-Lu-dnA"/>
                         <outlet property="canvasView" destination="cwM-1u-bOx" id="bmi-rn-ZsK"/>
                         <outlet property="checkerBoardImage" destination="nHc-a0-Pqf" id="4pt-lp-xEn"/>
+                        <outlet property="colorPickerBorder" destination="1TN-zd-YC0" id="zcb-jw-wWL"/>
                         <outlet property="colorPickerButton" destination="hSZ-8J-xGd" id="4EM-6y-JxU"/>
                         <outlet property="colorPickerButtonInner" destination="my5-KX-mlQ" id="9sF-qJ-wRI"/>
+                        <outlet property="colorPickerContainer" destination="oJe-fQ-ERD" id="0hp-Hs-WF9"/>
+                        <outlet property="colorPickerImage" destination="xMs-j0-csb" id="uEL-WT-UAK"/>
+                        <outlet property="colorPickerLayer2" destination="FdM-db-c9o" id="abC-lq-a8E"/>
                         <outlet property="eraserImage" destination="CS0-Eb-sa3" id="eQj-JI-gO3"/>
                         <outlet property="gestureControlView" destination="mnI-OC-HaA" id="rMl-Cf-4Ff"/>
                         <outlet property="menuBGMask" destination="zeV-18-IyC" id="ahS-9c-Z5S"/>
@@ -352,12 +443,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="8Zk-p9-LMr" userLabel="panToolPicker">
-                    <connections>
-                        <action selector="toolPickerGesture:" destination="BYZ-38-t0r" id="eBj-Wd-1Ak"/>
-                        <outlet property="delegate" destination="BYZ-38-t0r" id="Udp-ql-lAU"/>
-                    </connections>
-                </panGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="fI3-pm-VQ1" userLabel="panSizeOpacity">
                     <connections>
                         <action selector="sizeOpacityGesture:" destination="BYZ-38-t0r" id="kQW-ke-zyw"/>
@@ -388,10 +473,38 @@
                         <outlet property="delegate" destination="BYZ-38-t0r" id="oIn-6s-Btz"/>
                     </connections>
                 </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="8Zk-p9-LMr" userLabel="panToolPicker">
+                    <connections>
+                        <action selector="toolPickerGesture:" destination="BYZ-38-t0r" id="eBj-Wd-1Ak"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="Udp-ql-lAU"/>
+                    </connections>
+                </panGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="rHF-YR-9U1" userLabel="panColorPicker">
+                    <connections>
+                        <action selector="colorPickerGesture:" destination="BYZ-38-t0r" id="HDa-cn-Cmh"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="cgX-il-rnp" userLabel="tappedColorWheel">
+                    <connections>
+                        <action selector="tappedColorWheel:" destination="BYZ-38-t0r" id="dY2-eg-Ghh"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="mK9-Fj-uEz" userLabel="tappedCanvas">
+                    <connections>
+                        <action selector="tappedOnCanvas:" destination="BYZ-38-t0r" id="u9d-pP-0th"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="emj-PC-c9a" userLabel="colorPickerPanGesture">
+                    <connections>
+                        <action selector="colorPickerPanGesture:" destination="BYZ-38-t0r" id="bpT-aa-QLx"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="vCt-jI-Dm3"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
         </scene>
     </scenes>
     <resources>
+        <image name="ColorPicker" width="400" height="400"/>
         <image name="checkerboard" width="40" height="40"/>
         <image name="eraser_black" width="34" height="34"/>
         <image name="pencil_black" width="34" height="34"/>

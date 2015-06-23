@@ -20,6 +20,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var cacheDrawingView: UIImageView!
     @IBOutlet weak var canvasView: CanvasView!
     @IBOutlet weak var gestureControlView: UIView!
+    @IBOutlet weak var colorPickerContainer: UIView!
+    @IBOutlet weak var colorPickerBorder: UIView!
+    @IBOutlet weak var colorPickerImage: UIImageView!
     @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var toolPickerLayer2: UIView!
     @IBOutlet weak var toolPickerButton: UIView!
@@ -27,6 +30,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var pencilImage: UIImageView!
     @IBOutlet weak var shapeImage: UIImageView!
     @IBOutlet weak var eraserImage: UIImageView!
+    @IBOutlet weak var colorPickerLayer2: UIView!
     @IBOutlet weak var colorPickerButton: UIView!
     @IBOutlet weak var colorPickerButtonInner: UIButton!
     @IBOutlet weak var checkerBoardImage: UIImageView!
@@ -65,21 +69,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
         if (offsetangle < -60 && offsetdistance > 12) {
             setActive("Pencil")
-        //    setPencilActive()
-        //    resetEraser()
-        //    resetShape()
         }
         else if (offsetangle < 0 && offsetangle >= -30 && offsetdistance > 12) {
             setActive("Eraser")
-        //    setEraserActive()
-        //    resetPencil()
-        //    resetShape()
         }
         else if (offsetangle < -30 && offsetangle >= -60 && offsetdistance > 12) {
             setActive("Shape")
-        //    setShapeActive()
-        //    resetEraser()
-        //    resetPencil()
         }
         
         if ( offsetdistance > 12 && toolsneedsscale2) {
@@ -126,6 +121,53 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         toggleMask(menuBGMask, hide: false, opacity: 0.2)
     }
     
+    // Actions for ColorPickerButton
+    @IBAction func colorPickerGesture(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(colorPickerButton)
+        let buttonCenter = CGPoint(x: 20,y: 20)
+        offsetdistance = calcDistance(buttonCenter, point2: location)
+        let offsetangle = calcAngle(buttonCenter, point2: location)
+        println("offsetangle")
+        println(offsetangle)
+        println("offsetdistance")
+        println(offsetdistance)
+
+        // Close menu when gesture is ended
+        if sender.state == UIGestureRecognizerState.Ended {
+            resetRadialMenu(colorPickerButton)
+            resetRadialMenu(colorPickerLayer2)
+            addShadow(colorPickerButton)
+            removeBorder(colorPickerButton)
+            toggleMask(menuBGMask, hide: true, opacity: 0)
+        }
+    }
+    @IBAction func displayColorPicker(sender: UIButton) {
+        colorPickerContainer.hidden = !colorPickerContainer.hidden
+        resetRadialMenu(colorPickerButton)
+        resetRadialMenu(colorPickerLayer2)
+        addShadow(colorPickerButton)
+        removeBorder(colorPickerButton)
+        toggleMask(menuBGMask, hide: true, opacity: 0)
+    }
+    @IBAction func colorPickerTouchDown(sender: UIButton) {
+        expandRadialMenu(colorPickerButton, scalefactor: 7.0)
+        expandRadialMenu(colorPickerLayer2, scalefactor: 7.0)
+        toggleMask(menuBGMask, hide: false, opacity: 0.2)
+    }
+    // Actions for Color Picker Wheel
+    @IBAction func colorPickerPanGesture(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(colorPickerBorder)
+        let pickerCenter = colorPickerImage.center
+        offsetdistance = calcDistance(pickerCenter, point2: location)
+        let offsetangle = calcAngle(pickerCenter, point2: location)
+        println("offsetangle")
+        println(offsetangle)
+        let offsetpercent = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
+        println("offsetpercent")
+        println(offsetpercent)
+    }
+    @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
+    }
     
     // Actions for Size/Opacity Button
     @IBAction func sizeOpacityGesture(sender: UIPanGestureRecognizer) {
@@ -179,7 +221,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
         drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
     }
-    
+    @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
+        drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
+    }
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
         if motion == .MotionShake {
             cacheDrawingView.image = nil
@@ -256,9 +300,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func setActive(tool: String) {
         let toolBox: [[String:AnyObject]] = [
-            ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": "pencilblack", "color": UIColor.blackColor()],
-            ["name": "Shape", "image": shapeImage, "white": shapewhite, "black": "shapeblack", "color": UIColor.blackColor()],
-            ["name": "Eraser", "image": eraserImage, "white": eraserwhite, "black": "eraserblack", "color": UIColor.whiteColor()]
+            ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": pencilblack, "color": UIColor.blackColor()],
+            ["name": "Shape", "image": shapeImage, "white": shapewhite, "black": shapeblack, "color": UIColor.blackColor()],
+            ["name": "Eraser", "image": eraserImage, "white": eraserwhite, "black": eraserblack, "color": UIColor.whiteColor()]
         ]
         for (var i=0; i<toolBox.count; i++) {
             if toolBox[i]["name"] as! String == tool {
@@ -269,29 +313,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
                 iconImage.layer.backgroundColor = UIColor.blackColor().CGColor
                 iconImage.image = activeImage
             }
+            else {
+                let inactiveImage = toolBox[i]["black"] as! UIImage
+                let iconImage = toolBox[i]["image"] as! UIImageView
+                iconImage.layer.backgroundColor = UIColor.whiteColor().CGColor
+                iconImage.image = inactiveImage
+            }
         }
-        
-    }
-    
-    func setEraserActive() {
-        canvasView.lineColor = UIColor.whiteColor()
-        toolPickerButtonInner.setImage(eraserwhite, forState: .Normal)
-        eraserImage.layer.backgroundColor = UIColor.blackColor().CGColor
-        eraserImage.image = eraserwhite
-    }
-    
-    func setShapeActive() {
-        canvasView.lineColor = selectedcolor
-        toolPickerButtonInner.setImage(shapewhite, forState: .Normal)
-        shapeImage.layer.backgroundColor = UIColor.blackColor().CGColor
-        shapeImage.image = shapewhite
-    }
-    
-    func setPencilActive() {
-        canvasView.lineColor = selectedcolor
-        toolPickerButtonInner.setImage(pencilwhite, forState: .Normal)
-        pencilImage.layer.backgroundColor = UIColor.blackColor().CGColor
-        pencilImage.image = pencilwhite
     }
     
     // Reset eraser icon
@@ -348,10 +376,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         checkerBoardImage.transform = CGAffineTransformRotate(checkerBoardImage.transform, CGFloat(M_PI/4))
         toolPickerButtonInner.transform = CGAffineTransformRotate(toolPickerButtonInner.transform, CGFloat(M_PI/4))
 
+        
     }
     
     override func viewDidLayoutSubviews() {
         canvasContainer.center = canvasTranslation
+        colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 
     override func didReceiveMemoryWarning() {

@@ -15,7 +15,6 @@ class CanvasView: UIView {
     var lineColor = UIColor.blackColor()
     var lineWeight = CGFloat(7.0)
     var lineOpacity = CGFloat(1.0)
-    var incrementalImage = UIImage()
     
     /*
     override func drawRect(rect: CGRect) {
@@ -41,4 +40,5 @@ class CanvasView: UIView {
         */
     }
     */
+    
 }
