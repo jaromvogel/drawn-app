@@ -21,6 +21,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aI1-fb-hNs" userLabel="canvasContainer">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4uM-U2-mAi" userLabel="tempDrawingView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="72x-eq-oeJ" userLabel="cacheDrawingView">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                     </imageView>
@@ -31,13 +34,17 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="4uM-U2-mAi" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="90F-KN-QkO"/>
                                     <constraint firstItem="72x-eq-oeJ" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="Dla-O3-p8E"/>
                                     <constraint firstAttribute="bottom" secondItem="cwM-1u-bOx" secondAttribute="bottom" id="EmL-nL-HgS"/>
+                                    <constraint firstAttribute="trailing" secondItem="4uM-U2-mAi" secondAttribute="trailing" id="FJ5-Mg-5vO"/>
                                     <constraint firstAttribute="trailing" secondItem="72x-eq-oeJ" secondAttribute="trailing" id="GaA-2A-Kh6"/>
+                                    <constraint firstAttribute="bottom" secondItem="4uM-U2-mAi" secondAttribute="bottom" id="Gkf-5x-gjb"/>
                                     <constraint firstItem="72x-eq-oeJ" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="Hw3-kO-bL6"/>
                                     <constraint firstItem="cwM-1u-bOx" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="P5d-cF-8nm"/>
                                     <constraint firstAttribute="trailing" secondItem="cwM-1u-bOx" secondAttribute="trailing" id="YAr-Xz-QSC"/>
                                     <constraint firstAttribute="bottom" secondItem="72x-eq-oeJ" secondAttribute="bottom" id="oum-PR-9Ys"/>
+                                    <constraint firstItem="4uM-U2-mAi" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="uPO-8O-p1H"/>
                                     <constraint firstItem="cwM-1u-bOx" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="zCi-UL-kWj"/>
                                 </constraints>
                             </view>
@@ -437,6 +444,7 @@
                         <outlet property="sizeOpacityButton" destination="TUE-CR-7ph" id="jGB-uT-viu"/>
                         <outlet property="sizeOpacityButtonInner" destination="5yJ-Rd-cpt" id="KwB-WC-rZS"/>
                         <outlet property="sizeOpacityLayer2" destination="w25-Uh-6OM" id="0HO-7G-tLC"/>
+                        <outlet property="tempDrawingView" destination="4uM-U2-mAi" id="b5p-cU-Sss"/>
                         <outlet property="toolPickerButton" destination="E0p-TG-GsB" id="IfF-kc-PHA"/>
                         <outlet property="toolPickerButtonInner" destination="CL6-wq-8op" id="bRY-w5-d4v"/>
                         <outlet property="toolPickerLayer2" destination="tNT-1p-ylv" id="05I-Wa-q2A"/>

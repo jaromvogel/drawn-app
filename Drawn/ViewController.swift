@@ -17,6 +17,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @IBOutlet weak var canvasContainer: UIView!
+    @IBOutlet weak var tempDrawingView: UIImageView!
     @IBOutlet weak var cacheDrawingView: UIImageView!
     @IBOutlet weak var canvasView: CanvasView!
     @IBOutlet weak var gestureControlView: UIView!
@@ -219,7 +220,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
-        drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
+        drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
         drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)

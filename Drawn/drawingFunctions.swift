@@ -55,10 +55,10 @@ class drawingFunctions {
         }
     }
     
-    func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, sender: UIPanGestureRecognizer) {
+    func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
         
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-        cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
+        tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
         
         myBezier.lineCapStyle = kCGLineCapRound
         myBezier.lineWidth = canvas.lineWeight
@@ -85,19 +85,27 @@ class drawingFunctions {
                 ctr2: previousPoint2,
                 color: canvas.lineColor,
                 weight: canvas.lineWeight,
-                opacity: canvas.lineOpacity
+                opacity: CGFloat(1.0)
             ))
 
             myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
             myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
-            myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: canvas.lineOpacity)
+            myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: CGFloat(1.0))
 
-            cache.image = UIGraphicsGetImageFromCurrentImageContext()
-            cache.alpha = CGFloat(1)
+            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
+            tempCache.alpha = canvas.lineOpacity
             UIGraphicsEndImageContext()
             
         }
         else if sender.state == UIGestureRecognizerState.Ended {
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            
+            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: kCGBlendModeNormal, alpha: CGFloat(1.0))
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: kCGBlendModeNormal, alpha: canvas.lineOpacity)
+            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            tempCache.image = nil
+            UIGraphicsEndImageContext()
+            
             myBezier.closePath()
             myBezier.removeAllPoints()
             canvas.lines.removeAll(keepCapacity: true)
