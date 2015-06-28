@@ -57,8 +57,6 @@ class canvasGestures {
                 view.transform = CGAffineTransformRotate(view.transform, sender.rotation)
             }
             rotationAngleInRadians += sender.rotation;
-            println("Rotation")
-            println(rotationAngleInRadians)
             sender.rotation = 0
         }
     }

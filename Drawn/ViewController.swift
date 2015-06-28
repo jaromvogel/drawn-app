@@ -52,6 +52,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     let eraserblack = UIImage(named: "eraser_black") as UIImage!
     var offsetdistance = CGFloat(0)
     var canvasTranslation = CGPoint()
+    var darkness = CGFloat(1)
     
     
     // Actions for ToolPicker Button
@@ -161,22 +162,34 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let pickerCenter = colorPickerImage.center
         offsetdistance = calcDistance(pickerCenter, point2: location)
         let offsetangle = calcAngle(pickerCenter, point2: location)
-        println("offsetangle")
-        println(offsetangle)
         let offsetpercent = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
-        println("offsetpercent")
-        println(offsetpercent)
+        var newColor = colorWheel().calcColor(offsetangle, distance: offsetpercent, darkness: darkness)
+        canvasView.lineColor = newColor
+        colorPickerButtonInner.backgroundColor = newColor
+        sizeOpacityButtonInner.backgroundColor = newColor
     }
     @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
     }
+    @IBAction func darknessSlider(sender: UISlider) {
+        // this sort of works, but definitely NEEDS work
+        darkness = CGFloat(sender.value)
+    }
+    
     
     // Actions for Size/Opacity Button
+    var lastoffsetdistance = CGFloat(0)
     @IBAction func sizeOpacityGesture(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(sizeOpacityButton)
         let center = CGPoint(x:20,y:20)
         offsetdistance = calcDistance(center, point2: location)
         let offsetangle = calcAngle(center, point2: location)
         canvasView.lineWeight = offsetdistance * 2
+        if lastoffsetdistance > 0 {
+            let sizeIndicatorScale = (offsetdistance/lastoffsetdistance)
+            sizeOpacityButtonInner.transform = CGAffineTransformScale(sizeOpacityButtonInner.transform, sizeIndicatorScale, sizeIndicatorScale)
+            println(sizeOpacityButtonInner.frame.width)
+        }
+        lastoffsetdistance = offsetdistance
         let adjustedangle = (offsetangle + 360) / 3
         if adjustedangle >= 0 && adjustedangle <= 270 {
             canvasView.lineOpacity = CGFloat(adjustedangle/90)
@@ -357,9 +370,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func calcAngle(point1:CGPoint, point2:CGPoint) -> CGFloat {
-        var deltaX = point2.x - point2.y
+        var deltaX = point2.x - point1.x
         var deltaY = point2.y - point1.y
-
         var angle = atan2(deltaY, deltaX) * 360 / CGFloat(M_PI)
         return angle
     }
@@ -369,7 +381,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        canvasTranslation = CGPoint(x: view.frame.width/2, y: view.frame.height/2)
+        canvasTranslation = CGPoint(x: view.frame.width/2, y: (view.frame.height/2) + 10)
         
         defaultColor = pencilImage.layer.backgroundColor
         
@@ -383,10 +395,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLayoutSubviews() {
         canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 
     override func didReceiveMemoryWarning() {

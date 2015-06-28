@@ -32,7 +32,8 @@ class drawingFunctions {
                 opacity: canvas.lineOpacity
             ))
             
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            UIGraphicsBeginImageContext(canvas.frame.size)
+            //UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 2.0)
             let context = UIGraphicsGetCurrentContext()
             cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
@@ -57,7 +58,8 @@ class drawingFunctions {
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
         
-        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        UIGraphicsBeginImageContext(canvas.frame.size)
+        //UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
         
         myBezier.lineCapStyle = kCGLineCapRound
