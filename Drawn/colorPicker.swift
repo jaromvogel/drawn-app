@@ -22,10 +22,10 @@ class colorWheel {
         var blue = CGFloat(0)
         
         // Calculate Red
-        if (5/6 < π_radians) && (π_radians < 1) || (-1 < π_radians) && (π_radians < 1/6) {
+        if (5/6 < π_radians) && (π_radians <= 1) || (-1 < π_radians) && (π_radians <= 1/6) {
             if (-5/6 < π_radians) && (π_radians < -1/6) {
                 red = CGFloat(255)
-            } else if (-1/6 < π_radians) && (π_radians < 1/6) {
+            } else if (-1/6 < π_radians) && (π_radians <= 1/6) {
                 let redpercent = (-(π_radians - (1/6))/(1/3))
                 red = redpercent * 255
             } else {
@@ -39,10 +39,10 @@ class colorWheel {
             }
         }
         // Calculate Blue
-        if (-1/2 < π_radians) && (π_radians < 2/3) {
-            if (-1/6 < π_radians) && (π_radians < 1/2) {
+        if (-1/2 < π_radians) && (π_radians <= 2/3) {
+            if (-1/6 <= π_radians) && (π_radians <= 1/2) {
                 blue = CGFloat(255)
-            } else if (-1/2 < π_radians) && (π_radians < -1/6) {
+            } else if (-1/2 <= π_radians) && (π_radians < -1/6) {
                 let bluepercent = (π_radians + (1/2))/(1/3)
                 blue = bluepercent * 255
             } else {
@@ -52,8 +52,8 @@ class colorWheel {
         }
         
         // Calculate Green
-        if (-1 < π_radians) && (π_radians < -1/2) || (1/6 < π_radians) && (π_radians < 1) {
-            if (1/2 < π_radians) && (π_radians < 1) || (-1 < π_radians) && (π_radians < -5/6) {
+        if (-1 <= π_radians) && (π_radians < -1/2) || (1/6 < π_radians) && (π_radians <= 1) {
+            if (1/2 <= π_radians) && (π_radians <= 1) || (-1 <= π_radians) && (π_radians <= -5/6) {
                 green = CGFloat(255)
             } else if (1/6 < π_radians) && (π_radians < 1/2) {
                 let greenpercent = (π_radians - 1/6)/(1/3)

@@ -16,6 +16,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             return true
     }
 
+    @IBOutlet weak var toolbarBackground: UIView!
+    @IBOutlet weak var statusBarBackground: UIView!
     @IBOutlet weak var canvasContainer: UIView!
     @IBOutlet weak var tempDrawingView: UIImageView!
     @IBOutlet weak var cacheDrawingView: UIImageView!
@@ -44,6 +46,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var toolsneedsscale2 = true
     var defaultColor = UIColor.blackColor().CGColor
     var selectedcolor = UIColor.blackColor()
+    var selectedTool = "Pencil"
     let pencilwhite = UIImage(named: "pencil_white") as UIImage!
     let pencilblack = UIImage(named: "pencil_black") as UIImage!
     let shapewhite = UIImage(named: "star_white") as UIImage!
@@ -69,13 +72,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             toolsneedsscale = false
         }
 
-        if (offsetangle < -60 && offsetdistance > 12) {
+        if (offsetangle < -120 && offsetdistance > 12) {
             setActive("Pencil")
         }
-        else if (offsetangle < 0 && offsetangle >= -30 && offsetdistance > 12) {
+        else if (offsetangle < 0 && offsetangle >= -60 && offsetdistance > 12) {
             setActive("Eraser")
         }
-        else if (offsetangle < -30 && offsetangle >= -60 && offsetdistance > 12) {
+        else if (offsetangle < -60 && offsetangle >= -180 && offsetdistance > 12) {
             setActive("Shape")
         }
         
@@ -155,6 +158,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         expandRadialMenu(colorPickerButton, scalefactor: 7.0)
         expandRadialMenu(colorPickerLayer2, scalefactor: 7.0)
         toggleMask(menuBGMask, hide: false, opacity: 0.2)
+        insertBlurView(menuBGMask, UIBlurEffectStyle.Dark)
     }
     // Actions for Color Picker Wheel
     @IBAction func colorPickerPanGesture(sender: UIPanGestureRecognizer) {
@@ -167,6 +171,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         canvasView.lineColor = newColor
         colorPickerButtonInner.backgroundColor = newColor
         sizeOpacityButtonInner.backgroundColor = newColor
+        selectedcolor = newColor
     }
     @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
     }
@@ -187,13 +192,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if lastoffsetdistance > 0 {
             let sizeIndicatorScale = (offsetdistance/lastoffsetdistance)
             sizeOpacityButtonInner.transform = CGAffineTransformScale(sizeOpacityButtonInner.transform, sizeIndicatorScale, sizeIndicatorScale)
-            println(sizeOpacityButtonInner.frame.width)
         }
         lastoffsetdistance = offsetdistance
         let adjustedangle = (offsetangle + 360) / 3
-        if adjustedangle >= 0 && adjustedangle <= 270 {
-            canvasView.lineOpacity = CGFloat(adjustedangle/90)
-            sizeOpacityButtonInner.alpha = CGFloat(adjustedangle/90)
+        if adjustedangle >= 0 && adjustedangle <= 60 {
+            canvasView.lineOpacity = CGFloat(adjustedangle/60)
+            sizeOpacityButtonInner.alpha = CGFloat(adjustedangle/60)
+        } else if (adjustedangle >= 60 && adjustedangle < 150) {
+            canvasView.lineOpacity = CGFloat(1)
+            sizeOpacityButtonInner.alpha = CGFloat(1)
+        } else {
+            canvasView.lineOpacity = CGFloat(0)
+            sizeOpacityButtonInner.alpha = CGFloat(0)
         }
         
         // Close menu when gesture is ended
@@ -233,10 +243,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
-        drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        if selectedTool == "Pencil" || selectedTool == "Eraser" {
+            drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        } else if selectedTool == "Shape" {
+            drawingFunctions().drawShapeOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
-        drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, sender: sender)
+        drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
     }
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
         if motion == .MotionShake {
@@ -313,9 +327,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setActive(tool: String) {
+        selectedTool = tool
         let toolBox: [[String:AnyObject]] = [
-            ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": pencilblack, "color": UIColor.blackColor()],
-            ["name": "Shape", "image": shapeImage, "white": shapewhite, "black": shapeblack, "color": UIColor.blackColor()],
+            ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": pencilblack, "color": selectedcolor],
+            ["name": "Shape", "image": shapeImage, "white": shapewhite, "black": shapeblack, "color": selectedcolor],
             ["name": "Eraser", "image": eraserImage, "white": eraserwhite, "black": eraserblack, "color": UIColor.whiteColor()]
         ]
         for (var i=0; i<toolBox.count; i++) {
@@ -388,8 +403,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Rotate Images 45 Degrees
         checkerBoardImage.transform = CGAffineTransformRotate(checkerBoardImage.transform, CGFloat(M_PI/4))
         toolPickerButtonInner.transform = CGAffineTransformRotate(toolPickerButtonInner.transform, CGFloat(M_PI/4))
-
         
+        insertBlurView(toolbarBackground, UIBlurEffectStyle.Dark)
+        insertBlurView(statusBarBackground, UIBlurEffectStyle.Dark)
     }
     
     override func viewDidLayoutSubviews() {

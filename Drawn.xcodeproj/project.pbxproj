@@ -14,6 +14,8 @@
 		8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C81B2D03D100BAF1CB /* Line.swift */; };
 		8A66765F1B2D09C9003DA547 /* canvasGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A66765E1B2D09C9003DA547 /* canvasGestures.swift */; };
 		8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6676601B2D31C9003DA547 /* drawingFunctions.swift */; };
+		8A9A76F11B41FCAB00D733BD /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9A76F01B41FCAB00D733BD /* BlurView.swift */; };
+		8A9A76F31B41FCBF00D733BD /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */; };
 		8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */; };
 		8A9FCC7D1B252C10003DD303 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7C1B252C10003DD303 /* ViewController.swift */; };
 		8A9FCC801B252C10003DD303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7E1B252C10003DD303 /* Main.storyboard */; };
@@ -41,6 +43,8 @@
 		8A66765E1B2D09C9003DA547 /* canvasGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = canvasGestures.swift; sourceTree = "<group>"; };
 		8A6676601B2D31C9003DA547 /* drawingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = drawingFunctions.swift; sourceTree = "<group>"; };
 		8A96AA421B3AF219009020D3 /* colorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = colorPicker.swift; sourceTree = "<group>"; };
+		8A9A76F01B41FCAB00D733BD /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
 		8A9FCC751B252C10003DD303 /* Drawn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9FCC791B252C10003DD303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +114,9 @@
 				8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */,
 				8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */,
 				8A1EF4C81B2D03D100BAF1CB /* Line.swift */,
+				8A9A76F01B41FCAB00D733BD /* BlurView.swift */,
 				8A9FCC7C1B252C10003DD303 /* ViewController.swift */,
+				8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */,
 				8A96AA421B3AF219009020D3 /* colorPicker.swift */,
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
@@ -313,7 +319,9 @@
 				8A66765F1B2D09C9003DA547 /* canvasGestures.swift in Sources */,
 				8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */,
 				8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */,
+				8A9A76F11B41FCAB00D733BD /* BlurView.swift in Sources */,
 				8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */,
+				8A9A76F31B41FCBF00D733BD /* SpringAnimation.swift in Sources */,
 				8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */,
 				8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */,
 			);

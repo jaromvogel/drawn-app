@@ -235,7 +235,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5yJ-Rd-cpt" userLabel="Size/OpacityPickerColor">
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5yJ-Rd-cpt" userLabel="Size/OpacityPickerColor">
                                         <rect key="frame" x="548" y="18" width="34" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
@@ -480,10 +480,12 @@
                         <outlet property="sizeOpacityButton" destination="TUE-CR-7ph" id="jGB-uT-viu"/>
                         <outlet property="sizeOpacityButtonInner" destination="5yJ-Rd-cpt" id="KwB-WC-rZS"/>
                         <outlet property="sizeOpacityLayer2" destination="w25-Uh-6OM" id="0HO-7G-tLC"/>
+                        <outlet property="statusBarBackground" destination="2XG-Bf-X5g" id="gDH-tT-VvI"/>
                         <outlet property="tempDrawingView" destination="4uM-U2-mAi" id="b5p-cU-Sss"/>
                         <outlet property="toolPickerButton" destination="E0p-TG-GsB" id="IfF-kc-PHA"/>
                         <outlet property="toolPickerButtonInner" destination="CL6-wq-8op" id="bRY-w5-d4v"/>
                         <outlet property="toolPickerLayer2" destination="tNT-1p-ylv" id="05I-Wa-q2A"/>
+                        <outlet property="toolbarBackground" destination="JsZ-Kc-SQI" id="hVB-PX-HND"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -21,10 +21,9 @@ class canvasGestures {
     
     func rotateCanvas(canvas: UIView!, containerView: UIView, sender: UIRotationGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Began {
+            
             let touch1 = sender.locationOfTouch(0, inView: canvas)
             let touch2 = sender.locationOfTouch(1, inView: canvas)
-            let frametouch1 = sender.locationOfTouch(0, inView: containerView)
-            let frametouch2 = sender.locationOfTouch(1, inView: containerView)
             
             let midx = ((touch1.x + touch2.x)/2)
             let midy = ((touch1.y + touch2.y)/2)
@@ -32,12 +31,9 @@ class canvasGestures {
             let canvasmidx = midx/canvas.frame.width
             let canvasmidy = midy/canvas.frame.height
             
-            let framemidx = ((frametouch1.x + frametouch2.x)/2)
-            let framemidy = ((frametouch1.y + frametouch2.y)/2)
+            let anchorPoint=CGPoint(x: canvasmidx, y: canvasmidy)
             
-            //canvas.layer.anchorPoint=CGPoint(x: canvasmidx, y: canvasmidy)
-            //canvas.layer.position = CGPoint(x: framemidx, y: framemidy)
-            //let transform = CGAffineTransformTranslate(canvas.transform, framemidx, framemidy)
+            setAnchorPoint(anchorPoint, forView: canvas)
         }
 
         if let view = canvas {
@@ -76,4 +72,21 @@ class canvasGestures {
         }
     }
     
+    func setAnchorPoint(anchorPoint: CGPoint, forView view: UIView) {
+        var newPoint = CGPointMake(view.bounds.size.width * anchorPoint.x, view.bounds.size.height * anchorPoint.y)
+        var oldPoint = CGPointMake(view.bounds.size.width * view.layer.anchorPoint.x, view.bounds.size.height * view.layer.anchorPoint.y)
+        
+        newPoint = CGPointApplyAffineTransform(newPoint, view.transform)
+        oldPoint = CGPointApplyAffineTransform(oldPoint, view.transform)
+        
+        var position = view.layer.position
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+        
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+        
+        view.layer.position = position
+        view.layer.anchorPoint = anchorPoint
+    }
 }
