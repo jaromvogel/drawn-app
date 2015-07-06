@@ -9,6 +9,25 @@
 import UIKit
 import Darwin
 
+// Extend UIImage to be able to check the color of a pixel
+extension UIImage {
+    func getPixelColor(pos: CGPoint) -> UIColor {
+        
+        var pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
+        var data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        var pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
+        
+        var r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        var g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        var b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+        var a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+}
+
+
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func gestureRecognizer(UIGestureRecognizer,
@@ -16,6 +35,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             return true
     }
 
+    @IBOutlet weak var recentButton2TopSpace: NSLayoutConstraint!
+    @IBOutlet weak var recentButton2LeftSpace: NSLayoutConstraint!
+    @IBOutlet weak var recentButton4TopSpace: NSLayoutConstraint!
+    @IBOutlet weak var recentButton4RightSpace: NSLayoutConstraint!
     @IBOutlet weak var toolbarBackground: UIView!
     @IBOutlet weak var statusBarBackground: UIView!
     @IBOutlet weak var canvasContainer: UIView!
@@ -26,6 +49,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
     @IBOutlet weak var colorPickerImage: UIImageView!
+    @IBOutlet weak var DarkenMask: UIView!
     @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var toolPickerLayer2: UIView!
     @IBOutlet weak var toolPickerButton: UIView!
@@ -36,6 +60,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var colorPickerLayer2: UIView!
     @IBOutlet weak var colorPickerButton: UIView!
     @IBOutlet weak var colorPickerButtonInner: UIButton!
+    @IBOutlet weak var recentColor1: UIView!
+    @IBOutlet weak var recentColor2: UIView!
+    @IBOutlet weak var recentColor3: UIView!
+    @IBOutlet weak var recentColor4: UIView!
+    @IBOutlet weak var eyedropperTool: UIView!
     @IBOutlet weak var checkerBoardImage: UIImageView!
     @IBOutlet weak var sizeOpacityLayer2: UIView!
     @IBOutlet weak var sizeOpacityButton: UIView!
@@ -47,16 +76,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var defaultColor = UIColor.blackColor().CGColor
     var selectedcolor = UIColor.blackColor()
     var selectedTool = "Pencil"
+    var previousTool = ""
     let pencilwhite = UIImage(named: "pencil_white") as UIImage!
     let pencilblack = UIImage(named: "pencil_black") as UIImage!
     let shapewhite = UIImage(named: "star_white") as UIImage!
     let shapeblack = UIImage(named: "star_black") as UIImage!
     let eraserwhite = UIImage(named: "eraser_white") as UIImage!
     let eraserblack = UIImage(named: "eraser_black") as UIImage!
+    let eyedropperwhite = UIImage(named: "eyedropper_white") as UIImage!
+    let eyedropperblack = UIImage(named: "eyedropper_black") as UIImage!
     var offsetdistance = CGFloat(0)
     var canvasTranslation = CGPoint()
     var darkness = CGFloat(1)
-    
+    var deviceRotation = Int(1)
     
     // Actions for ToolPicker Button
     @IBAction func toolPickerGesture(sender: UIPanGestureRecognizer) {
@@ -132,10 +164,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let buttonCenter = CGPoint(x: 20,y: 20)
         offsetdistance = calcDistance(buttonCenter, point2: location)
         let offsetangle = calcAngle(buttonCenter, point2: location)
-        println("offsetangle")
-        println(offsetangle)
-        println("offsetdistance")
-        println(offsetdistance)
+        //println("offsetangle")
+        //println(offsetangle)
+        //println("offsetdistance")
+        //println(offsetdistance)
 
         // Close menu when gesture is ended
         if sender.state == UIGestureRecognizerState.Ended {
@@ -144,6 +176,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             addShadow(colorPickerButton)
             removeBorder(colorPickerButton)
             toggleMask(menuBGMask, hide: true, opacity: 0)
+            
+            if offsetdistance > 12 && offsetangle < 50 && offsetangle > -45 {
+                previousTool = selectedTool
+                selectedTool = "Eyedropper"
+                setEyedropperImage(selectedcolor)
+            }
         }
     }
     @IBAction func displayColorPicker(sender: UIButton) {
@@ -160,7 +198,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         toggleMask(menuBGMask, hide: false, opacity: 0.2)
         insertBlurView(menuBGMask, UIBlurEffectStyle.Dark)
     }
-    // Actions for Color Picker Wheel
+    // Actions for Color Chooser Wheel
     @IBAction func colorPickerPanGesture(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(colorPickerBorder)
         let pickerCenter = colorPickerImage.center
@@ -178,6 +216,42 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func darknessSlider(sender: UISlider) {
         // this sort of works, but definitely NEEDS work
         darkness = CGFloat(sender.value)
+    }
+    
+    
+    // eyedropper Tool
+    func eyedropperTool(location: CGPoint, sender: UIPanGestureRecognizer) {
+        let touchlocation = CGPoint(x: location.x, y: location.y)
+
+        if cacheDrawingView.image !== nil {
+            let newColor = getPixelColor(location)
+            colorPickerButtonInner.backgroundColor = newColor
+            sizeOpacityButtonInner.backgroundColor = newColor
+            setEyedropperImage(newColor)
+            selectedcolor = newColor
+            canvasView.lineColor = newColor
+            canvasView.lineOpacity = 1
+            sizeOpacityButtonInner.alpha = 1
+        }
+        
+        if sender.state == UIGestureRecognizerState.Ended {
+            selectedTool = previousTool
+            colorPickerButtonInner.setImage(nil, forState: .Normal)
+        }
+    }
+    func getPixelColor(pos: CGPoint) -> UIColor {
+        
+        let pixel = UnsafeMutablePointer<CUnsignedChar>.alloc(4)
+        var colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+        let context = CGBitmapContextCreate(pixel, 1, 1, 8, 4, colorSpace, bitmapInfo)
+        
+        CGContextTranslateCTM(context, -pos.x, -pos.y)
+        cacheDrawingView.layer.renderInContext(context)
+        var color:UIColor = UIColor(red: CGFloat(pixel[0])/255.0, green: CGFloat(pixel[1])/255.0, blue: CGFloat(pixel[2])/255.0, alpha: CGFloat(pixel[3])/255.0)
+        
+        pixel.dealloc(4)
+        return color
     }
     
     
@@ -247,6 +321,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
             drawingFunctions().drawShapeOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        } else if selectedTool == "Eyedropper" {
+            let location = sender.locationInView(canvasContainer)
+            eyedropperTool(location, sender: sender)
         }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
@@ -391,6 +468,32 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         return angle
     }
     
+    func setEyedropperImage(color: UIColor!) {
+        let darkbackground = colorIsDark(selectedcolor)
+        if darkbackground == true {
+            colorPickerButtonInner.tintColor = UIColor.whiteColor()
+            colorPickerButtonInner.setImage(eyedropperwhite, forState: .Normal)
+        } else {
+            colorPickerButtonInner.tintColor = UIColor.blackColor()
+            colorPickerButtonInner.setImage(eyedropperblack, forState: .Normal)
+        }
+    }
+    
+    func colorIsDark(color: UIColor!) -> Bool {
+        let tempcolor = CIColor(color: color)
+        let red = tempcolor!.red()
+        let green = tempcolor!.green()
+        let blue = tempcolor!.blue()
+        let average = (red + blue + green) / 3
+        if average > 0.5 {
+            return false
+        }
+        else {
+            return true
+        }
+    }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -404,13 +507,20 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         checkerBoardImage.transform = CGAffineTransformRotate(checkerBoardImage.transform, CGFloat(M_PI/4))
         toolPickerButtonInner.transform = CGAffineTransformRotate(toolPickerButtonInner.transform, CGFloat(M_PI/4))
         
-        insertBlurView(toolbarBackground, UIBlurEffectStyle.Dark)
-        insertBlurView(statusBarBackground, UIBlurEffectStyle.Dark)
+        recentButton2TopSpace.constant = 7.5
+        recentButton2LeftSpace.constant = 7.5
+        recentButton4TopSpace.constant = 7.5
+        recentButton4RightSpace.constant = 7.5
+        
+        //insertBlurView(toolbarBackground, UIBlurEffectStyle.Dark)
+        //insertBlurView(statusBarBackground, UIBlurEffectStyle.Dark)
     }
     
     override func viewDidLayoutSubviews() {
         canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
+        DarkenMask.layer.cornerRadius = DarkenMask.frame.width/2
+        deviceRotation = UIDevice.currentDevice().orientation.rawValue
     }
 
     override func didReceiveMemoryWarning() {
@@ -418,6 +528,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        steadyCanvas(deviceRotation, newRotation: UIDevice.currentDevice().orientation.rawValue)
+        deviceRotation = UIDevice.currentDevice().orientation.rawValue
+    }
+    
+    func steadyCanvas(currentRotation: Int, newRotation: Int) {
+        println(abs(currentRotation - newRotation))
+        if (currentRotation == 1 && newRotation == 2) || (currentRotation == 2 && newRotation == 1) || (currentRotation == 3) && (newRotation == 4) || (currentRotation == 4) && (newRotation == 3) {
+            println("should rotate 180 deg")
+        } else  if currentRotation == 1 && newRotation == 3 || currentRotation == 3 && newRotation == 2 || currentRotation == 2 && newRotation == 4 || currentRotation == 4 && newRotation == 1 {
+            println("should rotate negative 90 degrees")
+        } else {
+            println("should rotate 90 degrees")
+        }
+    }
 
 }
 
