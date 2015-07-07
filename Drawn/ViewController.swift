@@ -49,11 +49,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
     @IBOutlet weak var colorPickerImage: UIImageView!
-    @IBOutlet weak var brightnessGradient: UIImageView!
+    @IBOutlet weak var brightnessGradient: UIView!
     @IBOutlet weak var brightnessCurrentColor: UIView!
     @IBOutlet weak var brightnessControl: UIView!
     @IBOutlet weak var brightnessSlider: UIView!
-    @IBOutlet weak var DarkenMask: UIView!
     @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var toolPickerLayer2: UIView!
     @IBOutlet weak var toolPickerButton: UIView!
@@ -213,7 +212,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if checkdistance <= 100 {
             coloroffsetdistance = checkdistance
             colorangle = calcAngle(pickerCenter, point2: location)
-            setColor()
+            setColor(true)
         }
     }
     @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
@@ -224,28 +223,26 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if checkdistance <= 100 {
             coloroffsetdistance = checkdistance
             colorangle = calcAngle(pickerCenter, point2: location)
-            setColor()
+            setColor(true)
         }
     }
     @IBAction func tappedBrightnessSlider(sender: UITapGestureRecognizer) {
         let sliderLocation = sender.locationInView(brightnessSlider).x
         brightness = sliderLocation / brightnessSlider.frame.width
-        DarkenMask.alpha = -(brightness - 1)
         brightnessControl.center.x = sliderLocation
-        setColor()
+        setColor(false)
     }
     @IBAction func panBrightnessSlider(sender: UIPanGestureRecognizer) {
         // this sort of works, but definitely NEEDS work
         var sliderLocation = sender.locationInView(brightnessSlider).x
         brightness = sliderLocation / brightnessSlider.frame.width
-        DarkenMask.alpha = -(brightness - 1)
         if sliderLocation >= brightnessSlider.frame.width - 18 {
             sliderLocation = brightnessSlider.frame.width - 18
         } else if sliderLocation <= 18 {
             sliderLocation = 18
         }
         brightnessControl.center.x = sliderLocation
-        setColor()
+        setColor(false)
     }
     
     
@@ -499,12 +496,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    func setColor() {
+    func setColor(updateBrightness: Bool) {
         var newColor = colorWheel().calcColor(colorangle, distance: coloroffsetdistance, brightness: brightness)
+        var baseColor = colorWheel().calcBaseColor(colorangle, distance: coloroffsetdistance)
         canvasView.lineColor = newColor
         colorPickerButtonInner.backgroundColor = newColor
         sizeOpacityButtonInner.backgroundColor = newColor
-        brightnessGradient.backgroundColor = newColor
+        if updateBrightness == true {
+            brightnessGradient.backgroundColor = baseColor
+        }
         brightnessCurrentColor.backgroundColor = newColor
         selectedcolor = newColor
     }
@@ -555,24 +555,22 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         recentButton4TopSpace.constant = 7.5
         recentButton4RightSpace.constant = 7.5
         
+        // Create Gradient for Brightness Slider
+        let gradient: CAGradientLayer = CAGradientLayer()
+        
+        gradient.colors = [UIColor.blackColor().CGColor, UIColor.clearColor().CGColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.0)
+        gradient.frame = CGRect(x: 0.0, y: 0.0, width: brightnessGradient.frame.size.width, height: brightnessGradient.frame.size.height)
+        
+        brightnessGradient.layer.insertSublayer(gradient, atIndex: 1)
     }
     
     override func viewDidLayoutSubviews() {
         canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
-        DarkenMask.layer.cornerRadius = DarkenMask.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
-
-        // Set blend mode to multiply on darken gradient
-        UIGraphicsBeginImageContextWithOptions(brightnessGradient.frame.size, false, 0.0)
-        let context = UIGraphicsGetCurrentContext()
-        let aRect = CGRectMake(0, 0, brightnessGradient.frame.width, brightnessGradient.frame.height);
-        let cgImage = brightnessGradient.image!.CGImage;
-        CGContextSetBlendMode(context, kCGBlendModeMultiply)
-        CGContextDrawImage(context, aRect, cgImage);
-
-        brightnessGradient.image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
     }
 
     override func didReceiveMemoryWarning() {

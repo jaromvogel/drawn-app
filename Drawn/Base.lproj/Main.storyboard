@@ -88,25 +88,17 @@
                                                     </mask>
                                                 </variation>
                                             </imageView>
-                                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWV-iE-g5u" userLabel="DarkenMask">
-                                                <rect key="frame" x="4" y="4" width="392" height="392"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="nWV-iE-g5u" secondAttribute="trailing" constant="4" id="9Fc-8g-kIK"/>
                                             <constraint firstAttribute="trailing" secondItem="xMs-j0-csb" secondAttribute="trailing" constant="2" id="AzR-qU-Hxc"/>
                                             <constraint firstAttribute="width" secondItem="1TN-zd-YC0" secondAttribute="height" id="Cqp-hI-hrv"/>
                                             <constraint firstAttribute="bottom" secondItem="xMs-j0-csb" secondAttribute="bottom" constant="2" id="FIO-kD-SDp"/>
-                                            <constraint firstAttribute="bottom" secondItem="nWV-iE-g5u" secondAttribute="bottom" constant="4" id="ZCI-we-JZU"/>
-                                            <constraint firstItem="nWV-iE-g5u" firstAttribute="leading" secondItem="1TN-zd-YC0" secondAttribute="leading" constant="4" id="eO1-fg-saw"/>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="f6y-Mp-D1u"/>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qIY-Fe-Oo4"/>
                                             <constraint firstItem="xMs-j0-csb" firstAttribute="leading" secondItem="1TN-zd-YC0" secondAttribute="leading" constant="2" id="rBE-VY-cz8"/>
                                             <constraint firstItem="xMs-j0-csb" firstAttribute="top" secondItem="1TN-zd-YC0" secondAttribute="top" constant="2" id="tKr-Ms-gUF"/>
-                                            <constraint firstItem="nWV-iE-g5u" firstAttribute="top" secondItem="1TN-zd-YC0" secondAttribute="top" constant="4" id="wER-xb-4pa"/>
                                             <constraint firstAttribute="width" secondItem="1TN-zd-YC0" secondAttribute="height" multiplier="1:1" id="ycD-a4-Tdj"/>
                                         </constraints>
                                         <variation key="default">
@@ -118,18 +110,18 @@
                                             <outletCollection property="gestureRecognizers" destination="cgX-il-rnp" appends="YES" id="r2I-iC-gZO"/>
                                         </connections>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cF-QR-d1Q" userLabel="brightnessSlider">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cF-QR-d1Q" userLabel="brightnessSlider">
                                         <rect key="frame" x="155" y="489" width="290" height="36"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brightnessGradient" translatesAutoresizingMaskIntoConstraints="NO" id="GXP-j5-ryQ" userLabel="BrightnessGradient">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PVy-DI-W5s" userLabel="BrightnessGradient">
                                                 <rect key="frame" x="2" y="2" width="286" height="32"/>
-                                                <color key="backgroundColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                         <integer key="value" value="16"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                            </imageView>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-6C-aHs" userLabel="BrightnessControl">
                                                 <rect key="frame" x="254" y="0.0" width="36" height="36"/>
                                                 <subviews>
@@ -166,15 +158,16 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstItem="GXP-j5-ryQ" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" constant="2" id="07r-xp-Y4b"/>
+                                            <constraint firstAttribute="trailing" secondItem="PVy-DI-W5s" secondAttribute="trailing" constant="2" id="3Ar-9m-n8K"/>
+                                            <constraint firstAttribute="bottom" secondItem="PVy-DI-W5s" secondAttribute="bottom" constant="2" id="4DX-Qb-oNQ"/>
                                             <constraint firstAttribute="trailing" secondItem="7rW-6C-aHs" secondAttribute="trailing" id="Bmj-0b-hCp"/>
                                             <constraint firstAttribute="bottom" secondItem="7rW-6C-aHs" secondAttribute="bottom" id="C8N-G7-81z"/>
-                                            <constraint firstAttribute="bottom" secondItem="GXP-j5-ryQ" secondAttribute="bottom" constant="2" id="Cdu-ng-SRW"/>
                                             <constraint firstItem="7rW-6C-aHs" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" id="D6X-AD-pV2"/>
                                             <constraint firstAttribute="width" constant="290" id="K5e-hD-JgM"/>
                                             <constraint firstAttribute="height" constant="36" id="LBC-Fv-gc1"/>
-                                            <constraint firstAttribute="trailing" secondItem="GXP-j5-ryQ" secondAttribute="trailing" constant="2" id="OpB-iL-7gy"/>
-                                            <constraint firstItem="GXP-j5-ryQ" firstAttribute="leading" secondItem="3cF-QR-d1Q" secondAttribute="leading" constant="2" id="v3U-s7-Wmb"/>
+                                            <constraint firstItem="7rW-6C-aHs" firstAttribute="leading" secondItem="PVy-DI-W5s" secondAttribute="trailing" constant="2" id="Rcd-Ue-VIt"/>
+                                            <constraint firstItem="PVy-DI-W5s" firstAttribute="leading" secondItem="3cF-QR-d1Q" secondAttribute="leading" constant="2" id="Vik-cR-k0f"/>
+                                            <constraint firstItem="PVy-DI-W5s" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" constant="2" id="mAp-KX-KLR"/>
                                             <constraint firstItem="7rW-6C-aHs" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" id="vfJ-2w-aqu"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -182,6 +175,11 @@
                                                 <integer key="value" value="18"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Rcd-Ue-VIt"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="uui-5w-z4i" appends="YES" id="gPo-i2-gjp"/>
                                             <outletCollection property="gestureRecognizers" destination="bkq-AL-3PW" appends="YES" id="v1o-81-xq3"/>
@@ -650,10 +648,9 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="DarkenMask" destination="nWV-iE-g5u" id="xbt-a3-9S8"/>
                         <outlet property="brightnessControl" destination="7rW-6C-aHs" id="J2G-r9-NBw"/>
                         <outlet property="brightnessCurrentColor" destination="Qxb-HQ-Zd0" id="e1i-4V-bRV"/>
-                        <outlet property="brightnessGradient" destination="GXP-j5-ryQ" id="QCB-E2-Jc5"/>
+                        <outlet property="brightnessGradient" destination="PVy-DI-W5s" id="1DG-JC-Wt2"/>
                         <outlet property="brightnessSlider" destination="3cF-QR-d1Q" id="Fyo-eH-s8N"/>
                         <outlet property="cacheDrawingView" destination="72x-eq-oeJ" id="8bj-vC-7GV"/>
                         <outlet property="canvasContainer" destination="aI1-fb-hNs" id="7um-Lu-dnA"/>
@@ -764,7 +761,6 @@
     </scenes>
     <resources>
         <image name="ColorPicker3" width="400" height="400"/>
-        <image name="brightnessGradient" width="290" height="32"/>
         <image name="checkerboard" width="40" height="40"/>
         <image name="eraser_black" width="34" height="34"/>
         <image name="eyedropper_black" width="34" height="34"/>
