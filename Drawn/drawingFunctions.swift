@@ -21,8 +21,8 @@ class drawingFunctions {
     func tapOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
         if sender.numberOfTouches() == 1 {
             
-            UIGraphicsBeginImageContext(canvas.frame.size)
-            //UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            //UIGraphicsBeginImageContext(canvas.frame.size)
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
             myBezier.lineCapStyle = kCGLineCapRound
@@ -108,8 +108,8 @@ class drawingFunctions {
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
         
-        UIGraphicsBeginImageContext(canvas.frame.size)
-        //UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        //UIGraphicsBeginImageContext(canvas.frame.size)
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
         
         myBezier.setLineDash(nil, count: 0, phase: 0)
@@ -174,8 +174,8 @@ class drawingFunctions {
     
     
     func drawShapeOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
-        UIGraphicsBeginImageContext(canvas.frame.size)
-        //UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        //UIGraphicsBeginImageContext(canvas.frame.size)
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
 
         let pattern: [CGFloat] = [1.0, 4.0]

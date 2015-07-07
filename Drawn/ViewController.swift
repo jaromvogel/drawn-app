@@ -49,6 +49,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
     @IBOutlet weak var colorPickerImage: UIImageView!
+    @IBOutlet weak var brightnessGradient: UIImageView!
+    @IBOutlet weak var brightnessCurrentColor: UIView!
+    @IBOutlet weak var brightnessControl: UIView!
+    @IBOutlet weak var brightnessSlider: UIView!
     @IBOutlet weak var DarkenMask: UIView!
     @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var toolPickerLayer2: UIView!
@@ -86,8 +90,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     let eyedropperwhite = UIImage(named: "eyedropper_white") as UIImage!
     let eyedropperblack = UIImage(named: "eyedropper_black") as UIImage!
     var offsetdistance = CGFloat(0)
+    var coloroffsetdistance = CGFloat(0)
+    var colorangle = CGFloat(0)
     var canvasTranslation = CGPoint()
-    var darkness = CGFloat(1)
+    var brightness = CGFloat(1)
     var deviceRotation = Int(1)
     
     // Actions for ToolPicker Button
@@ -203,19 +209,43 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let location = sender.locationInView(colorPickerBorder)
         let pickerCenter = colorPickerImage.center
         offsetdistance = calcDistance(pickerCenter, point2: location)
-        let offsetangle = calcAngle(pickerCenter, point2: location)
-        let offsetpercent = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
-        var newColor = colorWheel().calcColor(offsetangle, distance: offsetpercent, darkness: darkness)
-        canvasView.lineColor = newColor
-        colorPickerButtonInner.backgroundColor = newColor
-        sizeOpacityButtonInner.backgroundColor = newColor
-        selectedcolor = newColor
+        let checkdistance = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
+        if checkdistance <= 100 {
+            coloroffsetdistance = checkdistance
+            colorangle = calcAngle(pickerCenter, point2: location)
+            setColor()
+        }
     }
     @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
+        let location = sender.locationInView(colorPickerBorder)
+        let pickerCenter = colorPickerImage.center
+        offsetdistance = calcDistance(pickerCenter, point2: location)
+        let checkdistance = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
+        if checkdistance <= 100 {
+            coloroffsetdistance = checkdistance
+            colorangle = calcAngle(pickerCenter, point2: location)
+            setColor()
+        }
     }
-    @IBAction func darknessSlider(sender: UISlider) {
+    @IBAction func tappedBrightnessSlider(sender: UITapGestureRecognizer) {
+        let sliderLocation = sender.locationInView(brightnessSlider).x
+        brightness = sliderLocation / brightnessSlider.frame.width
+        DarkenMask.alpha = -(brightness - 1)
+        brightnessControl.center.x = sliderLocation
+        setColor()
+    }
+    @IBAction func panBrightnessSlider(sender: UIPanGestureRecognizer) {
         // this sort of works, but definitely NEEDS work
-        darkness = CGFloat(sender.value)
+        var sliderLocation = sender.locationInView(brightnessSlider).x
+        brightness = sliderLocation / brightnessSlider.frame.width
+        DarkenMask.alpha = -(brightness - 1)
+        if sliderLocation >= brightnessSlider.frame.width - 18 {
+            sliderLocation = brightnessSlider.frame.width - 18
+        } else if sliderLocation <= 18 {
+            sliderLocation = 18
+        }
+        brightnessControl.center.x = sliderLocation
+        setColor()
     }
     
     
@@ -468,7 +498,20 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         return angle
     }
     
+    
+    func setColor() {
+        var newColor = colorWheel().calcColor(colorangle, distance: coloroffsetdistance, brightness: brightness)
+        canvasView.lineColor = newColor
+        colorPickerButtonInner.backgroundColor = newColor
+        sizeOpacityButtonInner.backgroundColor = newColor
+        brightnessGradient.backgroundColor = newColor
+        brightnessCurrentColor.backgroundColor = newColor
+        selectedcolor = newColor
+    }
+    
+    
     func setEyedropperImage(color: UIColor!) {
+        // Sets Color Picker Button to Black or White depending on selected color
         let darkbackground = colorIsDark(selectedcolor)
         if darkbackground == true {
             colorPickerButtonInner.tintColor = UIColor.whiteColor()
@@ -512,8 +555,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         recentButton4TopSpace.constant = 7.5
         recentButton4RightSpace.constant = 7.5
         
-        //insertBlurView(toolbarBackground, UIBlurEffectStyle.Dark)
-        //insertBlurView(statusBarBackground, UIBlurEffectStyle.Dark)
     }
     
     override func viewDidLayoutSubviews() {
@@ -521,6 +562,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
         DarkenMask.layer.cornerRadius = DarkenMask.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
+
+        // Set blend mode to multiply on darken gradient
+        UIGraphicsBeginImageContextWithOptions(brightnessGradient.frame.size, false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        let aRect = CGRectMake(0, 0, brightnessGradient.frame.width, brightnessGradient.frame.height);
+        let cgImage = brightnessGradient.image!.CGImage;
+        CGContextSetBlendMode(context, kCGBlendModeMultiply)
+        CGContextDrawImage(context, aRect, cgImage);
+
+        brightnessGradient.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
     }
 
     override func didReceiveMemoryWarning() {

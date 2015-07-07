@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8A06F6DA1B3C516000E24AF0 /* colorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A96AA421B3AF219009020D3 /* colorPicker.swift */; };
-		8A1EF4C51B2CEC6B00BAF1CB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C41B2CEC6B00BAF1CB /* Images.xcassets */; };
 		8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */; };
 		8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */; };
 		8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C81B2D03D100BAF1CB /* Line.swift */; };
@@ -21,6 +20,7 @@
 		8A9FCC801B252C10003DD303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7E1B252C10003DD303 /* Main.storyboard */; };
 		8A9FCC851B252C10003DD303 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC831B252C10003DD303 /* LaunchScreen.xib */; };
 		8A9FCC911B252C10003DD303 /* DrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC901B252C10003DD303 /* DrawnTests.swift */; };
+		8AE88AC01B4B60DA007F08AE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE88ABF1B4B60DA007F08AE /* Images.xcassets */; };
 		98986FD34BA5C10F2B4A35CB /* Pods_Drawn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9957A2D339AF75F033727D25 /* Pods_Drawn.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8A1EF4C41B2CEC6B00BAF1CB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = apiConnect.swift; sourceTree = "<group>"; };
 		8A1EF4C81B2D03D100BAF1CB /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		8A9FCC8A1B252C10003DD303 /* DrawnTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DrawnTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9FCC8F1B252C10003DD303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A9FCC901B252C10003DD303 /* DrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawnTests.swift; sourceTree = "<group>"; };
+		8AE88ABF1B4B60DA007F08AE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9957A2D339AF75F033727D25 /* Pods_Drawn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drawn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7389D16986802D18177EDFB /* Pods-Drawn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drawn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Drawn/Pods-Drawn.debug.xcconfig"; sourceTree = "<group>"; };
 		DA2669ADE9A863B2B52089B0 /* Pods-Drawn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drawn.release.xcconfig"; path = "Pods/Target Support Files/Pods-Drawn/Pods-Drawn.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,8 +121,8 @@
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
 				8A6676601B2D31C9003DA547 /* drawingFunctions.swift */,
-				8A1EF4C41B2CEC6B00BAF1CB /* Images.xcassets */,
 				8A9FCC831B252C10003DD303 /* LaunchScreen.xib */,
+				8AE88ABF1B4B60DA007F08AE /* Images.xcassets */,
 				8A9FCC781B252C10003DD303 /* Supporting Files */,
 			);
 			path = Drawn;
@@ -246,7 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A1EF4C51B2CEC6B00BAF1CB /* Images.xcassets in Resources */,
+				8AE88AC01B4B60DA007F08AE /* Images.xcassets in Resources */,
 				8A9FCC801B252C10003DD303 /* Main.storyboard in Resources */,
 				8A9FCC851B252C10003DD303 /* LaunchScreen.xib in Resources */,
 			);

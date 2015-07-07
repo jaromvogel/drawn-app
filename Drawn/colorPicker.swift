@@ -12,7 +12,20 @@ import Darwin
 
 class colorWheel {
     
-    func calcColor(angle: CGFloat, distance: CGFloat, darkness: CGFloat) -> UIColor {
+    func calcColor(angle: CGFloat, distance: CGFloat, brightness: CGFloat) -> UIColor {
+        
+        var adjustedangle = (((angle + 360)/2)/360)
+        if 0 < adjustedangle && adjustedangle <= 0.25 {
+            adjustedangle = adjustedangle + 0.75
+        } else {
+            adjustedangle = adjustedangle - 0.25
+        }
+        adjustedangle = -(adjustedangle - 1)
+        let color = UIColor(hue: adjustedangle, saturation: distance / 100, brightness: brightness, alpha: 1.0)
+        
+        return color
+        
+        /*
         let π = CGFloat(M_PI)
         let radians = angle * (π/360)
         let π_radians = radians/π
@@ -87,5 +100,7 @@ class colorWheel {
     func darken(percent: CGFloat, colorValue: CGFloat) -> CGFloat {
         let darkColor = colorValue * percent
         return darkColor
+    }
+    */
     }
 }

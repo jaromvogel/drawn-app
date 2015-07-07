@@ -72,7 +72,7 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1TN-zd-YC0" userLabel="colorPickerBorder">
                                         <rect key="frame" x="100" y="65" width="400" height="400"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorPicker" translatesAutoresizingMaskIntoConstraints="NO" id="xMs-j0-csb" userLabel="colorPickerImage">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorPicker3" translatesAutoresizingMaskIntoConstraints="NO" id="xMs-j0-csb" userLabel="colorPickerImage">
                                                 <rect key="frame" x="2" y="2" width="396" height="396"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
@@ -87,16 +87,14 @@
                                                         <exclude reference="qun-gH-p8H"/>
                                                     </mask>
                                                 </variation>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="cgX-il-rnp" appends="YES" id="qOG-SF-Lie"/>
-                                                </connections>
                                             </imageView>
-                                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWV-iE-g5u" userLabel="DarkenMask">
+                                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWV-iE-g5u" userLabel="DarkenMask">
                                                 <rect key="frame" x="4" y="4" width="392" height="392"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="nWV-iE-g5u" secondAttribute="trailing" constant="4" id="9Fc-8g-kIK"/>
                                             <constraint firstAttribute="trailing" secondItem="xMs-j0-csb" secondAttribute="trailing" constant="2" id="AzR-qU-Hxc"/>
@@ -116,33 +114,101 @@
                                                 <exclude reference="Cqp-hI-hrv"/>
                                             </mask>
                                         </variation>
-                                    </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="8ma-Bh-Xgh">
-                                        <rect key="frame" x="148" y="495" width="304" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="300" id="9qO-as-w2V"/>
-                                        </constraints>
                                         <connections>
-                                            <action selector="darknessSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="eKM-48-yAI"/>
+                                            <outletCollection property="gestureRecognizers" destination="cgX-il-rnp" appends="YES" id="r2I-iC-gZO"/>
                                         </connections>
-                                    </slider>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3cF-QR-d1Q" userLabel="brightnessSlider">
+                                        <rect key="frame" x="155" y="489" width="290" height="36"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brightnessGradient" translatesAutoresizingMaskIntoConstraints="NO" id="GXP-j5-ryQ" userLabel="BrightnessGradient">
+                                                <rect key="frame" x="2" y="2" width="286" height="32"/>
+                                                <color key="backgroundColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-6C-aHs" userLabel="BrightnessControl">
+                                                <rect key="frame" x="254" y="0.0" width="36" height="36"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxb-HQ-Zd0" userLabel="BrightnessCurrentColor">
+                                                        <rect key="frame" x="2" y="2" width="32" height="32"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="16"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="Qxb-HQ-Zd0" secondAttribute="trailing" constant="2" id="3U7-Ey-b6X"/>
+                                                    <constraint firstItem="Qxb-HQ-Zd0" firstAttribute="leading" secondItem="7rW-6C-aHs" secondAttribute="leading" constant="2" id="Jsu-jX-sSh"/>
+                                                    <constraint firstAttribute="width" constant="36" id="PWl-d4-gtb"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Qxb-HQ-Zd0" secondAttribute="bottom" constant="2" id="SJ6-uF-3jg"/>
+                                                    <constraint firstItem="Qxb-HQ-Zd0" firstAttribute="top" secondItem="7rW-6C-aHs" secondAttribute="top" constant="2" id="YOc-re-Rac"/>
+                                                    <constraint firstAttribute="height" constant="36" id="eBI-hR-ie0"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="18"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="bkq-AL-3PW" appends="YES" id="a2z-86-Jgo"/>
+                                                </connections>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="GXP-j5-ryQ" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" constant="2" id="07r-xp-Y4b"/>
+                                            <constraint firstAttribute="trailing" secondItem="7rW-6C-aHs" secondAttribute="trailing" id="Bmj-0b-hCp"/>
+                                            <constraint firstAttribute="bottom" secondItem="7rW-6C-aHs" secondAttribute="bottom" id="C8N-G7-81z"/>
+                                            <constraint firstAttribute="bottom" secondItem="GXP-j5-ryQ" secondAttribute="bottom" constant="2" id="Cdu-ng-SRW"/>
+                                            <constraint firstItem="7rW-6C-aHs" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" id="D6X-AD-pV2"/>
+                                            <constraint firstAttribute="width" constant="290" id="K5e-hD-JgM"/>
+                                            <constraint firstAttribute="height" constant="36" id="LBC-Fv-gc1"/>
+                                            <constraint firstAttribute="trailing" secondItem="GXP-j5-ryQ" secondAttribute="trailing" constant="2" id="OpB-iL-7gy"/>
+                                            <constraint firstItem="GXP-j5-ryQ" firstAttribute="leading" secondItem="3cF-QR-d1Q" secondAttribute="leading" constant="2" id="v3U-s7-Wmb"/>
+                                            <constraint firstItem="7rW-6C-aHs" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" id="vfJ-2w-aqu"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="18"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="uui-5w-z4i" appends="YES" id="gPo-i2-gjp"/>
+                                            <outletCollection property="gestureRecognizers" destination="bkq-AL-3PW" appends="YES" id="v1o-81-xq3"/>
+                                            <outletCollection property="gestureRecognizers" destination="bkq-AL-3PW" appends="YES" id="m8K-My-trf"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="8ma-Bh-Xgh" secondAttribute="centerX" id="3oa-kI-OLy"/>
+                                    <constraint firstAttribute="trailing" secondItem="3cF-QR-d1Q" secondAttribute="trailing" id="0Sk-Yi-5J1"/>
+                                    <constraint firstItem="3cF-QR-d1Q" firstAttribute="leading" secondItem="oJe-fQ-ERD" secondAttribute="leading" id="3zB-8f-Muv"/>
                                     <constraint firstItem="1TN-zd-YC0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oJe-fQ-ERD" secondAttribute="leading" constant="50" id="8pl-ha-ADz"/>
+                                    <constraint firstAttribute="centerX" secondItem="3cF-QR-d1Q" secondAttribute="centerX" id="ECx-VG-Ivv"/>
+                                    <constraint firstItem="3cF-QR-d1Q" firstAttribute="top" secondItem="oJe-fQ-ERD" secondAttribute="top" constant="36" id="EpD-UV-X3G"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1TN-zd-YC0" secondAttribute="trailing" constant="50" id="IjH-bS-uaE"/>
-                                    <constraint firstItem="8ma-Bh-Xgh" firstAttribute="top" secondItem="oJe-fQ-ERD" secondAttribute="top" constant="250" id="SHo-LY-Irr"/>
+                                    <constraint firstItem="1TN-zd-YC0" firstAttribute="bottom" secondItem="3cF-QR-d1Q" secondAttribute="bottom" constant="-60" id="UId-74-aWJ"/>
                                     <constraint firstAttribute="centerX" secondItem="1TN-zd-YC0" secondAttribute="centerX" id="asI-5u-lvx"/>
-                                    <constraint firstItem="8ma-Bh-Xgh" firstAttribute="bottom" secondItem="1TN-zd-YC0" secondAttribute="bottom" constant="60" id="iGN-hr-z9e"/>
                                     <constraint firstAttribute="centerY" secondItem="1TN-zd-YC0" secondAttribute="centerY" id="jwc-Dg-fg8"/>
-                                    <constraint firstAttribute="bottom" secondItem="8ma-Bh-Xgh" secondAttribute="bottom" id="uJi-9N-G3z"/>
+                                    <constraint firstItem="1TN-zd-YC0" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" constant="29" id="vrc-tM-CmC"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="SHo-LY-Irr"/>
-                                        <exclude reference="uJi-9N-G3z"/>
+                                        <exclude reference="vrc-tM-CmC"/>
+                                        <exclude reference="0Sk-Yi-5J1"/>
+                                        <exclude reference="3zB-8f-Muv"/>
+                                        <exclude reference="EpD-UV-X3G"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -277,7 +343,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="my5-KX-mlQ" userLabel="ColorPickerInner">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="my5-KX-mlQ" userLabel="ColorPickerInner">
                                         <rect key="frame" x="283" y="18" width="34" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
@@ -286,7 +352,7 @@
                                             <constraint firstAttribute="width" constant="34" id="VsN-eJ-oly"/>
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <inset key="imageEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                         <state key="normal">
                                             <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -585,6 +651,10 @@
                     </view>
                     <connections>
                         <outlet property="DarkenMask" destination="nWV-iE-g5u" id="xbt-a3-9S8"/>
+                        <outlet property="brightnessControl" destination="7rW-6C-aHs" id="J2G-r9-NBw"/>
+                        <outlet property="brightnessCurrentColor" destination="Qxb-HQ-Zd0" id="e1i-4V-bRV"/>
+                        <outlet property="brightnessGradient" destination="GXP-j5-ryQ" id="QCB-E2-Jc5"/>
+                        <outlet property="brightnessSlider" destination="3cF-QR-d1Q" id="Fyo-eH-s8N"/>
                         <outlet property="cacheDrawingView" destination="72x-eq-oeJ" id="8bj-vC-7GV"/>
                         <outlet property="canvasContainer" destination="aI1-fb-hNs" id="7um-Lu-dnA"/>
                         <outlet property="canvasView" destination="cwM-1u-bOx" id="bmi-rn-ZsK"/>
@@ -663,11 +733,6 @@
                         <action selector="colorPickerGesture:" destination="BYZ-38-t0r" id="HDa-cn-Cmh"/>
                     </connections>
                 </panGestureRecognizer>
-                <tapGestureRecognizer id="cgX-il-rnp" userLabel="tappedColorWheel">
-                    <connections>
-                        <action selector="tappedColorWheel:" destination="BYZ-38-t0r" id="dY2-eg-Ghh"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="mK9-Fj-uEz" userLabel="tappedCanvas">
                     <connections>
                         <action selector="tappedOnCanvas:" destination="BYZ-38-t0r" id="u9d-pP-0th"/>
@@ -679,11 +744,27 @@
                         <outlet property="delegate" destination="BYZ-38-t0r" id="vCt-jI-Dm3"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="uui-5w-z4i" userLabel="tappedBrightnessSlider">
+                    <connections>
+                        <action selector="tappedBrightnessSlider:" destination="BYZ-38-t0r" id="JxI-Bo-Y3C"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="bkq-AL-3PW" userLabel="panBrightnessSlider">
+                    <connections>
+                        <action selector="panBrightnessSlider:" destination="BYZ-38-t0r" id="P6M-Me-fGA"/>
+                    </connections>
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="cgX-il-rnp" userLabel="tappedColorWheel">
+                    <connections>
+                        <action selector="tappedColorWheel:" destination="BYZ-38-t0r" id="dY2-eg-Ghh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
         </scene>
     </scenes>
     <resources>
-        <image name="ColorPicker" width="400" height="400"/>
+        <image name="ColorPicker3" width="400" height="400"/>
+        <image name="brightnessGradient" width="290" height="32"/>
         <image name="checkerboard" width="40" height="40"/>
         <image name="eraser_black" width="34" height="34"/>
         <image name="eyedropper_black" width="34" height="34"/>
