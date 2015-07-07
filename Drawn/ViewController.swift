@@ -49,6 +49,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
     @IBOutlet weak var colorPickerImage: UIImageView!
+    @IBOutlet weak var currentColorSlider: UIView!
+    @IBOutlet weak var currentColor: UIView!
     @IBOutlet weak var brightnessGradient: UIView!
     @IBOutlet weak var brightnessCurrentColor: UIView!
     @IBOutlet weak var brightnessControl: UIView!
@@ -93,6 +95,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var colorangle = CGFloat(0)
     var canvasTranslation = CGPoint()
     var brightness = CGFloat(1)
+    var colorPicked = false
     var deviceRotation = Int(1)
     
     // Actions for ToolPicker Button
@@ -213,6 +216,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             coloroffsetdistance = checkdistance
             colorangle = calcAngle(pickerCenter, point2: location)
             setColor(true)
+            if colorPicked == false {
+                brightnessControl.center.x = brightnessSlider.frame.width - 18
+                colorPicked = true
+            }
+        }
+        if checkdistance <= 120 {
+            currentColorSlider.hidden = false
+            currentColorSlider.center = location
         }
     }
     @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
@@ -224,6 +235,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             coloroffsetdistance = checkdistance
             colorangle = calcAngle(pickerCenter, point2: location)
             setColor(true)
+            if colorPicked == false {
+                brightnessControl.center.x = brightnessSlider.frame.width - 18
+                colorPicked = true
+            }
+            currentColorSlider.hidden = false
+            currentColorSlider.center = location
         }
     }
     @IBAction func tappedBrightnessSlider(sender: UITapGestureRecognizer) {
@@ -247,7 +264,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     // eyedropper Tool
-    func eyedropperTool(location: CGPoint, sender: UIPanGestureRecognizer) {
+    func eyedropperTool(location: CGPoint, sender: AnyObject) {
         let touchlocation = CGPoint(x: location.x, y: location.y)
 
         if cacheDrawingView.image !== nil {
@@ -354,8 +371,25 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
-        drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        if selectedTool == "Pencil" || selectedTool == "Eraser" {
+            drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        } else if selectedTool == "Shape" {
+            drawingFunctions().buildShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+        } else if selectedTool == "Eyedropper" {
+            let location = sender.locationInView(canvasContainer)
+            eyedropperTool(location, sender: sender)
+        }
     }
+    @IBAction func doubleTappedCanvas(sender: UITapGestureRecognizer) {
+        if selectedTool == "Shape" {
+            finishShape()
+        }
+    }
+    
+    func finishShape() {
+        drawingFunctions().finishShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView)
+    }
+    
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
         if motion == .MotionShake {
             cacheDrawingView.image = nil
@@ -431,6 +465,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setActive(tool: String) {
+        finishShape()
         selectedTool = tool
         let toolBox: [[String:AnyObject]] = [
             ["name": "Pencil", "image": pencilImage, "white": pencilwhite, "black": pencilblack, "color": selectedcolor],
@@ -504,6 +539,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         sizeOpacityButtonInner.backgroundColor = newColor
         if updateBrightness == true {
             brightnessGradient.backgroundColor = baseColor
+            currentColor.backgroundColor = baseColor
         }
         brightnessCurrentColor.backgroundColor = newColor
         selectedcolor = newColor
@@ -549,7 +585,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Rotate Images 45 Degrees
         checkerBoardImage.transform = CGAffineTransformRotate(checkerBoardImage.transform, CGFloat(M_PI/4))
         toolPickerButtonInner.transform = CGAffineTransformRotate(toolPickerButtonInner.transform, CGFloat(M_PI/4))
-        
+
+        // Fine Tune Spacing of recent color buttons
         recentButton2TopSpace.constant = 7.5
         recentButton2LeftSpace.constant = 7.5
         recentButton4TopSpace.constant = 7.5

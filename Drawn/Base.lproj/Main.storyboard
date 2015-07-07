@@ -64,6 +64,7 @@
                                     <outletCollection property="gestureRecognizers" destination="XHJ-U6-HnS" appends="YES" id="9ht-1F-iO2"/>
                                     <outletCollection property="gestureRecognizers" destination="1QS-D0-YZb" appends="YES" id="TPo-4p-aXn"/>
                                     <outletCollection property="gestureRecognizers" destination="mK9-Fj-uEz" appends="YES" id="q0F-Ba-rlV"/>
+                                    <outletCollection property="gestureRecognizers" destination="VGU-ED-g8A" appends="YES" id="zFN-kT-woC"/>
                                 </connections>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJe-fQ-ERD" userLabel="colorPickerView">
@@ -88,6 +89,35 @@
                                                     </mask>
                                                 </variation>
                                             </imageView>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-Da-8Ls" userLabel="currentColorSlider">
+                                                <rect key="frame" x="182" y="182" width="36" height="36"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GS4-U9-2K7" userLabel="currentColor">
+                                                        <rect key="frame" x="2" y="2" width="32" height="32"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="16"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="GS4-U9-2K7" secondAttribute="trailing" constant="2" id="130-vP-imT"/>
+                                                    <constraint firstItem="GS4-U9-2K7" firstAttribute="top" secondItem="Cwz-Da-8Ls" secondAttribute="top" constant="2" id="C22-kI-MTJ"/>
+                                                    <constraint firstAttribute="width" constant="36" id="MpD-8C-aO7"/>
+                                                    <constraint firstItem="GS4-U9-2K7" firstAttribute="leading" secondItem="Cwz-Da-8Ls" secondAttribute="leading" constant="2" id="OqM-Pa-lxS"/>
+                                                    <constraint firstAttribute="bottom" secondItem="GS4-U9-2K7" secondAttribute="bottom" constant="2" id="PHA-Dq-JpU"/>
+                                                    <constraint firstAttribute="height" constant="36" id="fRA-79-YeJ"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="18"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
@@ -95,6 +125,8 @@
                                             <constraint firstAttribute="trailing" secondItem="xMs-j0-csb" secondAttribute="trailing" constant="2" id="AzR-qU-Hxc"/>
                                             <constraint firstAttribute="width" secondItem="1TN-zd-YC0" secondAttribute="height" id="Cqp-hI-hrv"/>
                                             <constraint firstAttribute="bottom" secondItem="xMs-j0-csb" secondAttribute="bottom" constant="2" id="FIO-kD-SDp"/>
+                                            <constraint firstAttribute="centerX" secondItem="Cwz-Da-8Ls" secondAttribute="centerX" id="LJI-kW-YEc"/>
+                                            <constraint firstAttribute="centerY" secondItem="Cwz-Da-8Ls" secondAttribute="centerY" id="NYu-iy-p8x"/>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="f6y-Mp-D1u"/>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qIY-Fe-Oo4"/>
                                             <constraint firstItem="xMs-j0-csb" firstAttribute="leading" secondItem="1TN-zd-YC0" secondAttribute="leading" constant="2" id="rBE-VY-cz8"/>
@@ -123,7 +155,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7rW-6C-aHs" userLabel="BrightnessControl">
-                                                <rect key="frame" x="254" y="0.0" width="36" height="36"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="36" height="36"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxb-HQ-Zd0" userLabel="BrightnessCurrentColor">
                                                         <rect key="frame" x="2" y="2" width="32" height="32"/>
@@ -169,6 +201,7 @@
                                             <constraint firstItem="PVy-DI-W5s" firstAttribute="leading" secondItem="3cF-QR-d1Q" secondAttribute="leading" constant="2" id="Vik-cR-k0f"/>
                                             <constraint firstItem="PVy-DI-W5s" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" constant="2" id="mAp-KX-KLR"/>
                                             <constraint firstItem="7rW-6C-aHs" firstAttribute="top" secondItem="3cF-QR-d1Q" secondAttribute="top" id="vfJ-2w-aqu"/>
+                                            <constraint firstItem="7rW-6C-aHs" firstAttribute="leading" secondItem="3cF-QR-d1Q" secondAttribute="leading" id="w7j-2r-Sfs"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -177,6 +210,8 @@
                                         </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
+                                                <exclude reference="Bmj-0b-hCp"/>
+                                                <exclude reference="D6X-AD-pV2"/>
                                                 <exclude reference="Rcd-Ue-VIt"/>
                                             </mask>
                                         </variation>
@@ -662,6 +697,8 @@
                         <outlet property="colorPickerContainer" destination="oJe-fQ-ERD" id="0hp-Hs-WF9"/>
                         <outlet property="colorPickerImage" destination="xMs-j0-csb" id="uEL-WT-UAK"/>
                         <outlet property="colorPickerLayer2" destination="FdM-db-c9o" id="abC-lq-a8E"/>
+                        <outlet property="currentColor" destination="GS4-U9-2K7" id="Ptp-9e-CTr"/>
+                        <outlet property="currentColorSlider" destination="Cwz-Da-8Ls" id="66P-Ar-IbF"/>
                         <outlet property="eraserImage" destination="CS0-Eb-sa3" id="eQj-JI-gO3"/>
                         <outlet property="eyedropperTool" destination="soC-ht-hpI" id="XJH-qJ-Qdq"/>
                         <outlet property="gestureControlView" destination="mnI-OC-HaA" id="rMl-Cf-4Ff"/>
@@ -733,6 +770,11 @@
                 <tapGestureRecognizer id="mK9-Fj-uEz" userLabel="tappedCanvas">
                     <connections>
                         <action selector="tappedOnCanvas:" destination="BYZ-38-t0r" id="u9d-pP-0th"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="VGU-ED-g8A" userLabel="doubleTappedCanvas">
+                    <connections>
+                        <action selector="doubleTappedCanvas:" destination="BYZ-38-t0r" id="Fpj-kx-3r4"/>
                     </connections>
                 </tapGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="emj-PC-c9a" userLabel="colorPickerPanGesture">

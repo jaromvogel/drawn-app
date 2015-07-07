@@ -15,6 +15,7 @@ var previousPoint2 = CGPointZero
 var currentPoint = CGPoint()
 var myBezier = UIBezierPath()
 var startedDrawing: Bool = false
+var startedShape: Bool = false
 
 class drawingFunctions {
     
@@ -31,19 +32,7 @@ class drawingFunctions {
             
             let touchLocation = sender.locationInView(canvas)
 
-            /*
-            canvas.lines.append(Line(
-                start: touchLocation,
-                end: touchLocation,
-                ctr1: touchLocation,
-                ctr2: touchLocation,
-                color: canvas.lineColor,
-                weight: canvas.lineWeight,
-                opacity: CGFloat(1.0)
-            ))
-            */
-            
-            myBezier.moveToPoint(CGPoint(x: touchLocation.x, y: touchLocation.y))
+            myBezier.moveToPoint(touchLocation)
             myBezier.addQuadCurveToPoint(touchLocation, controlPoint: touchLocation)
             myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: CGFloat(1.0))
             
@@ -53,7 +42,6 @@ class drawingFunctions {
             
             myBezier.closePath()
             myBezier.removeAllPoints()
-            //canvas.lines.removeAll(keepCapacity: true)
             canvas.setNeedsDisplay()
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
@@ -63,45 +51,67 @@ class drawingFunctions {
             cache.image = UIGraphicsGetImageFromCurrentImageContext();
             tempCache.image = nil
             UIGraphicsEndImageContext()
-        
+        }
+    }
+    
+    
+    func buildShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
+        if sender.numberOfTouches() == 1 {
+            if startedShape == false {
+                startedShape = true
+            }
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
-            /*
+            let pattern: [CGFloat] = [1.0, 4.0]
+            myBezier.setLineDash(pattern, count: 2, phase: CGFloat(2.0))
+            myBezier.lineCapStyle = kCGLineCapRound
+            myBezier.lineWidth = CGFloat(1.0)
+            canvas.lineColor.setStroke()
+            canvas.lineColor.setFill()
+            
             let touchLocation = sender.locationInView(canvas)
             
-            canvas.lines.append(Line(
-                start: touchLocation,
-                end: touchLocation,
-                ctr1: touchLocation,
-                ctr2: touchLocation,
-                color: canvas.lineColor,
-                weight: canvas.lineWeight,
-                opacity: canvas.lineOpacity
-            ))
-            
-            //UIGraphicsBeginImageContext(canvas.frame.size)
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            let context = UIGraphicsGetCurrentContext()
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
-            
-            /*
-            for line in canvas.lines {
-                var myBezier = UIBezierPath()
-                myBezier.lineCapStyle = kCGLineCapRound
-                myBezier.moveToPoint(CGPoint(x: line.start.x, y: line.start.y))
-                myBezier.addQuadCurveToPoint(line.end, controlPoint: line.ctr1)
-                line.color.setStroke()
-                myBezier.lineWidth = line.weight
-                myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: line.opacity)
-                myBezier.closePath()
+            if startedDrawing == false {
+                myBezier.moveToPoint(touchLocation)
+                startedDrawing = true
             }
-            */
+            myBezier.addLineToPoint(touchLocation)
+            myBezier.strokeWithBlendMode(kCGBlendModeNormal, alpha: 1.0)
+            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
+            tempCache.alpha = canvas.lineOpacity
             
-            cache.image = UIGraphicsGetImageFromCurrentImageContext()
-            cache.alpha = CGFloat(1)
             UIGraphicsEndImageContext()
-            canvas.lines.removeAll(keepCapacity: true)
+        }
+    }
+    
+    
+    func finishShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!) {
+        if startedShape == true {
+            startedShape = false
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            
+            canvas.lineColor.setFill()
+            tempCache.image = nil
+            
+            myBezier.fillWithBlendMode(kCGBlendModeNormal, alpha: CGFloat(1.0))
+            
+            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
+            tempCache.alpha = canvas.lineOpacity
+            
             canvas.setNeedsDisplay()
-            */
+            
+            myBezier.closePath()
+            myBezier.removeAllPoints()
+            startedDrawing = false
+            
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            
+            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: kCGBlendModeNormal, alpha: CGFloat(1.0))
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: kCGBlendModeNormal, alpha: canvas.lineOpacity)
+            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            tempCache.image = nil
+            UIGraphicsEndImageContext()
         }
     }
     
@@ -131,18 +141,6 @@ class drawingFunctions {
             var mid1 = midpoint(previousPoint1, point2: previousPoint2)
             var mid2 = midpoint(currentPoint, point2: previousPoint1)
             
-            /*
-            canvas.lines.append(Line(
-                start: mid1,
-                end: mid2,
-                ctr1: previousPoint1,
-                ctr2: previousPoint2,
-                color: canvas.lineColor,
-                weight: canvas.lineWeight,
-                opacity: CGFloat(1.0)
-            ))
-            */
-
             if startedDrawing == false {
                 myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
                 startedDrawing = true
@@ -154,7 +152,6 @@ class drawingFunctions {
             tempCache.alpha = canvas.lineOpacity
             UIGraphicsEndImageContext()
             
-            //canvas.lines.removeAll(keepCapacity: true)
             canvas.setNeedsDisplay()
             
         }
@@ -198,18 +195,6 @@ class drawingFunctions {
             var mid1 = midpoint(previousPoint1, point2: previousPoint2)
             var mid2 = midpoint(currentPoint, point2: previousPoint1)
             
-            /*
-            canvas.lines.append(Line(
-                start: mid1,
-                end: mid2,
-                ctr1: previousPoint1,
-                ctr2: previousPoint2,
-                color: canvas.lineColor,
-                weight: canvas.lineWeight,
-                opacity: CGFloat(1.0)
-            ))
-            */
-            
             if startedDrawing == false {
                 myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
                 startedDrawing = true
@@ -222,7 +207,7 @@ class drawingFunctions {
             UIGraphicsEndImageContext()
 
         }
-        else if sender.state == UIGestureRecognizerState.Ended {
+        else if sender.state == UIGestureRecognizerState.Ended && startedShape == false {
             UIColor.clearColor().setStroke()
             tempCache.image = nil
             UIGraphicsEndImageContext()
@@ -232,7 +217,6 @@ class drawingFunctions {
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
             tempCache.alpha = canvas.lineOpacity
             
-            //canvas.lines.removeAll(keepCapacity: true)
             canvas.setNeedsDisplay()
             
             myBezier.closePath()
