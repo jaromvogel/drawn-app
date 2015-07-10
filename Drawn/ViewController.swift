@@ -45,6 +45,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tempDrawingView: UIImageView!
     @IBOutlet weak var cacheDrawingView: UIImageView!
     @IBOutlet weak var canvasView: CanvasView!
+    @IBOutlet weak var tapToFinishButton: UIButton!
     @IBOutlet weak var gestureControlView: UIView!
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
@@ -374,8 +375,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
             drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().buildShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, viewController: self, gestureView: gestureControlView)
-            
+            drawingFunctions().buildShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -389,7 +389,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Finish building shape
     func finishShape() {
-        drawingFunctions().finishShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView)
+        drawingFunctions().finishShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, tapToFinishButton: tapToFinishButton)
     }
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {

@@ -16,6 +16,7 @@ var currentPoint = CGPoint()
 var myBezier = UIBezierPath()
 var startedDrawing: Bool = false
 var startedShape: Bool = false
+var startPoint = CGPoint()
 
 class drawingFunctions {
     
@@ -55,7 +56,7 @@ class drawingFunctions {
     }
     
     
-    func buildShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, viewController: UIViewController, gestureView: UIView!) {
+    func buildShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!) {
         if sender.numberOfTouches() == 1 {
             if startedShape == false {
                 startedShape = true
@@ -74,37 +75,32 @@ class drawingFunctions {
             
             if startedDrawing == false {
                 myBezier.moveToPoint(touchLocation)
-                /*
-                var startedPoint = UIView()
-                startedPoint.frame = CGRectMake(0, 0, 20, 20)
-                startedPoint.backgroundColor = UIColor.whiteColor()
-                startedPoint.layer.cornerRadius = 10
-                startedPoint.center = CGPointMake(touchLocation.x, touchLocation.y + 20)
-                startedPoint.layer.borderWidth = CGFloat(2.0)
+                startPoint = touchLocation
+                tapToFinishButton.hidden = false
+                tapToFinishButton.center = touchLocation
+                tapToFinishButton.layer.borderWidth = CGFloat(2.0)
                 let bordercolor = UIColor(hue: 0.45, saturation: 0.8, brightness: 0.8, alpha: 1.0).CGColor
-                startedPoint.layer.borderColor = bordercolor
-                startedPoint.tag = 1
-                let tapStartPoint = UITapGestureRecognizer(target: self, action: "tapToFinish:")
-                tapStartPoint.delegate = self as? UIGestureRecognizerDelegate
-                startedPoint.addGestureRecognizer(tapStartPoint)
-                
-                gestureView.insertSubview(startedPoint, atIndex: 100)
-                */
+                tapToFinishButton.layer.borderColor = bordercolor
                 startedDrawing = true
+            } else if startedDrawing == true {
+                if ((touchLocation.x < startPoint.x + 10 && touchLocation.x > startPoint.x - 10)) && ((touchLocation.y < startPoint.y + 10) && (touchLocation.y > startPoint.y - 10)) {
+                    finishShape(canvas, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton)
+                } else {
+                    myBezier.addLineToPoint(touchLocation)
+                    myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
+                    tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
+                    tempCache.alpha = canvas.lineOpacity
+                    
+                    UIGraphicsEndImageContext()
+                }
             }
-            myBezier.addLineToPoint(touchLocation)
-            myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
-            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
-            
-            UIGraphicsEndImageContext()
-            
         }
     }
     
     
-    func finishShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!) {
+    func finishShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, tapToFinishButton: UIButton) {
         if startedShape == true {
+            tapToFinishButton.hidden = true
             startedShape = false
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
