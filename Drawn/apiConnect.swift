@@ -10,13 +10,14 @@ import UIKit
 import SwiftyJSON
 
 class connect {
-    func post(lines: Array<Line>) -> NSDictionary {
+    func post(lines: Array<Line>) {
         
         // Create a reference to a Firebase location
-        var myRootRef = Firebase(url:"https://drawn.firebaseio.com")
+        let myRootRef = Firebase(url:"https://drawn.firebaseio.com")
         // Write data to Firebase
         myRootRef.setValue("Some data goes here")
         
+        /*
         var json = NSDictionary()
         var request = NSMutableURLRequest(URL: NSURL(string: "http://personal.jaromvogel.com/api/test/")!)
         var session = NSURLSession.sharedSession()
@@ -26,7 +27,7 @@ class connect {
         var AllLines: Array<AnyObject> = []
         for line in lines {
             var lineDict = Dictionary<String, AnyObject>()
-            let index = find(lines.map({ $0 === line }), true)
+            let index = lines.map({ $0 === line }).indexOf(true)
             lineDict["startx"] = line.start.x
             lineDict["starty"] = line.start.y
             lineDict["endx"] = line.end.x
@@ -36,16 +37,16 @@ class connect {
             lineDict["ctr2x"] = line.ctr2.x
             lineDict["ctr2y"] = line.ctr2.y
             lineDict["color"] = line.color.description
-            let lineCIColor = CIColor(color: line.color)!
-            lineDict["colorRed"] = lineCIColor.red()
-            lineDict["colorGreen"] = lineCIColor.green()
-            lineDict["colorBlue"] = lineCIColor.blue()
+            let lineCIColor = CIColor(color: line.color)
+            lineDict["colorRed"] = lineCIColor.red
+            lineDict["colorGreen"] = lineCIColor.green
+            lineDict["colorBlue"] = lineCIColor.blue
             lineDict["weight"] = line.weight
             lineDict["opacity"] = line.opacity
             AllLines.append(lineDict)
         }
         
-        let AllLinesData = JSON(AllLines).rawData()!
+        let AllLinesData = try! JSON(AllLines).rawData()
         
         var err: NSError?
         request.HTTPBody = AllLinesData
@@ -54,30 +55,31 @@ class connect {
         
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("Body: \(strData)")
+            print("Body: \(strData)")
             var err: NSError?
-            var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
+            var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves) as? NSDictionary
 
             // Did the JSONObjectWithData constructor return an error? If so, log the error to the console
             if(err != nil) {
-                println(err!.localizedDescription)
+                print(err!.localizedDescription)
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("Error could not parse JSON: '\(jsonStr)'")
+                print("Error could not parse JSON: '\(jsonStr)'")
             }
             else {
                 if let parseJSON = json {
                     var success = parseJSON["test1"] as? String
-                    println("Success: \(success)")
+                    print("Success: \(success)")
                 }
                 else {
                     let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    println("Error could not parse JSON: \(jsonStr)")
+                    print("Error could not parse JSON: \(jsonStr)")
                 }
             }
         })
         
         task.resume()
         return json
+        */
     }
     
     func get(completionHandler: (results: NSDictionary) -> ()) {
