@@ -1,0 +1,13 @@
+PODS:
+  - Firebase (2.3.1)
+  - SwiftyJSON (2.2.0)
+
+DEPENDENCIES:
+  - Firebase (>= 2.3.0)
+  - SwiftyJSON (~> 2.2.0)
+
+SPEC CHECKSUMS:
+  Firebase: 462795adf92029ddb97777660627f5dd4fd59876
+  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+
+COCOAPODS: 0.37.2
