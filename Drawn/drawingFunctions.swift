@@ -28,6 +28,7 @@ class drawingFunctions {
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
+            myBezier.setLineDash(nil, count: 0, phase: 0)
             myBezier.lineCapStyle = CGLineCap.Round
             myBezier.lineWidth = canvas.lineWeight
             canvas.lineColor.setStroke()
@@ -35,7 +36,7 @@ class drawingFunctions {
             touchLocation = sender.locationInView(canvas)
 
             myBezier.moveToPoint(touchLocation)
-            myBezier.addQuadCurveToPoint(touchLocation, controlPoint: touchLocation)
+            myBezier.addLineToPoint(touchLocation)
             myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -44,7 +45,6 @@ class drawingFunctions {
             
             myBezier.closePath()
             myBezier.removeAllPoints()
-            canvas.setNeedsDisplay()
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
@@ -52,6 +52,54 @@ class drawingFunctions {
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
             cache.image = UIGraphicsGetImageFromCurrentImageContext();
             tempCache.image = nil
+            UIGraphicsEndImageContext()
+        }
+        UIGraphicsEndImageContext()
+    }
+    
+    
+    func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
+        //UIGraphicsBeginImageContext(canvas.frame.size)
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        
+        myBezier.setLineDash(nil, count: 0, phase: 0)
+        myBezier.lineCapStyle = CGLineCap.Round
+        myBezier.lineWidth = canvas.lineWeight
+        canvas.lineColor.setStroke()
+        
+        if sender.state == UIGestureRecognizerState.Began {
+            currentPoint = sender.locationInView(canvas)
+            previousPoint1 = sender.locationInView(canvas)
+            previousPoint2 = sender.locationInView(canvas)
+        }
+        else if sender.state == UIGestureRecognizerState.Changed {
+            
+            previousPoint2 = previousPoint1
+            previousPoint1 = currentPoint
+            currentPoint = sender.locationInView(canvas)
+            
+            let mid1 = midpoint(previousPoint1, point2: previousPoint2)
+            let mid2 = midpoint(currentPoint, point2: previousPoint1)
+            
+            if startedDrawing == false {
+                myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
+                startedDrawing = true
+            }
+            myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
+            myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
+            
+            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
+            tempCache.alpha = canvas.lineOpacity
+        }
+        else if sender.state == UIGestureRecognizerState.Ended {
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
+            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            tempCache.image = nil
+            myBezier.closePath()
+            myBezier.removeAllPoints()
+            startedDrawing = false
             UIGraphicsEndImageContext()
         }
         UIGraphicsEndImageContext()
@@ -124,8 +172,6 @@ class drawingFunctions {
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
             tempCache.alpha = canvas.lineOpacity
             
-            canvas.setNeedsDisplay()
-            
             myBezier.closePath()
             myBezier.removeAllPoints()
             startedDrawing = false
@@ -136,54 +182,6 @@ class drawingFunctions {
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
             cache.image = UIGraphicsGetImageFromCurrentImageContext();
             tempCache.image = nil
-            UIGraphicsEndImageContext()
-        }
-        UIGraphicsEndImageContext()
-    }
-
-    
-    func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
-        //UIGraphicsBeginImageContext(canvas.frame.size)
-        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-        
-        myBezier.setLineDash(nil, count: 0, phase: 0)
-        myBezier.lineCapStyle = CGLineCap.Round
-        myBezier.lineWidth = canvas.lineWeight
-        canvas.lineColor.setStroke()
-
-        if sender.state == UIGestureRecognizerState.Began {
-            currentPoint = sender.locationInView(canvas)
-            previousPoint1 = sender.locationInView(canvas)
-            previousPoint2 = sender.locationInView(canvas)
-        }
-        else if sender.state == UIGestureRecognizerState.Changed {
-            
-            previousPoint2 = previousPoint1
-            previousPoint1 = currentPoint
-            currentPoint = sender.locationInView(canvas)
-            
-            let mid1 = midpoint(previousPoint1, point2: previousPoint2)
-            let mid2 = midpoint(currentPoint, point2: previousPoint1)
-            
-            if startedDrawing == false {
-                myBezier.moveToPoint(CGPoint(x: mid1.x, y: mid1.y))
-                startedDrawing = true
-            }
-            myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
-            myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
-
-            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
-        }
-        else if sender.state == UIGestureRecognizerState.Ended {
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
-            cache.image = UIGraphicsGetImageFromCurrentImageContext();
-            tempCache.image = nil
-            myBezier.closePath()
-            myBezier.removeAllPoints()
-            startedDrawing = false
             UIGraphicsEndImageContext()
         }
         UIGraphicsEndImageContext()
