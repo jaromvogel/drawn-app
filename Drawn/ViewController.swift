@@ -365,7 +365,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
             drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().drawShapeOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+            drawingFunctions().drawShapeOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -618,6 +618,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         steadyCanvas(deviceRotation, newRotation: UIDevice.currentDevice().orientation.rawValue)
