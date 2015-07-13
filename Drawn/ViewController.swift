@@ -386,6 +386,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             finishShape()
         }
     }
+    @IBAction func UndoButton(sender: UIButton) {
+        var counter = 0
+        for view in canvasView.subviews {
+            counter += 1
+            if counter == Int(canvasView.subviews.count.value)  {
+                view.removeFromSuperview()
+            }
+        }
+    }
     
     // Finish building shape
     func finishShape() {

@@ -88,8 +88,28 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnI-OC-HaA" userLabel="gestureControlView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Tt-nV-IGu">
+                                        <rect key="frame" x="15" y="25" width="40" height="40"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="Xkh-oG-dby"/>
+                                            <constraint firstAttribute="width" constant="40" id="duT-2B-kNd"/>
+                                        </constraints>
+                                        <state key="normal" title="Undo">
+                                            <color key="titleColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="UndoButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oQx-du-lee"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <animations/>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="1Tt-nV-IGu" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="top" constant="25" id="KYd-ka-cXF"/>
+                                    <constraint firstItem="1Tt-nV-IGu" firstAttribute="leading" secondItem="mnI-OC-HaA" secondAttribute="leading" constant="15" id="xTR-Al-8Qa"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="xO1-L7-b5G" appends="YES" id="bEN-ZG-cOC"/>
                                     <outletCollection property="gestureRecognizers" destination="lfo-r7-PWa" appends="YES" id="zpa-4z-c10"/>

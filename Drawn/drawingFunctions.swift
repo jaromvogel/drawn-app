@@ -18,13 +18,13 @@ var startedDrawing: Bool = false
 var startedShape: Bool = false
 var startPoint = CGPoint()
 var touchLocation = CGPoint()
+var lineCounter = 0
 
 class drawingFunctions {
     
     func tapOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
         if sender.numberOfTouches() == 1 {
             
-            //UIGraphicsBeginImageContext(canvas.frame.size)
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
@@ -48,9 +48,13 @@ class drawingFunctions {
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
+            let drawingLayer = UIImageView()
+            drawingLayer.frame = canvas.frame
+            
+            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
-            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext();
+            canvas.insertSubview(drawingLayer, atIndex: 10)
             tempCache.image = nil
             UIGraphicsEndImageContext()
         }
@@ -59,7 +63,6 @@ class drawingFunctions {
     
     
     func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
-        //UIGraphicsBeginImageContext(canvas.frame.size)
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         
         myBezier.setLineDash(nil, count: 0, phase: 0)
@@ -73,6 +76,9 @@ class drawingFunctions {
             previousPoint2 = sender.locationInView(canvas)
         }
         else if sender.state == UIGestureRecognizerState.Changed {
+            
+            lineCounter += 1
+            print(lineCounter)
             
             previousPoint2 = previousPoint1
             previousPoint1 = currentPoint
@@ -88,14 +94,22 @@ class drawingFunctions {
             myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
             myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
+            if lineCounter == 10 {
+                // possibly do some kind of prerendering then actually render to an image here?
+                // CAShapeLayer might work
+                lineCounter = 0
+            }
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
             tempCache.alpha = canvas.lineOpacity
         }
         else if sender.state == UIGestureRecognizerState.Ended {
+            let drawingLayer = UIImageView()
+            drawingLayer.frame = canvas.frame
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
+            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
-            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
+            canvas.insertSubview(drawingLayer, atIndex: 10)
             tempCache.image = nil
             myBezier.closePath()
             myBezier.removeAllPoints()
@@ -178,9 +192,12 @@ class drawingFunctions {
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
-            cache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
+            let drawingLayer = UIImageView()
+            drawingLayer.frame = canvas.frame
+            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
-            cache.image = UIGraphicsGetImageFromCurrentImageContext();
+            drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
+            canvas.insertSubview(drawingLayer, atIndex: 10)
             tempCache.image = nil
             UIGraphicsEndImageContext()
         }
@@ -189,7 +206,6 @@ class drawingFunctions {
     
     
     func drawShapeOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer, tapToFinishButton: UIButton!) {
-        //UIGraphicsBeginImageContext(canvas.frame.size)
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
 
         let pattern: [CGFloat] = [1.0, 4.0]
