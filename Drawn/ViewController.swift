@@ -191,6 +191,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
                 previousTool = selectedTool
                 selectedTool = "Eyedropper"
                 setEyedropperImage(selectedcolor)
+                drawingFunctions().renderLayersToCache(canvasView, canvasContainer: canvasContainer, cache: cacheDrawingView)
             }
         }
     }
@@ -281,6 +282,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if sender.state == UIGestureRecognizerState.Ended {
             selectedTool = previousTool
             colorPickerButtonInner.setImage(nil, forState: .Normal)
+            cacheDrawingView.image = nil
         }
     }
     func getPixelColor(pos: CGPoint) -> UIColor {
@@ -299,7 +301,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         pixel.dealloc(4)
         return color
     }
-    
     
     // Actions for Size/Opacity Button
     var lastoffsetdistance = CGFloat(0)
@@ -363,9 +364,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     // Functions for drawing on the canvas
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
-            drawingFunctions().drawOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().drawShapeOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
+            drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -373,9 +374,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
-            drawingFunctions().tapOnCanvas(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+            drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().buildShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
+            drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -387,23 +388,24 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @IBAction func UndoButton(sender: UIButton) {
-        var counter = 0
-        for view in canvasView.subviews {
-            counter += 1
-            if counter == Int(canvasView.subviews.count.value)  {
-                view.removeFromSuperview()
-            }
-        }
+        canvasView.subviews.last?.removeFromSuperview()
     }
     
     // Finish building shape
     func finishShape() {
-        drawingFunctions().finishShape(self.canvasView, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, tapToFinishButton: tapToFinishButton)
+        drawingFunctions().finishShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, tapToFinishButton: tapToFinishButton)
     }
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake {
-            cacheDrawingView.image = nil
+            let whiteView = UIImageView()
+            whiteView.backgroundColor = UIColor.whiteColor()
+            whiteView.frame = canvasView.frame
+            if canvasView.subviews.count > 0 {
+                canvasView.insertSubview(whiteView, aboveSubview: canvasView.subviews.last!)
+            } else {
+                canvasView.insertSubview(whiteView, atIndex: 0)
+            }
         }
     }
     

@@ -22,7 +22,7 @@ var lineCounter = 0
 
 class drawingFunctions {
     
-    func tapOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
+    func tapOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
         if sender.numberOfTouches() == 1 {
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
@@ -48,21 +48,27 @@ class drawingFunctions {
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
+            cache.image = nil
+            
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
             
-            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext();
-            canvas.insertSubview(drawingLayer, atIndex: 10)
+            if canvas.subviews.count > 0 {
+                canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
+            } else {
+                canvas.insertSubview(drawingLayer, atIndex: 0)
+            }
             tempCache.image = nil
             UIGraphicsEndImageContext()
+            
         }
         UIGraphicsEndImageContext()
     }
     
     
-    func drawOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
+    func drawOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer) {
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         
         myBezier.setLineDash(nil, count: 0, phase: 0)
@@ -78,7 +84,6 @@ class drawingFunctions {
         else if sender.state == UIGestureRecognizerState.Changed {
             
             lineCounter += 1
-            print(lineCounter)
             
             previousPoint2 = previousPoint1
             previousPoint1 = currentPoint
@@ -103,13 +108,17 @@ class drawingFunctions {
             tempCache.alpha = canvas.lineOpacity
         }
         else if sender.state == UIGestureRecognizerState.Ended {
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
-            canvas.insertSubview(drawingLayer, atIndex: 10)
+            if canvas.subviews.count > 0 {
+                canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
+            } else {
+                canvas.insertSubview(drawingLayer, atIndex: 0)
+            }
             tempCache.image = nil
             myBezier.closePath()
             myBezier.removeAllPoints()
@@ -120,7 +129,7 @@ class drawingFunctions {
     }
 
     
-    func buildShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!) {
+    func buildShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!) {
         if sender.numberOfTouches() == 1 {
             if startedShape == false {
                 startedShape = true
@@ -148,7 +157,7 @@ class drawingFunctions {
                 startedDrawing = true
             } else if startedDrawing == true {
                 if ((touchLocation.x < startPoint.x + 10 && touchLocation.x > startPoint.x - 10)) && ((touchLocation.y < startPoint.y + 10) && (touchLocation.y > startPoint.y - 10)) {
-                    finishShape(canvas, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton)
+                    finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton)
                 } else {
                     myBezier.addLineToPoint(touchLocation)
                     myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
@@ -166,7 +175,7 @@ class drawingFunctions {
     }
     
     
-    func finishShape(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, tapToFinishButton: UIButton) {
+    func finishShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, tapToFinishButton: UIButton) {
         if startedShape == true {
             tapToFinishButton.hidden = true
             startedShape = false
@@ -191,13 +200,17 @@ class drawingFunctions {
             startedDrawing = false
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            
+                        
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
-            drawingLayer.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: CGFloat(1.0))
+
             tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
-            canvas.insertSubview(drawingLayer, atIndex: 10)
+            if canvas.subviews.count > 0 {
+                canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
+            } else {
+                canvas.insertSubview(drawingLayer, atIndex: 0)
+            }
             tempCache.image = nil
             UIGraphicsEndImageContext()
         }
@@ -205,7 +218,7 @@ class drawingFunctions {
     }
     
     
-    func drawShapeOnCanvas(canvas: CanvasView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer, tapToFinishButton: UIButton!) {
+    func drawShapeOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer, tapToFinishButton: UIButton!) {
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
 
         let pattern: [CGFloat] = [1.0, 4.0]
@@ -258,7 +271,7 @@ class drawingFunctions {
                 tapToFinishButton.transform = CGAffineTransformIdentity
             })
             if ((touchLocation.x < startPoint.x + 15 && touchLocation.x > startPoint.x - 15)) && ((touchLocation.y < startPoint.y + 15) && (touchLocation.y > startPoint.y - 15)) {
-                finishShape(canvas, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton)
+                finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton)
             }
         }
         UIGraphicsEndImageContext()
@@ -271,4 +284,11 @@ class drawingFunctions {
         return CGPointMake(midx, midy)
     }
     
+    func renderLayersToCache(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!) {
+        // Draw Current Canvas to Cache Image
+        UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+        canvasContainer.drawViewHierarchyInRect(canvasContainer.bounds, afterScreenUpdates: false)
+        cache.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+    }
 }
