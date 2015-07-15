@@ -109,7 +109,21 @@
                                             <color key="titleColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="UndoButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oQx-du-lee"/>
+                                            <action selector="UndoButton:" destination="BYZ-38-t0r" eventType="touchDown" id="tAM-Ve-sWY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZl-jW-cYx" userLabel="Save">
+                                        <rect key="frame" x="70" y="25" width="40" height="40"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="ROa-eG-ENm"/>
+                                            <constraint firstAttribute="height" constant="40" id="q0U-Tp-tbM"/>
+                                        </constraints>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" red="0.91666666669999997" green="0.25784966619999999" blue="0.062451450200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveToCameraRoll:" destination="BYZ-38-t0r" eventType="touchUpInside" id="i0h-3e-HHk"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -117,8 +131,22 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="1Tt-nV-IGu" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="top" constant="25" id="KYd-ka-cXF"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="leading" secondItem="1Tt-nV-IGu" secondAttribute="trailing" constant="15" id="Lqw-ow-nmO"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="top" constant="25" id="N9D-60-vwm"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="leading" secondItem="1Tt-nV-IGu" secondAttribute="leading" constant="50" id="cun-PZ-60e"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="trailing" secondItem="1Tt-nV-IGu" secondAttribute="trailing" constant="15" id="mnu-rn-I7D"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="leading" secondItem="1Tt-nV-IGu" secondAttribute="trailing" constant="-25" id="qyZ-Cu-1pq"/>
+                                    <constraint firstItem="nZl-jW-cYx" firstAttribute="leading" secondItem="mnI-OC-HaA" secondAttribute="leading" id="wsR-Cw-ees"/>
                                     <constraint firstItem="1Tt-nV-IGu" firstAttribute="leading" secondItem="mnI-OC-HaA" secondAttribute="leading" constant="15" id="xTR-Al-8Qa"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="cun-PZ-60e"/>
+                                        <exclude reference="mnu-rn-I7D"/>
+                                        <exclude reference="qyZ-Cu-1pq"/>
+                                        <exclude reference="wsR-Cw-ees"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="xO1-L7-b5G" appends="YES" id="bEN-ZG-cOC"/>
                                     <outletCollection property="gestureRecognizers" destination="lfo-r7-PWa" appends="YES" id="zpa-4z-c10"/>

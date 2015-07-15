@@ -409,6 +409,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @IBAction func saveToCameraRoll(sender: AnyObject) {
+        drawingFunctions().renderLayersToCache(canvasView, canvasContainer: canvasContainer, cache: cacheDrawingView)
+        UIImageWriteToSavedPhotosAlbum(cacheDrawingView.image!, nil, nil, nil)
+    }
+    
+    
     // Expand Radial Menus
     func expandRadialMenu(item:UIView, scalefactor:CGFloat) {
         UIView.animateWithDuration(0.15,

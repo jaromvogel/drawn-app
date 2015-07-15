@@ -285,7 +285,7 @@ class drawingFunctions {
     }
     
     func renderLayersToCache(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!) {
-        // Draw Current Canvas to Cache Image
+        // Draw Current Canvas to Cache Image to use for color picker and saving image
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
         canvasContainer.drawViewHierarchyInRect(canvasContainer.bounds, afterScreenUpdates: false)
         cache.image = UIGraphicsGetImageFromCurrentImageContext()
