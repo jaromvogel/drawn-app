@@ -33,7 +33,7 @@
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paper-texture" translatesAutoresizingMaskIntoConstraints="NO" id="QaN-k1-sub">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paper-texture" translatesAutoresizingMaskIntoConstraints="NO" id="QaN-k1-sub">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

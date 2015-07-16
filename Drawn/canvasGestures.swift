@@ -92,10 +92,11 @@ class canvasGestures {
         
     }
     
-    func zoomCanvas(canvas: UIView!, sender: UIPinchGestureRecognizer) {
+    func zoomCanvas(canvas: UIView!, sender: UIPinchGestureRecognizer, tapToFinishButton: UIButton!) {
         canvas.transform = CGAffineTransformScale(canvas.transform,
             sender.scale, sender.scale)
         scale = sender.scale
+        tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
         sender.scale = 1
     }
     

@@ -133,6 +133,8 @@ class drawingFunctions {
     func buildShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
         if sender.numberOfTouches() == 1 {
             if startedShape == false {
+                // if drawing hasn't started, scale tapToFinishButton to appropriate size
+                tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
                 startedShape = true
             }
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
@@ -170,7 +172,8 @@ class drawingFunctions {
             }
         }
         if sender.state == UIGestureRecognizerState.Ended {
-            tapToFinishButton.transform = CGAffineTransformIdentity
+            // Reset tapToFinishButton Scale if it needs it
+            tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
         }
         UIGraphicsEndImageContext()
     }
@@ -182,26 +185,21 @@ class drawingFunctions {
             startedShape = false
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
-            for view in canvas.subviews {
-                if view.tag == 1 {
-                    view.removeFromSuperview()
-                }
-            }
+            let context = UIGraphicsGetCurrentContext()
+            CGContextSetShouldAntialias(context, false)
             
             canvas.lineColor.setFill()
             tempCache.image = nil
             
             myBezier.fillWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
-            let context = UIGraphicsGetCurrentContext()
             let drawingRect = CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height)
-            
+
             let shapeImage = UIGraphicsGetImageFromCurrentImageContext()
             
             CGContextTranslateCTM(context, 0, canvas.frame.size.height);
             CGContextScaleCTM(context, 1.0, -1.0)
             CGContextClipToMask(context, drawingRect, shapeImage.CGImage)
-            CGContextSetShouldAntialias(context, true)
             CGContextSetAlpha(context, 0.5)
             CGContextSetBlendMode(context, CGBlendMode.SoftLight)
             CGContextDrawImage(context, CGRectMake(0, 0, paper_texture.size.width, paper_texture.size.height), paper_texture.CGImage)
@@ -253,7 +251,12 @@ class drawingFunctions {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
             previousPoint2 = sender.locationInView(canvas)
+            if startedShape == false {
+                // If drawing hasn't started, scale tapToFinishButton to appropriate size
+                tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
+            }
             spring(0.3, animations: { () -> Void in
+                // scale tapToFinishButton a little larger while drawing
                 tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1.2, 1.2)
             })
         } else if sender.state == UIGestureRecognizerState.Changed {
@@ -289,7 +292,8 @@ class drawingFunctions {
 
         } else if sender.state == UIGestureRecognizerState.Ended {
             spring(0.3, animations: { () -> Void in
-                tapToFinishButton.transform = CGAffineTransformIdentity
+                // Restore tapToFinishButton to scaled state using inverse of 1.2
+                tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 0.834, 0.834)
             })
             if ((touchLocation.x < startPoint.x + 15 && touchLocation.x > startPoint.x - 15)) && ((touchLocation.y < startPoint.y + 15) && (touchLocation.y > startPoint.y - 15)) {
                 finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)

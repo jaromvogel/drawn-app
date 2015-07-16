@@ -97,6 +97,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var splatter_texture = UIImage(named: "splatter-texture") as UIImage!
     var muddy_tile = UIImage(named: "muddy-colors-tile") as UIImage!
     var paper_tile = UIImage(named: "paper-tile") as UIImage!
+    var light_paper_texture = UIImage()
     var offsetdistance = CGFloat(0)
     var coloroffsetdistance = CGFloat(0)
     var colorangle = CGFloat(0)
@@ -360,7 +361,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         canvasGestures().rotateCanvas(self.canvasContainer, containerView: self.view, sender: sender)
     }
     @IBAction func zoomCanvas(sender: UIPinchGestureRecognizer) {
-        canvasGestures().zoomCanvas(self.canvasContainer, sender: sender)
+        canvasGestures().zoomCanvas(self.canvasContainer, sender: sender, tapToFinishButton: tapToFinishButton)
     }
     @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
         canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender)
@@ -406,6 +407,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if motion == .MotionShake {
             let whiteView = UIImageView()
             whiteView.backgroundColor = UIColor.whiteColor()
+            whiteView.image = light_paper_texture
             whiteView.frame = canvasView.frame
             if canvasView.subviews.count > 0 {
                 canvasView.insertSubview(whiteView, aboveSubview: canvasView.subviews.last!)
@@ -628,6 +630,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         gradient.frame = CGRect(x: 0.0, y: 0.0, width: brightnessGradient.frame.size.width, height: brightnessGradient.frame.size.height)
         
         brightnessGradient.layer.insertSublayer(gradient, atIndex: 1)
+        
+        // Create Paper texture to use for canvas background
+        UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
+        
+        paper_texture.drawInRect(CGRectMake(0, 0, canvasView.frame.size.width, canvasView.frame.size.height), blendMode: CGBlendMode.Normal, alpha: 0.2)
+        light_paper_texture = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        canvasTexture.image = light_paper_texture
         
         // Create Images from tiles
         /* Not currently working...
