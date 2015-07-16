@@ -91,6 +91,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     let eraserblack = UIImage(named: "eraser_black") as UIImage!
     let eyedropperwhite = UIImage(named: "eyedropper_white") as UIImage!
     let eyedropperblack = UIImage(named: "eyedropper_black") as UIImage!
+    var paper_texture = UIImage(named: "paper-small") as UIImage!
+    var muddy_colors = UIImage(named: "muddy-colors") as UIImage!
+    var splatter_texture = UIImage(named: "splatter-texture") as UIImage!
     var offsetdistance = CGFloat(0)
     var coloroffsetdistance = CGFloat(0)
     var colorangle = CGFloat(0)
@@ -366,7 +369,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
             drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
+            drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -376,7 +379,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if selectedTool == "Pencil" || selectedTool == "Eraser" {
             drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool == "Shape" {
-            drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton)
+            drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
         } else if selectedTool == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
@@ -393,7 +396,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Finish building shape
     func finishShape() {
-        drawingFunctions().finishShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, tapToFinishButton: tapToFinishButton)
+        drawingFunctions().finishShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
     }
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {

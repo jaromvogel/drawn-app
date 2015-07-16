@@ -33,6 +33,11 @@
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paper-texture" translatesAutoresizingMaskIntoConstraints="NO" id="QaN-k1-sub">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-1u-bOx" userLabel="canvasView" customClass="CanvasView" customModule="Drawn" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
                                         <animations/>
@@ -70,7 +75,9 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="QaN-k1-sub" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="1xR-mK-VYU"/>
                                     <constraint firstItem="Vs7-6j-gnL" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="2SC-ga-ajR"/>
+                                    <constraint firstAttribute="trailing" secondItem="QaN-k1-sub" secondAttribute="trailing" id="4Db-3C-18M"/>
                                     <constraint firstItem="4uM-U2-mAi" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="90F-KN-QkO"/>
                                     <constraint firstItem="72x-eq-oeJ" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="Dla-O3-p8E"/>
                                     <constraint firstAttribute="bottom" secondItem="cwM-1u-bOx" secondAttribute="bottom" id="EmL-nL-HgS"/>
@@ -78,12 +85,14 @@
                                     <constraint firstAttribute="trailing" secondItem="72x-eq-oeJ" secondAttribute="trailing" id="GaA-2A-Kh6"/>
                                     <constraint firstAttribute="bottom" secondItem="4uM-U2-mAi" secondAttribute="bottom" id="Gkf-5x-gjb"/>
                                     <constraint firstItem="72x-eq-oeJ" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="Hw3-kO-bL6"/>
+                                    <constraint firstItem="QaN-k1-sub" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="OQj-Re-sf5"/>
                                     <constraint firstItem="cwM-1u-bOx" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="P5d-cF-8nm"/>
                                     <constraint firstItem="Vs7-6j-gnL" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="XmW-g2-c78"/>
                                     <constraint firstAttribute="trailing" secondItem="cwM-1u-bOx" secondAttribute="trailing" id="YAr-Xz-QSC"/>
                                     <constraint firstItem="A3H-jJ-X04" firstAttribute="centerY" secondItem="aI1-fb-hNs" secondAttribute="centerY" id="eWQ-lq-Gtv"/>
                                     <constraint firstAttribute="bottom" secondItem="Vs7-6j-gnL" secondAttribute="bottom" id="fht-rQ-cnc"/>
                                     <constraint firstAttribute="bottom" secondItem="72x-eq-oeJ" secondAttribute="bottom" id="oum-PR-9Ys"/>
+                                    <constraint firstAttribute="bottom" secondItem="QaN-k1-sub" secondAttribute="bottom" id="rjK-Jf-94M"/>
                                     <constraint firstAttribute="trailing" secondItem="Vs7-6j-gnL" secondAttribute="trailing" id="srk-HC-H5q"/>
                                     <constraint firstItem="4uM-U2-mAi" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="uPO-8O-p1H"/>
                                     <constraint firstItem="A3H-jJ-X04" firstAttribute="centerX" secondItem="aI1-fb-hNs" secondAttribute="centerX" id="vl2-E8-32c"/>
@@ -928,6 +937,7 @@
         <image name="checkerboard" width="40" height="40"/>
         <image name="eraser_black" width="34" height="34"/>
         <image name="eyedropper_black" width="34" height="34"/>
+        <image name="paper-texture" width="1024" height="768"/>
         <image name="pencil_black" width="34" height="34"/>
         <image name="pencil_white" width="34" height="34"/>
         <image name="star_black" width="34" height="34"/>
