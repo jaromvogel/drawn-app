@@ -819,6 +819,7 @@
                         <outlet property="brightnessSlider" destination="3cF-QR-d1Q" id="Fyo-eH-s8N"/>
                         <outlet property="cacheDrawingView" destination="72x-eq-oeJ" id="8bj-vC-7GV"/>
                         <outlet property="canvasContainer" destination="aI1-fb-hNs" id="7um-Lu-dnA"/>
+                        <outlet property="canvasTexture" destination="QaN-k1-sub" id="1TB-JS-7Sa"/>
                         <outlet property="canvasView" destination="cwM-1u-bOx" id="bmi-rn-ZsK"/>
                         <outlet property="checkerBoardImage" destination="nHc-a0-Pqf" id="4pt-lp-xEn"/>
                         <outlet property="colorPickerBorder" destination="1TN-zd-YC0" id="zcb-jw-wWL"/>

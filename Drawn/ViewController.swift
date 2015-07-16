@@ -42,6 +42,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var toolbarBackground: UIView!
     @IBOutlet weak var statusBarBackground: UIView!
     @IBOutlet weak var canvasContainer: UIView!
+    @IBOutlet weak var canvasTexture: UIImageView!
     @IBOutlet weak var tempDrawingView: UIImageView!
     @IBOutlet weak var cacheDrawingView: UIImageView!
     @IBOutlet weak var canvasView: CanvasView!
@@ -94,6 +95,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var paper_texture = UIImage(named: "paper-small") as UIImage!
     var muddy_colors = UIImage(named: "muddy-colors") as UIImage!
     var splatter_texture = UIImage(named: "splatter-texture") as UIImage!
+    var muddy_tile = UIImage(named: "muddy-colors-tile") as UIImage!
+    var paper_tile = UIImage(named: "paper-tile") as UIImage!
     var offsetdistance = CGFloat(0)
     var coloroffsetdistance = CGFloat(0)
     var colorangle = CGFloat(0)
@@ -625,6 +628,18 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         gradient.frame = CGRect(x: 0.0, y: 0.0, width: brightnessGradient.frame.size.width, height: brightnessGradient.frame.size.height)
         
         brightnessGradient.layer.insertSublayer(gradient, atIndex: 1)
+        
+        // Create Images from tiles
+        /* Not currently working...
+        let imagesize = CGSizeMake(canvasView.frame.size.width, canvasView.frame.size.height)
+        UIGraphicsBeginImageContextWithOptions(imagesize, false, 0.0)
+        let context = UIGraphicsGetCurrentContext()
+        CGContextDrawTiledImage(context, CGRectMake(0, 0, imagesize.width, imagesize.height), muddy_tile.CGImage)
+        let tiledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        canvasTexture.image = tiledImage
+        */
     }
     
     override func viewDidLayoutSubviews() {
