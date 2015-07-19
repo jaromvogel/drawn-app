@@ -13,6 +13,7 @@
 		8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C81B2D03D100BAF1CB /* Line.swift */; };
 		8A66765F1B2D09C9003DA547 /* canvasGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A66765E1B2D09C9003DA547 /* canvasGestures.swift */; };
 		8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6676601B2D31C9003DA547 /* drawingFunctions.swift */; };
+		8A78E3161B59464B008E85AD /* topBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A78E3151B59464B008E85AD /* topBarController.swift */; };
 		8A9A76F11B41FCAB00D733BD /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9A76F01B41FCAB00D733BD /* BlurView.swift */; };
 		8A9A76F31B41FCBF00D733BD /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */; };
 		8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */; };
@@ -20,6 +21,9 @@
 		8A9FCC801B252C10003DD303 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC7E1B252C10003DD303 /* Main.storyboard */; };
 		8A9FCC851B252C10003DD303 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC831B252C10003DD303 /* LaunchScreen.xib */; };
 		8A9FCC911B252C10003DD303 /* DrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC901B252C10003DD303 /* DrawnTests.swift */; };
+		8AC0D5411B5B0F25008118A4 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5401B5B0F25008118A4 /* Globals.swift */; };
+		8AC0D5431B5C0AED008118A4 /* ToolBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */; };
+		8AC0D5451B5C1232008118A4 /* sharedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5441B5C1232008118A4 /* sharedFunctions.swift */; };
 		8AE88AC01B4B60DA007F08AE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE88ABF1B4B60DA007F08AE /* Images.xcassets */; };
 		98986FD34BA5C10F2B4A35CB /* Pods_Drawn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9957A2D339AF75F033727D25 /* Pods_Drawn.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -41,6 +45,7 @@
 		8A66765D1B2D05E4003DA547 /* Drawn-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Drawn-Bridging-Header.h"; sourceTree = "<group>"; };
 		8A66765E1B2D09C9003DA547 /* canvasGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = canvasGestures.swift; sourceTree = "<group>"; };
 		8A6676601B2D31C9003DA547 /* drawingFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = drawingFunctions.swift; sourceTree = "<group>"; };
+		8A78E3151B59464B008E85AD /* topBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = topBarController.swift; sourceTree = "<group>"; };
 		8A96AA421B3AF219009020D3 /* colorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = colorPicker.swift; sourceTree = "<group>"; };
 		8A9A76F01B41FCAB00D733BD /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
@@ -53,6 +58,9 @@
 		8A9FCC8A1B252C10003DD303 /* DrawnTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DrawnTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A9FCC8F1B252C10003DD303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A9FCC901B252C10003DD303 /* DrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawnTests.swift; sourceTree = "<group>"; };
+		8AC0D5401B5B0F25008118A4 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarController.swift; sourceTree = "<group>"; };
+		8AC0D5441B5C1232008118A4 /* sharedFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sharedFunctions.swift; sourceTree = "<group>"; };
 		8AE88ABF1B4B60DA007F08AE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9957A2D339AF75F033727D25 /* Pods_Drawn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drawn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7389D16986802D18177EDFB /* Pods-Drawn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drawn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Drawn/Pods-Drawn.debug.xcconfig"; sourceTree = "<group>"; };
@@ -111,14 +119,18 @@
 			children = (
 				8A66765D1B2D05E4003DA547 /* Drawn-Bridging-Header.h */,
 				8A9FCC7A1B252C10003DD303 /* AppDelegate.swift */,
+				8AC0D5401B5B0F25008118A4 /* Globals.swift */,
 				8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */,
 				8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */,
 				8A1EF4C81B2D03D100BAF1CB /* Line.swift */,
 				8A9A76F01B41FCAB00D733BD /* BlurView.swift */,
 				8A9FCC7C1B252C10003DD303 /* ViewController.swift */,
+				8AC0D5441B5C1232008118A4 /* sharedFunctions.swift */,
 				8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */,
 				8A96AA421B3AF219009020D3 /* colorPicker.swift */,
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
+				8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */,
+				8A78E3151B59464B008E85AD /* topBarController.swift */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
 				8A6676601B2D31C9003DA547 /* drawingFunctions.swift */,
 				8A9FCC831B252C10003DD303 /* LaunchScreen.xib */,
@@ -322,7 +334,11 @@
 				8A9FCC7B1B252C10003DD303 /* AppDelegate.swift in Sources */,
 				8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */,
 				8A9A76F11B41FCAB00D733BD /* BlurView.swift in Sources */,
+				8AC0D5451B5C1232008118A4 /* sharedFunctions.swift in Sources */,
+				8A78E3161B59464B008E85AD /* topBarController.swift in Sources */,
+				8AC0D5431B5C0AED008118A4 /* ToolBarController.swift in Sources */,
 				8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */,
+				8AC0D5411B5B0F25008118A4 /* Globals.swift in Sources */,
 				8A9A76F31B41FCBF00D733BD /* SpringAnimation.swift in Sources */,
 				8A6676611B2D31C9003DA547 /* drawingFunctions.swift in Sources */,
 				8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */,
