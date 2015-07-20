@@ -22,3 +22,7 @@ var selectedcolor = UIColor.blackColor()
 var defaultcolor = UIColor.whiteColor().CGColor
 var selectedTool = "Pencil"
 var previousTool = ""
+
+// Dynamic Data Test
+let dynamictest = Dynamic("test")
+let dynamictest2 = Dynamic("test2")

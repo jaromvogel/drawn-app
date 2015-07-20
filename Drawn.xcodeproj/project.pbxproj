@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A06F6DA1B3C516000E24AF0 /* colorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A96AA421B3AF219009020D3 /* colorPicker.swift */; };
+		8A125ABC1B5C82100072B766 /* dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A125ABB1B5C82100072B766 /* dynamic.swift */; };
 		8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */; };
 		8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */; };
 		8A1EF4CB1B2D03D100BAF1CB /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1EF4C81B2D03D100BAF1CB /* Line.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8A125ABB1B5C82100072B766 /* dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dynamic.swift; sourceTree = "<group>"; };
 		8A1EF4C61B2D03D100BAF1CB /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		8A1EF4C71B2D03D100BAF1CB /* apiConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = apiConnect.swift; sourceTree = "<group>"; };
 		8A1EF4C81B2D03D100BAF1CB /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				8A96AA421B3AF219009020D3 /* colorPicker.swift */,
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
 				8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */,
+				8A125ABB1B5C82100072B766 /* dynamic.swift */,
 				8A78E3151B59464B008E85AD /* topBarController.swift */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
 				8A6676601B2D31C9003DA547 /* drawingFunctions.swift */,
@@ -335,6 +338,7 @@
 				8A1EF4C91B2D03D100BAF1CB /* CanvasView.swift in Sources */,
 				8A9A76F11B41FCAB00D733BD /* BlurView.swift in Sources */,
 				8AC0D5451B5C1232008118A4 /* sharedFunctions.swift in Sources */,
+				8A125ABC1B5C82100072B766 /* dynamic.swift in Sources */,
 				8A78E3161B59464B008E85AD /* topBarController.swift in Sources */,
 				8AC0D5431B5C0AED008118A4 /* ToolBarController.swift in Sources */,
 				8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */,

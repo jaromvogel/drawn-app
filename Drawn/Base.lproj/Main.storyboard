@@ -349,11 +349,6 @@
                                     <outletCollection property="gestureRecognizers" destination="emj-PC-c9a" appends="YES" id="ulN-wp-8TF"/>
                                 </connections>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2XG-Bf-X5g" userLabel="statusBar Background">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                                 <animations/>
@@ -395,7 +390,6 @@
                             <constraint firstItem="oJe-fQ-ERD" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="7vo-8e-M28"/>
                             <constraint firstAttribute="trailing" secondItem="mnI-OC-HaA" secondAttribute="trailing" id="9qT-po-99P"/>
                             <constraint firstItem="oJe-fQ-ERD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="AGZ-pD-KRR"/>
-                            <constraint firstItem="zeV-18-IyC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="CQd-6g-RY8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="EZl-9c-ptw"/>
                             <constraint firstItem="mnI-OC-HaA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Eaz-iP-GhZ"/>
                             <constraint firstItem="mnI-OC-HaA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="GPm-tR-vZW"/>
@@ -416,14 +410,11 @@
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WQB-B9-cxY"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mnI-OC-HaA" secondAttribute="bottom" id="Yzd-GS-bBl"/>
                             <constraint firstAttribute="trailing" secondItem="sT8-cM-s9G" secondAttribute="trailing" id="Z1R-AP-j2l"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="Zdh-PQ-wLb"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vmM-vK-I2u" secondAttribute="bottom" id="aEh-ik-cse"/>
-                            <constraint firstItem="zeV-18-IyC" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dOu-bl-yGG"/>
                             <constraint firstAttribute="trailing" secondItem="vmM-vK-I2u" secondAttribute="trailing" id="eOr-7P-X5c"/>
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hUa-EN-dvy"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="hW4-AB-7w8" userLabel="Bottom Alignment - Bottom Layout Guide - canvasContainer"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="bottom" secondItem="aI1-fb-hNs" secondAttribute="bottom" id="jZJ-eJ-uLK"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="zeV-18-IyC" secondAttribute="bottom" id="la9-oC-HfJ"/>
                             <constraint firstItem="oJe-fQ-ERD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ln3-C9-N11"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vmM-vK-I2u" secondAttribute="trailing" id="m55-Gf-edk"/>
                             <constraint firstItem="vmM-vK-I2u" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="oG7-vI-ksy"/>
@@ -432,7 +423,6 @@
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="rbJ-mk-3ur"/>
                             <constraint firstItem="2XG-Bf-X5g" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="sJq-Mv-QU6"/>
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tnL-wH-wDt"/>
-                            <constraint firstAttribute="trailing" secondItem="zeV-18-IyC" secondAttribute="trailing" id="wNI-q4-jp2"/>
                             <constraint firstItem="aI1-fb-hNs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zIN-O2-MNd"/>
                         </constraints>
                         <variation key="default">
@@ -455,7 +445,6 @@
                                 <exclude reference="MkJ-8H-Uzr"/>
                                 <exclude reference="NFa-Wz-L6q"/>
                                 <exclude reference="Reg-J3-sC4"/>
-                                <exclude reference="Zdh-PQ-wLb"/>
                                 <exclude reference="hW4-AB-7w8"/>
                                 <exclude reference="jZJ-eJ-uLK"/>
                                 <exclude reference="qLh-16-bpG"/>
@@ -477,7 +466,6 @@
                         <outlet property="currentColor" destination="GS4-U9-2K7" id="Ptp-9e-CTr"/>
                         <outlet property="currentColorSlider" destination="Cwz-Da-8Ls" id="66P-Ar-IbF"/>
                         <outlet property="gestureControlView" destination="mnI-OC-HaA" id="rMl-Cf-4Ff"/>
-                        <outlet property="menuBGMask" destination="zeV-18-IyC" id="ahS-9c-Z5S"/>
                         <outlet property="statusBarBackground" destination="2XG-Bf-X5g" id="gDH-tT-VvI"/>
                         <outlet property="tapToFinishButton" destination="A3H-jJ-X04" id="2GO-Mx-OgP"/>
                         <outlet property="tempDrawingView" destination="4uM-U2-mAi" id="b5p-cU-Sss"/>
@@ -583,6 +571,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeV-18-IyC" userLabel="menuBGMask">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VeW-cW-kLe" userLabel="Toolbar">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
                                 <subviews>
@@ -824,8 +817,8 @@
                                         </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="fJ9-XS-sxJ"/>
                                                 <exclude reference="aPj-Ha-06z"/>
+                                                <exclude reference="fJ9-XS-sxJ"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -901,9 +894,9 @@
                                         </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="qWD-ac-lYe"/>
-                                                <exclude reference="g1X-eK-nfS"/>
                                                 <exclude reference="D3b-4C-P3F"/>
+                                                <exclude reference="g1X-eK-nfS"/>
+                                                <exclude reference="qWD-ac-lYe"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -962,9 +955,9 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="4eG-an-pVJ"/>
-                                        <exclude reference="G1n-Eu-oSM"/>
-                                        <exclude reference="EcS-UI-8sw"/>
                                         <exclude reference="cqu-qQ-HKW"/>
+                                        <exclude reference="EcS-UI-8sw"/>
+                                        <exclude reference="G1n-Eu-oSM"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -973,9 +966,13 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="VeW-cW-kLe" secondAttribute="trailing" id="9nI-Sz-ozi"/>
+                            <constraint firstAttribute="trailing" secondItem="zeV-18-IyC" secondAttribute="trailing" id="CVg-r9-zXo"/>
                             <constraint firstItem="PrJ-PN-oKF" firstAttribute="top" secondItem="VeW-cW-kLe" secondAttribute="bottom" id="FFL-Ac-F4r"/>
                             <constraint firstItem="VeW-cW-kLe" firstAttribute="top" secondItem="MFb-gQ-uTF" secondAttribute="bottom" id="FlY-ep-Bqz"/>
                             <constraint firstItem="VeW-cW-kLe" firstAttribute="leading" secondItem="Nq8-hf-JdK" secondAttribute="leading" id="S0M-Xz-MR6"/>
+                            <constraint firstItem="zeV-18-IyC" firstAttribute="leading" secondItem="Nq8-hf-JdK" secondAttribute="leading" id="ona-fd-3Bx"/>
+                            <constraint firstAttribute="bottom" secondItem="zeV-18-IyC" secondAttribute="bottom" id="pEp-qZ-aME"/>
+                            <constraint firstItem="zeV-18-IyC" firstAttribute="top" secondItem="Nq8-hf-JdK" secondAttribute="top" id="xqE-Nh-eNI"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -987,6 +984,7 @@
                         <outlet property="eraserImage" destination="Xb9-W8-sPN" id="B28-nW-gHb"/>
                         <outlet property="eyeDropper" destination="oTp-RA-7fC" id="6o0-PX-0b4"/>
                         <outlet property="eyedropperImageView" destination="xkZ-45-H7t" id="9fU-xQ-Q2i"/>
+                        <outlet property="menuBGMask" destination="zeV-18-IyC" id="Jh9-gl-g0z"/>
                         <outlet property="pencilImage" destination="6cX-5u-f8v" id="wog-zN-pzX"/>
                         <outlet property="recentColor1" destination="zHy-Ex-7ne" id="4E0-sB-xPK"/>
                         <outlet property="recentColor2" destination="chd-Ku-ZG4" id="Jdq-bZ-Z9F"/>

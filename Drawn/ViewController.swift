@@ -53,8 +53,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var brightnessCurrentColor: UIView!
     @IBOutlet weak var brightnessControl: UIView!
     @IBOutlet weak var brightnessSlider: UIView!
-    @IBOutlet weak var menuBGMask: UIView!
-    @IBOutlet var panToolPicker: UIPanGestureRecognizer!
     
     var toolsneedsscale = true
     var toolsneedsscale2 = true
@@ -276,6 +274,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             return true
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -305,6 +304,21 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
+        
+        dynamictest.bind({
+            value in
+            self.runTestFunction()
+        })
+        
+        dynamictest2.bind {
+            print($0)
+        }
+        
+    }
+    
+    // This is for testing purposes
+    func runTestFunction() {
+        print("dynamictest changed")
     }
     
     func makeImageFromTile(tileImage: UIImage!) -> UIImage {
@@ -317,7 +331,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         UIGraphicsEndImageContext()
         return full_image
     }
-    
+        
     override func viewDidLayoutSubviews() {
     //    canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2

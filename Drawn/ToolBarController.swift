@@ -11,6 +11,8 @@ import UIKit
 
 class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
 
+    
+    @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var colorPickerLayer2: UIView!
     @IBOutlet weak var colorPickerOuter: UIView!
     @IBOutlet weak var recentColor1: UIView!
@@ -95,7 +97,7 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
             addShadow(toolPickerOuter)
             removeBorder(toolPickerOuter)
             resetTools()
-//            toggleMask(menuBGMask, hide: true, opacity: 0)
+            toggleMask(menuBGMask, hide: true, opacity: 0)
         }
     }
     @IBAction func toolPickerTouchUpInside(sender: AnyObject) {
@@ -109,7 +111,8 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func toolPickerTouchDown(sender: AnyObject) {
         expandRadialMenu(toolPickerOuter, scalefactor:7.0)
         expandRadialMenu(toolPickerLayer2, scalefactor: 7.0)
-//        toggleMask(menuBGMask, hide: false, opacity: 0.2)
+        toggleMask(menuBGMask, hide: false, opacity: 0.2)
+        dynamictest2.value = "updating value from toolbar"
     }
     
     
@@ -126,7 +129,7 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
             resetRadialMenu(colorPickerLayer2)
             addShadow(colorPickerOuter)
             removeBorder(colorPickerOuter)
-//            toggleMask(menuBGMask, hide: true, opacity: 0)
+            toggleMask(menuBGMask, hide: true, opacity: 0)
             
             if offsetdistance > 12 && offsetangle < 50 && offsetangle > -45 {
                 previousTool = selectedTool
@@ -142,12 +145,12 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
         resetRadialMenu(colorPickerLayer2)
         addShadow(colorPickerOuter)
         removeBorder(colorPickerOuter)
-//        toggleMask(menuBGMask, hide: true, opacity: 0)
+        toggleMask(menuBGMask, hide: true, opacity: 0)
     }
     @IBAction func colorPickerTouchDown(sender: UIButton) {
         expandRadialMenu(colorPickerOuter, scalefactor: 7.0)
         expandRadialMenu(colorPickerLayer2, scalefactor: 7.0)
-//        toggleMask(menuBGMask, hide: false, opacity: 0.2)
+        toggleMask(menuBGMask, hide: false, opacity: 0.2)
     }
     
     
@@ -180,7 +183,7 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
         if sender.state == UIGestureRecognizerState.Ended {
             resetRadialMenu(sizeOpacityPickerOuter)
             resetRadialMenu(sizeOpacityLayer2)
-//            toggleMask(menuBGMask, hide: true, opacity: 0)
+            toggleMask(menuBGMask, hide: true, opacity: 0)
         }
     }
     @IBAction func sizeOpacityTouchUpInside(sender: AnyObject) {
@@ -188,12 +191,12 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
         resetRadialMenu(sizeOpacityLayer2)
         addShadow(sizeOpacityPickerOuter)
         removeBorder(sizeOpacityPickerOuter)
-//        toggleMask(menuBGMask, hide: true, opacity: 0)
+        toggleMask(menuBGMask, hide: true, opacity: 0)
     }
     @IBAction func sizeOpacityPickerTouchDown(sender: AnyObject) {
         expandRadialMenu(sizeOpacityPickerOuter, scalefactor:7.0)
         expandRadialMenu(sizeOpacityLayer2, scalefactor: 7.0)
-//        toggleMask(menuBGMask, hide: false, opacity: 0.2)
+        toggleMask(menuBGMask, hide: false, opacity: 0.2)
     }
     
     
@@ -226,6 +229,9 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
     
     // Show/Hide Mask
     func toggleMask(item:UIView, hide:Bool, opacity: Float) {
+        // Adjust Menu Background Mask Size
+        let screenSize = UIScreen.mainScreen().bounds
+        menuBGMask.frame = CGRectMake(0, -screenSize.height, screenSize.width, screenSize.height)
         UIView.animateWithDuration(0.5,
             delay: 0,
             options: [.CurveEaseInOut, .AllowUserInteraction],
@@ -329,5 +335,6 @@ class ToolBarController: UIViewController, UIGestureRecognizerDelegate {
         recentColor2LeftSpace.constant = 7.5
         recentColor4TopSpace.constant = 7.5
         recentColor4RightSpace.constant = 7.5
+        
     }
 }
