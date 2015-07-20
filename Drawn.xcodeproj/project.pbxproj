@@ -23,7 +23,7 @@
 		8A9FCC851B252C10003DD303 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A9FCC831B252C10003DD303 /* LaunchScreen.xib */; };
 		8A9FCC911B252C10003DD303 /* DrawnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FCC901B252C10003DD303 /* DrawnTests.swift */; };
 		8AC0D5411B5B0F25008118A4 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5401B5B0F25008118A4 /* Globals.swift */; };
-		8AC0D5431B5C0AED008118A4 /* ToolBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */; };
+		8AC0D5431B5C0AED008118A4 /* toolBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5421B5C0AED008118A4 /* toolBarController.swift */; };
 		8AC0D5451B5C1232008118A4 /* sharedFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC0D5441B5C1232008118A4 /* sharedFunctions.swift */; };
 		8AE88AC01B4B60DA007F08AE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE88ABF1B4B60DA007F08AE /* Images.xcassets */; };
 		98986FD34BA5C10F2B4A35CB /* Pods_Drawn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9957A2D339AF75F033727D25 /* Pods_Drawn.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -61,7 +61,7 @@
 		8A9FCC8F1B252C10003DD303 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A9FCC901B252C10003DD303 /* DrawnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawnTests.swift; sourceTree = "<group>"; };
 		8AC0D5401B5B0F25008118A4 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
-		8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarController.swift; sourceTree = "<group>"; };
+		8AC0D5421B5C0AED008118A4 /* toolBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toolBarController.swift; sourceTree = "<group>"; };
 		8AC0D5441B5C1232008118A4 /* sharedFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sharedFunctions.swift; sourceTree = "<group>"; };
 		8AE88ABF1B4B60DA007F08AE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9957A2D339AF75F033727D25 /* Pods_Drawn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drawn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,7 +131,7 @@
 				8A9A76F21B41FCBF00D733BD /* SpringAnimation.swift */,
 				8A96AA421B3AF219009020D3 /* colorPicker.swift */,
 				8A9FCC7E1B252C10003DD303 /* Main.storyboard */,
-				8AC0D5421B5C0AED008118A4 /* ToolBarController.swift */,
+				8AC0D5421B5C0AED008118A4 /* toolBarController.swift */,
 				8A125ABB1B5C82100072B766 /* dynamic.swift */,
 				8A78E3151B59464B008E85AD /* topBarController.swift */,
 				8A66765E1B2D09C9003DA547 /* canvasGestures.swift */,
@@ -340,7 +340,7 @@
 				8AC0D5451B5C1232008118A4 /* sharedFunctions.swift in Sources */,
 				8A125ABC1B5C82100072B766 /* dynamic.swift in Sources */,
 				8A78E3161B59464B008E85AD /* topBarController.swift in Sources */,
-				8AC0D5431B5C0AED008118A4 /* ToolBarController.swift in Sources */,
+				8AC0D5431B5C0AED008118A4 /* toolBarController.swift in Sources */,
 				8A1EF4CA1B2D03D100BAF1CB /* apiConnect.swift in Sources */,
 				8AC0D5411B5B0F25008118A4 /* Globals.swift in Sources */,
 				8A9A76F31B41FCBF00D733BD /* SpringAnimation.swift in Sources */,

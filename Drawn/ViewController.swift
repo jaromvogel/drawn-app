@@ -36,6 +36,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
 
+    @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var statusBarBackground: UIView!
     @IBOutlet weak var canvasContainer: UIView!
     @IBOutlet weak var canvasTexture: UIImageView!
@@ -56,8 +57,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var toolsneedsscale = true
     var toolsneedsscale2 = true
-    let eyedropperwhite = UIImage(named: "eyedropper_white") as UIImage!
-    let eyedropperblack = UIImage(named: "eyedropper_black") as UIImage!
     var paper_texture = UIImage(named: "paper-small") as UIImage!
     var muddy_colors = UIImage()
     var splatter_texture = UIImage(named: "splatter-texture") as UIImage!
@@ -134,18 +133,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     func eyedropperTool(location: CGPoint, sender: AnyObject) {
         if cacheDrawingView.image !== nil {
             let newColor = getPixelColor(location)
-//            colorPickerButtonInner.backgroundColor = newColor
-//            sizeOpacityButtonInner.backgroundColor = newColor
-            setEyedropperImage(newColor)
-            selectedcolor = newColor
-            canvasView.lineColor = newColor
-            canvasView.lineOpacity = 1
+            selectedcolor.value = newColor
+            activecolor.value = newColor
+            lineOpacity = 1
 //            sizeOpacityButtonInner.alpha = 1
         }
         
         if sender.state == UIGestureRecognizerState.Ended {
-            selectedTool = previousTool
-//            colorPickerButtonInner.setImage(nil, forState: .Normal)
+            selectedTool.value = previousTool.value
+            eyedropperActive.value = false
             cacheDrawingView.image = nil
         }
     }
@@ -181,27 +177,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Functions for drawing on the canvas
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
-        if selectedTool == "Pencil" || selectedTool == "Eraser" {
+        if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
             drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
-        } else if selectedTool == "Shape" {
+        } else if selectedTool.value == "Shape" {
             drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
-        } else if selectedTool == "Eyedropper" {
+        } else if selectedTool.value == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
         }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
-        if selectedTool == "Pencil" || selectedTool == "Eraser" {
+        if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
             drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
-        } else if selectedTool == "Shape" {
+        } else if selectedTool.value == "Shape" {
             drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
-        } else if selectedTool == "Eyedropper" {
+        } else if selectedTool.value == "Eyedropper" {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
         }
     }
     @IBAction func doubleTappedCanvas(sender: UITapGestureRecognizer) {
-        if selectedTool == "Shape" {
+        if selectedTool.value == "Shape" {
             finishShape()
         }
     }
@@ -234,54 +230,57 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    func displayColorPicker(hidden: Bool) {
+        colorPickerContainer.hidden = hidden
+    }
+    
     func setColor(updateBrightness: Bool) {
         let newColor = colorWheel().calcColor(colorangle, distance: coloroffsetdistance, brightness: brightness)
         let baseColor = colorWheel().calcBaseColor(colorangle, distance: coloroffsetdistance)
-        selectedcolor = newColor
-//        colorPickerButtonInner.backgroundColor = newColor
-//        sizeOpacityButtonInner.backgroundColor = newColor
         if updateBrightness == true {
             brightnessGradient.backgroundColor = baseColor
             currentColor.backgroundColor = baseColor
         }
         brightnessCurrentColor.backgroundColor = newColor
-        selectedcolor = newColor
+        selectedcolor.value = newColor
+        activecolor.value = newColor
     }
     
-    
-    func setEyedropperImage(color: UIColor!) {
-        // Sets Color Picker Button to Black or White depending on selected color
-        let darkbackground = colorIsDark(selectedcolor)
-        if darkbackground == true {
-//            colorPickerButtonInner.tintColor = UIColor.whiteColor()
-//            colorPickerButtonInner.setImage(eyedropperwhite, forState: .Normal)
-        } else {
-//            colorPickerButtonInner.tintColor = UIColor.blackColor()
-//            colorPickerButtonInner.setImage(eyedropperblack, forState: .Normal)
-        }
-    }
-    
-    func colorIsDark(color: UIColor!) -> Bool {
-        let tempcolor = CIColor(color: color)
-        let red = tempcolor.red
-        let green = tempcolor.green
-        let blue = tempcolor.blue
-        let average = (red + blue + green) / 3
-        if average > 0.5 {
-            return false
-        }
-        else {
-            return true
+    func initializeTool(tool: String) {
+        if tool == "Eyedropper" {
+            drawingFunctions().renderLayersToCache(canvasView, canvasContainer: canvasContainer, cache: cacheDrawingView)
+            eyedropperActive.value = true
         }
     }
 
+
+    // Show/Hide Mask
+    func toggleMask(visible: Bool) {
+        if visible == true {
+            // Adjust Menu Background Mask Size
+            let screenSize = UIScreen.mainScreen().bounds
+            menuBGMask.frame = CGRectMake(0, 0, screenSize.width, screenSize.height)
+            spring(0.5, animations: {
+                self.menuBGMask.layer.opacity = 0.2
+                self.menuBGMask.hidden = false
+            })
+        } else {
+            springComplete(0.5, animations: {
+                self.menuBGMask.layer.opacity = 0
+                }, completion: {
+                (value: Bool) in
+                self.menuBGMask.hidden = true
+            })
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //canvasTranslation = CGPoint(x: view.frame.width/2, y: (view.frame.height/2) + 10)
-        canvasContainer.center = view.center
+        canvasTranslation = CGPoint(x: view.frame.width/2, y: (view.frame.height/2) + 10)
+        canvasContainer.center = canvasTranslation
         
         // Create Gradient for Brightness Slider
         let gradient: CAGradientLayer = CAGradientLayer()
@@ -304,21 +303,23 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
-        
-        dynamictest.bind({
-            value in
-            self.runTestFunction()
-        })
-        
-        dynamictest2.bind {
-            print($0)
+
+        // Bind Dynamic Variables
+        maskVisible.bind {
+            self.toggleMask($0)
         }
         
-    }
-    
-    // This is for testing purposes
-    func runTestFunction() {
-        print("dynamictest changed")
+        selectedTool.bind {
+            self.initializeTool($0)
+        }
+        
+        selectedcolor.bind {
+            backgroundcolor.value = $0
+        }
+        
+        colorPickerHidden.bind {
+            self.displayColorPicker($0)
+        }
     }
     
     func makeImageFromTile(tileImage: UIImage!) -> UIImage {
@@ -333,7 +334,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
         
     override func viewDidLayoutSubviews() {
-    //    canvasContainer.center = canvasTranslation
+        canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
     }

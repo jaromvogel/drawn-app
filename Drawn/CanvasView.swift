@@ -12,9 +12,6 @@ class CanvasView: UIView {
 
     var lines: [Line] = []
     var lastPoint: CGPoint!
-    var lineColor = UIColor.blackColor()
-    var lineWeight = CGFloat(2.0)
-    var lineOpacity = CGFloat(1.0)
     
     /*
     override func drawRect(rect: CGRect) {

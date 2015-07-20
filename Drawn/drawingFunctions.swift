@@ -31,8 +31,8 @@ class drawingFunctions {
             
             myBezier.setLineDash(nil, count: 0, phase: 0)
             myBezier.lineCapStyle = CGLineCap.Round
-            myBezier.lineWidth = canvas.lineWeight
-            canvas.lineColor.setStroke()
+            myBezier.lineWidth = lineWeight
+            selectedcolor.value.setStroke()
             
             touchLocation = sender.locationInView(canvas)
 
@@ -41,7 +41,7 @@ class drawingFunctions {
             myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
+            tempCache.alpha = lineOpacity
             UIGraphicsEndImageContext()
             
             myBezier.closePath()
@@ -54,7 +54,7 @@ class drawingFunctions {
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
             
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext();
             if canvas.subviews.count > 0 {
                 canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
@@ -74,8 +74,8 @@ class drawingFunctions {
         
         myBezier.setLineDash(nil, count: 0, phase: 0)
         myBezier.lineCapStyle = CGLineCap.Round
-        myBezier.lineWidth = canvas.lineWeight
-        canvas.lineColor.setStroke()
+        myBezier.lineWidth = lineWeight
+        selectedcolor.value.setStroke()
         
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
@@ -106,14 +106,14 @@ class drawingFunctions {
                 lineCounter = 0
             }
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
+            tempCache.alpha = lineOpacity
         }
         else if sender.state == UIGestureRecognizerState.Ended {
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
             if canvas.subviews.count > 0 {
                 canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
@@ -144,8 +144,8 @@ class drawingFunctions {
             myBezier.setLineDash(pattern, count: 2, phase: CGFloat(2.0))
             myBezier.lineCapStyle = CGLineCap.Round
             myBezier.lineWidth = CGFloat(1.0)
-            canvas.lineColor.setStroke()
-            canvas.lineColor.setFill()
+            selectedcolor.value.setStroke()
+            selectedcolor.value.setFill()
             
             touchLocation = sender.locationInView(canvas)
             
@@ -165,7 +165,7 @@ class drawingFunctions {
                     myBezier.addLineToPoint(touchLocation)
                     myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
                     tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-                    tempCache.alpha = canvas.lineOpacity
+                    tempCache.alpha = lineOpacity
                     
                     UIGraphicsEndImageContext()
                 }
@@ -188,7 +188,7 @@ class drawingFunctions {
             let context = UIGraphicsGetCurrentContext()
             CGContextSetShouldAntialias(context, false)
             
-            canvas.lineColor.setFill()
+            selectedcolor.value.setFill()
             tempCache.image = nil
             
             myBezier.fillWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
@@ -211,7 +211,7 @@ class drawingFunctions {
             CGContextDrawImage(context, CGRectMake(0, 0, muddy_colors.size.width, muddy_colors.size.height), muddy_colors.CGImage)
             
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
+            tempCache.alpha = lineOpacity
             
             myBezier.closePath()
             myBezier.removeAllPoints()
@@ -224,7 +224,7 @@ class drawingFunctions {
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
 
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: canvas.lineOpacity)
+            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: lineOpacity)
             drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext()
             if canvas.subviews.count > 0 {
                 canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
@@ -244,8 +244,8 @@ class drawingFunctions {
         myBezier.setLineDash(pattern, count: 2, phase: CGFloat(2.0))
         myBezier.lineCapStyle = CGLineCap.Round
         myBezier.lineWidth = CGFloat(1.0)
-        canvas.lineColor.setStroke()
-        canvas.lineColor.setFill()
+        selectedcolor.value.setStroke()
+        selectedcolor.value.setFill()
         
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
@@ -286,7 +286,7 @@ class drawingFunctions {
             myBezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
             myBezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
             tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = canvas.lineOpacity
+            tempCache.alpha = lineOpacity
 
             UIGraphicsEndImageContext()
 
