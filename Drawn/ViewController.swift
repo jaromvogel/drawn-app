@@ -55,6 +55,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var brightnessControl: UIView!
     @IBOutlet weak var brightnessSlider: UIView!
     
+    // Views to gather and combine subviews for performance reasons
+    @IBOutlet weak var gatherLayers: UIView!
+    @IBOutlet weak var compositeImage: UIImageView!
+    
     var toolsneedsscale = true
     var toolsneedsscale2 = true
     var paper_texture = UIImage(named: "paper-small") as UIImage!
@@ -136,7 +140,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             selectedcolor.value = newColor
             activecolor.value = newColor
             lineOpacity = 1
-//            sizeOpacityButtonInner.alpha = 1
         }
         
         if sender.state == UIGestureRecognizerState.Ended {
@@ -185,6 +188,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
         }
+        if selectedTool.value != "Eyedropper" {
+            combineLayers(sender)
+        }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
         if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
@@ -195,6 +201,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             let location = sender.locationInView(canvasContainer)
             eyedropperTool(location, sender: sender)
         }
+        if selectedTool.value != "Eyedropper" {
+            combineLayers(sender)
+        }
     }
     @IBAction func doubleTappedCanvas(sender: UITapGestureRecognizer) {
         if selectedTool.value == "Shape" {
@@ -202,7 +211,28 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @IBAction func UndoButton(sender: UIButton) {
-        canvasView.subviews.last?.removeFromSuperview()
+        if canvasView.subviews.count > 1 {
+            canvasView.subviews.last?.removeFromSuperview()
+        }
+    }
+    
+    func combineLayers(sender: AnyObject) {
+        // This gathers the lowest drawing layers and combines them into a single layer to help with performance
+        if sender.state == UIGestureRecognizerState.Ended && canvasView.subviews.count > 21 {
+            let lowestlayer = canvasView.subviews[2] as! UIImageView
+            gatherLayers.insertSubview(lowestlayer, aboveSubview: gatherLayers.subviews.last!)
+            
+            UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
+            gatherLayers.drawViewHierarchyInRect(canvasView.bounds, afterScreenUpdates: true)
+            compositeImage.image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            for subview in gatherLayers.subviews {
+                if subview != compositeImage {
+                    subview.removeFromSuperview()
+                }
+            }
+        }
     }
     
     // Finish building shape
