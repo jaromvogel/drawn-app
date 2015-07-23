@@ -39,6 +39,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var menuBGMask: UIView!
     @IBOutlet weak var statusBarBackground: UIView!
     @IBOutlet weak var canvasContainer: UIView!
+    
+    @IBOutlet weak var containerCenterY: NSLayoutConstraint!
+    @IBOutlet weak var containerCenterX: NSLayoutConstraint!
+    
     @IBOutlet weak var canvasTexture: UIImageView!
     @IBOutlet weak var tempDrawingView: UIImageView!
     @IBOutlet weak var cacheDrawingView: UIImageView!
@@ -75,10 +79,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var brightness = CGFloat(1)
     var colorPicked = false
     var deviceRotation = Int(1)
+    var panGestureActive = false
     
     
     // Actions for Color Chooser Wheel and Brightness Slider
     @IBAction func colorPickerPanGesture(sender: UIPanGestureRecognizer) {
+        panGestureActive = true
         let location = sender.locationInView(colorPickerBorder)
         let pickerCenter = colorPickerImage.center
         offsetdistance = calcDistance(pickerCenter, point2: location)
@@ -96,22 +102,32 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             currentColorSlider.hidden = false
             currentColorSlider.center = location
         }
-    }
-    @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
-        let location = sender.locationInView(colorPickerBorder)
-        let pickerCenter = colorPickerImage.center
-        offsetdistance = calcDistance(pickerCenter, point2: location)
-        let checkdistance = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
-        if checkdistance <= 100 {
-            coloroffsetdistance = checkdistance
-            colorangle = calcAngle(pickerCenter, point2: location)
-            setColor(true)
-            if colorPicked == false {
-                brightnessControl.center.x = brightnessSlider.frame.width - 18
-                colorPicked = true
+        if sender.state == UIGestureRecognizerState.Ended {
+            let delay = 0.1 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.panGestureActive = false
             }
-            currentColorSlider.hidden = false
-            currentColorSlider.center = location
+        }
+    }
+
+    @IBAction func tappedColorWheel(sender: UITapGestureRecognizer) {
+        if panGestureActive == false {
+            let location = sender.locationInView(colorPickerBorder)
+            let pickerCenter = colorPickerImage.center
+            offsetdistance = calcDistance(pickerCenter, point2: location)
+            let checkdistance = (100 * offsetdistance / (colorPickerImage.frame.width / 2))
+            if checkdistance <= 100 {
+                coloroffsetdistance = checkdistance
+                colorangle = calcAngle(pickerCenter, point2: location)
+                setColor(true)
+                if colorPicked == false {
+                    brightnessControl.center.x = brightnessSlider.frame.width - 18
+                    colorPicked = true
+                }
+                currentColorSlider.hidden = false
+                currentColorSlider.center = location
+            }
         }
     }
     @IBAction func tappedBrightnessSlider(sender: UITapGestureRecognizer) {
@@ -174,12 +190,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         canvasGestures().zoomCanvas(self.canvasContainer, sender: sender, tapToFinishButton: tapToFinishButton)
     }
     @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
-        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, sender: sender)
-        canvasTranslation = canvasContainer.center
+        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, centerX: containerCenterX, centerY: containerCenterY, sender: sender)
     }
     
     // Functions for drawing on the canvas
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
+        panGestureActive = true
         if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
             drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
         } else if selectedTool.value == "Shape" {
@@ -191,18 +207,27 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if selectedTool.value != "Eyedropper" {
             combineLayers(sender)
         }
+        if sender.state == UIGestureRecognizerState.Ended {
+            let delay = 0.1 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.panGestureActive = false
+            }
+        }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
-        if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
-            drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
-        } else if selectedTool.value == "Shape" {
-            drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
-        } else if selectedTool.value == "Eyedropper" {
-            let location = sender.locationInView(canvasContainer)
-            eyedropperTool(location, sender: sender)
-        }
-        if selectedTool.value != "Eyedropper" {
-            combineLayers(sender)
+        if panGestureActive == false {
+            if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
+                drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+            } else if selectedTool.value == "Shape" {
+                drawingFunctions().buildShape(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
+            } else if selectedTool.value == "Eyedropper" {
+                let location = sender.locationInView(canvasContainer)
+                eyedropperTool(location, sender: sender)
+            }
+            if selectedTool.value != "Eyedropper" {
+                combineLayers(sender)
+            }
         }
     }
     @IBAction func doubleTappedCanvas(sender: UITapGestureRecognizer) {
@@ -219,11 +244,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     func combineLayers(sender: AnyObject) {
         // This gathers the lowest drawing layers and combines them into a single layer to help with performance
         if sender.state == UIGestureRecognizerState.Ended && canvasView.subviews.count > 21 {
-            let lowestlayer = canvasView.subviews[2] as! UIImageView
+            let lowestlayer = canvasView.subviews[1] as! UIImageView
             gatherLayers.insertSubview(lowestlayer, aboveSubview: gatherLayers.subviews.last!)
-            
             UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
-            gatherLayers.drawViewHierarchyInRect(canvasView.bounds, afterScreenUpdates: true)
+            //gatherLayers.drawViewHierarchyInRect(canvasView.bounds, afterScreenUpdates: false)
+            gatherLayers.layer.renderInContext(UIGraphicsGetCurrentContext())
             compositeImage.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
@@ -309,9 +334,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        canvasTranslation = CGPoint(x: view.frame.width/2, y: (view.frame.height/2) + 10)
-        canvasContainer.center = canvasTranslation
-        
         // Create Gradient for Brightness Slider
         let gradient: CAGradientLayer = CAGradientLayer()
         
@@ -333,6 +355,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
+        paper_texture = makeImageFromTile(paper_tile)
 
         // Bind Dynamic Variables
         maskVisible.bind {
@@ -354,7 +377,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func makeImageFromTile(tileImage: UIImage!) -> UIImage {
         // Create Images from tiles
-        let imagesize = CGSizeMake(canvasView.frame.size.width, canvasView.frame.size.height)
+        let imagesize = UIScreen.mainScreen().bounds.size
         UIGraphicsBeginImageContextWithOptions(imagesize, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
         CGContextDrawTiledImage(context, CGRectMake(0, 0, 200, 200), tileImage.CGImage)
@@ -364,7 +387,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
         
     override func viewDidLayoutSubviews() {
-        canvasContainer.center = canvasTranslation
+        //canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
     }

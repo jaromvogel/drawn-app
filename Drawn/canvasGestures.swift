@@ -100,9 +100,11 @@ class canvasGestures {
         sender.scale = 1
     }
     
-    func panCanvas(canvas: UIView!, containerView: UIView!, sender: UIPanGestureRecognizer) {
+    func panCanvas(canvas: UIView!, containerView: UIView!, centerX: NSLayoutConstraint, centerY: NSLayoutConstraint, sender: UIPanGestureRecognizer) {
         if sender.numberOfTouches() == 2 {
             let translation = sender.translationInView(containerView)
+            centerX.constant = centerX.constant + translation.x
+            centerY.constant = centerY.constant + translation.y
             canvas.center = CGPoint(x:canvas.center.x + translation.x, y:canvas.center.y + translation.y)
             sender.setTranslation(CGPointZero, inView: containerView)
         }

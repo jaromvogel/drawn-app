@@ -13,6 +13,19 @@ class topBarController: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func tapToTest(sender: AnyObject) {
+        print("works")
+    }
+    
+    @IBAction func tappedSend(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func tappedSave(sender: AnyObject) {
+        print("should save")
+    }
+    
+    @IBAction func tappedUndo(sender: AnyObject) {
+        print("should undo")
     }
     
     
