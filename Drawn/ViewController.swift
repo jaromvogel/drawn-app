@@ -42,6 +42,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var containerCenterY: NSLayoutConstraint!
     @IBOutlet weak var containerCenterX: NSLayoutConstraint!
+    @IBOutlet weak var canvasWidth: NSLayoutConstraint!
+    @IBOutlet weak var canvasHeight: NSLayoutConstraint!
     
     @IBOutlet weak var canvasTexture: UIImageView!
     @IBOutlet weak var tempDrawingView: UIImageView!
@@ -49,6 +51,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var canvasView: CanvasView!
     @IBOutlet weak var tapToFinishButton: UIButton!
     @IBOutlet weak var gestureControlView: UIView!
+    
+    @IBOutlet weak var scaleLabel: UIView!
+    @IBOutlet weak var scaleLabelText: UILabel!
+    
     @IBOutlet weak var colorPickerContainer: UIView!
     @IBOutlet weak var colorPickerBorder: UIView!
     @IBOutlet weak var colorPickerImage: UIImageView!
@@ -161,6 +167,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if sender.state == UIGestureRecognizerState.Ended {
             selectedTool.value = previousTool.value
             eyedropperActive.value = false
+            self.addRecentColor(selectedcolor.value)
             cacheDrawingView.image = nil
         }
     }
@@ -184,13 +191,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Manipulate the canvas
     @IBAction func rotateCanvas(sender: UIRotationGestureRecognizer) {
-        canvasGestures().rotateCanvas(self.canvasContainer, containerView: self.view, sender: sender)
+        canvasGestures().rotateCanvas(canvasView, canvasContainer: canvasContainer, gestureControlView: gestureControlView, sender: sender, centerX: containerCenterX, centerY: containerCenterY, scaleLabel: scaleLabel)
     }
     @IBAction func zoomCanvas(sender: UIPinchGestureRecognizer) {
-        canvasGestures().zoomCanvas(self.canvasContainer, sender: sender, tapToFinishButton: tapToFinishButton)
+        canvasGestures().zoomCanvas(canvasView, canvasContainer: canvasContainer, gestureControlView: gestureControlView, sender: sender, centerX: containerCenterX, centerY: containerCenterY, tapToFinishButton: tapToFinishButton, scaleLabel: scaleLabel, scaleLabelText: scaleLabelText)
     }
     @IBAction func panCanvas(sender: UIPanGestureRecognizer) {
-        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, centerX: containerCenterX, centerY: containerCenterY, sender: sender)
+        canvasGestures().panCanvas(self.canvasContainer, containerView: self.view, centerX: containerCenterX, centerY: containerCenterY, sender: sender, scaleLabel: scaleLabel)
     }
     
     // Functions for drawing on the canvas
@@ -322,18 +329,28 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         } else {
             springComplete(0.5, animations: {
                 self.menuBGMask.layer.opacity = 0
-                }, completion: {
+            }, completion: {
                 (value: Bool) in
                 self.menuBGMask.hidden = true
             })
         }
     }
     
+    func addRecentColor(newcolor: UIColor) {
+        if recentcolors.value[0] != newcolor {
+            recentcolors.value.insert(newcolor, atIndex: 0)
+            recentcolors.value.removeLast()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Set size of canvas and scale it appropriately
+        canvasWidth.constant = view.frame.width
+        canvasHeight.constant = view.frame.height
+
         // Create Gradient for Brightness Slider
         let gradient: CAGradientLayer = CAGradientLayer()
         
@@ -356,7 +373,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
         paper_texture = makeImageFromTile(paper_tile)
-
+        
         // Bind Dynamic Variables
         maskVisible.bind {
             self.toggleMask($0)
@@ -377,7 +394,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func makeImageFromTile(tileImage: UIImage!) -> UIImage {
         // Create Images from tiles
-        let imagesize = UIScreen.mainScreen().bounds.size
+        // let imagesize = UIScreen.mainScreen().bounds.size
+        let imagesize = CGSizeMake(canvasView.frame.width, canvasView.frame.height)
         UIGraphicsBeginImageContextWithOptions(imagesize, false, 0.0)
         let context = UIGraphicsGetCurrentContext()
         CGContextDrawTiledImage(context, CGRectMake(0, 0, 200, 200), tileImage.CGImage)
@@ -390,6 +408,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         //canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
+        tapToFinishButton.center = touchLocation
+
+        // Prevent scale label from flickering
+        scaleLabel.hidden = !scalelabel_visible
     }
 
     override func didReceiveMemoryWarning() {

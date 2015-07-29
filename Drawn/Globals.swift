@@ -26,6 +26,8 @@ let selectedcolor = Dynamic(UIColor.blackColor())
 let backgroundcolor = Dynamic(UIColor.blackColor())
 // Keep track of what the currently selected color is to reset after eraser tool
 let activecolor = Dynamic(UIColor.blackColor())
+// Keep a list of 4 recent colors
+let recentcolors = Dynamic([UIColor.blackColor(), UIColor.greenColor(), UIColor.blueColor(), UIColor.redColor(), UIColor.brownColor()])
 
 // Tool setup
 let selectedTool = Dynamic("Pencil")
