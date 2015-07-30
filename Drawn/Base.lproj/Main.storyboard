@@ -216,23 +216,6 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1TN-zd-YC0" userLabel="colorPickerBorder">
                                         <rect key="frame" x="100" y="65" width="400" height="400"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorPicker3" translatesAutoresizingMaskIntoConstraints="NO" id="xMs-j0-csb" userLabel="colorPickerImage">
-                                                <rect key="frame" x="2" y="2" width="396" height="396"/>
-                                                <animations/>
-                                                <gestureRecognizers/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="xMs-j0-csb" secondAttribute="height" multiplier="1:1" id="O96-CJ-vbN"/>
-                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="b7N-xI-qFI"/>
-                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qun-gH-p8H"/>
-                                                </constraints>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="O96-CJ-vbN"/>
-                                                        <exclude reference="b7N-xI-qFI"/>
-                                                        <exclude reference="qun-gH-p8H"/>
-                                                    </mask>
-                                                </variation>
-                                            </imageView>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-Da-8Ls" userLabel="currentColorSlider">
                                                 <rect key="frame" x="182" y="182" width="36" height="36"/>
                                                 <subviews>
@@ -264,6 +247,23 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorPicker3" translatesAutoresizingMaskIntoConstraints="NO" id="xMs-j0-csb" userLabel="colorPickerImage">
+                                                <rect key="frame" x="2" y="2" width="396" height="396"/>
+                                                <animations/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="xMs-j0-csb" secondAttribute="height" multiplier="1:1" id="O96-CJ-vbN"/>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="b7N-xI-qFI"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="qun-gH-p8H"/>
+                                                </constraints>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="O96-CJ-vbN"/>
+                                                        <exclude reference="b7N-xI-qFI"/>
+                                                        <exclude reference="qun-gH-p8H"/>
+                                                    </mask>
+                                                </variation>
+                                            </imageView>
                                         </subviews>
                                         <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

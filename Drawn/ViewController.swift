@@ -87,6 +87,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var deviceRotation = Int(1)
     var panGestureActive = false
     
+    var shapelayer = CAShapeLayer()
+    
     
     // Actions for Color Chooser Wheel and Brightness Slider
     @IBAction func colorPickerPanGesture(sender: UIPanGestureRecognizer) {
@@ -204,7 +206,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
         panGestureActive = true
         if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
-            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender)
+            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, sender: sender)
         } else if selectedTool.value == "Shape" {
             drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
         } else if selectedTool.value == "Eyedropper" {
@@ -347,6 +349,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Add shape layer to canvasView to draw into
+        canvasView.layer.addSublayer(shapelayer)
+        shapelayer.fillColor = nil
+        
         // Set size of canvas and scale it appropriately
         canvasWidth.constant = view.frame.width
         canvasHeight.constant = view.frame.height
@@ -373,6 +379,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
         paper_texture = makeImageFromTile(paper_tile)
+        
+        scaleLabel.layer.borderColor = UIColor.whiteColor().CGColor
         
         // Bind Dynamic Variables
         maskVisible.bind {

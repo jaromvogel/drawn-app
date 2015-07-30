@@ -10,7 +10,6 @@ import UIKit
 
 class CanvasView: UIView {
 
-    var lines: [Line] = []
     var lastPoint: CGPoint!
     
     /*
