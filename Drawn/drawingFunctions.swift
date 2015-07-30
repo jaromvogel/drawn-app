@@ -73,10 +73,7 @@ class drawingFunctions {
     func drawOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, shapelayer: CAShapeLayer!, sender: UIPanGestureRecognizer) {
        
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-        
-        //let drawinglayer = CAShapeLayer()
-        //shapelayer.addSublayer(drawinglayer)
-        
+
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
@@ -100,28 +97,13 @@ class drawingFunctions {
             full_bezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
             full_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            shapelayer.strokeColor = selectedcolor.value.CGColor
-            shapelayer.lineWidth = lineWeight
-            shapelayer.lineCap = kCALineCapRound
-            shapelayer.opacity = Float(lineOpacity)
-            shapelayer.path = temp_bezier.CGPath
-            CATransaction.commit()
+            styleStroke(shapelayer, path: temp_bezier, opacity: lineOpacity)
             
-            if lineCounter == 100 {
+            if lineCounter == 500 {
                 let lastpoint = temp_bezier.currentPoint
                 let segmentlayer = CAShapeLayer()
                 shapelayer.addSublayer(segmentlayer)
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-                segmentlayer.actions = nil
-                segmentlayer.strokeColor = selectedcolor.value.CGColor
-                segmentlayer.lineWidth = lineWeight
-                segmentlayer.fillColor = nil
-                segmentlayer.lineCap = kCALineCapRound
-                segmentlayer.path = temp_bezier.CGPath
-                CATransaction.commit()
+                styleStroke(segmentlayer, path: temp_bezier, opacity: 1.0)
                 temp_bezier.closePath()
                 temp_bezier.removeAllPoints()
                 temp_bezier.moveToPoint(lastpoint)
@@ -133,21 +115,14 @@ class drawingFunctions {
             // Make a copy of shape layer and add it to canvas.layer
             let newlayer = CAShapeLayer()
             canvas.layer.insertSublayer(newlayer, below: shapelayer)
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-            newlayer.strokeColor = selectedcolor.value.CGColor
-            newlayer.fillColor = nil
-            newlayer.lineWidth = lineWeight
-            newlayer.lineCap = kCALineCapRound
-            newlayer.opacity = Float(lineOpacity)
-            newlayer.path = full_bezier.CGPath
-            CATransaction.commit()
+            styleStroke(newlayer, path: full_bezier, opacity: lineOpacity)
             // Close Path
             temp_bezier.closePath()
             full_bezier.closePath()
             // Remove Bezier Points
             temp_bezier.removeAllPoints()
             full_bezier.removeAllPoints()
+            // Clear shapelayer to be drawn in again
             shapelayer.path = nil
             shapelayer.sublayers?.removeAll()
             
@@ -160,8 +135,6 @@ class drawingFunctions {
     func buildShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
         if sender.numberOfTouches() == 1 {
             if startedShape == false {
-                // if drawing hasn't started, scale tapToFinishButton to appropriate size
-                tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
                 startedShape = true
             }
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
@@ -198,10 +171,6 @@ class drawingFunctions {
                 }
             }
         }
-        if sender.state == UIGestureRecognizerState.Ended {
-            // Reset tapToFinishButton Scale if it needs it
-            tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
-        }
         UIGraphicsEndImageContext()
     }
     
@@ -213,7 +182,7 @@ class drawingFunctions {
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
             
             let context = UIGraphicsGetCurrentContext()
-            CGContextSetShouldAntialias(context, false)
+            CGContextSetShouldAntialias(context, true)
             
             selectedcolor.value.setFill()
             tempCache.image = nil
@@ -278,10 +247,7 @@ class drawingFunctions {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
             previousPoint2 = sender.locationInView(canvas)
-            if startedShape == false {
-                // If drawing hasn't started, scale tapToFinishButton to appropriate size
-                tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
-            }
+            
             spring(0.3, animations: { () -> Void in
                 // scale tapToFinishButton a little larger while drawing
                 tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1.2, 1.2)
@@ -329,6 +295,18 @@ class drawingFunctions {
         UIGraphicsEndImageContext()
     }
     
+    
+    func styleStroke(layer: CAShapeLayer, path: UIBezierPath, opacity: CGFloat) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        layer.strokeColor = selectedcolor.value.CGColor
+        layer.fillColor = nil
+        layer.lineWidth = lineWeight
+        layer.lineCap = kCALineCapRound
+        layer.opacity = Float(opacity)
+        layer.path = path.CGPath
+        CATransaction.commit()
+    }
     
     func midpoint(point1: CGPoint, point2: CGPoint) -> CGPoint {
         let midx = ((point1.x + point2.x)/2)

@@ -380,7 +380,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         splatter_texture = makeImageFromTile(splatter_tile)
         paper_texture = makeImageFromTile(paper_tile)
         
+        scaleLabel.layer.borderWidth = CGFloat(2.0)
         scaleLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        
+        tapToFinishButton.frame = CGRectMake(0, 0, 25, 25)
+        tapToFinishButton.layer.cornerRadius = CGFloat(12.5)
         
         // Bind Dynamic Variables
         maskVisible.bind {
@@ -416,7 +420,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         //canvasContainer.center = canvasTranslation
         colorPickerBorder.layer.cornerRadius = colorPickerBorder.frame.width/2
         deviceRotation = UIDevice.currentDevice().orientation.rawValue
-        tapToFinishButton.center = touchLocation
 
         // Prevent scale label from flickering
         scaleLabel.hidden = !scalelabel_visible

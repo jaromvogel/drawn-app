@@ -85,7 +85,8 @@ class canvasGestures {
         
         scaleLabel.hidden = false
         scaleLabelText.text = String(Int(round(scale * 100))) + String("%")
-        tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/sender.scale, 1/sender.scale)
+        tapToFinishButton.transform = CGAffineTransformIdentity
+        tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1/scale, 1/scale)
         
         sender.scale = 1
         

@@ -67,14 +67,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="720" height="720"/>
                                         <animations/>
                                     </imageView>
-                                    <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A3H-jJ-X04" userLabel="tapToFinishButton">
-                                        <rect key="frame" x="348" y="348" width="25" height="25"/>
+                                    <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A3H-jJ-X04" userLabel="tapToFinishButton">
+                                        <rect key="frame" x="60" y="60" width="25" height="25"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.38218079999999999" green="0.90145596589999999" blue="0.68569994219999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="25" placeholder="YES" id="2Ln-EL-shd"/>
-                                            <constraint firstAttribute="width" constant="25" placeholder="YES" id="P5N-28-ncw"/>
-                                        </constraints>
                                         <state key="normal">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -102,12 +98,10 @@
                                     <constraint firstItem="QaN-k1-sub" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="OQj-Re-sf5"/>
                                     <constraint firstItem="cwM-1u-bOx" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="P5d-cF-8nm"/>
                                     <constraint firstAttribute="trailing" secondItem="cwM-1u-bOx" secondAttribute="trailing" id="YAr-Xz-QSC"/>
-                                    <constraint firstItem="A3H-jJ-X04" firstAttribute="centerY" secondItem="aI1-fb-hNs" secondAttribute="centerY" id="eWQ-lq-Gtv"/>
                                     <constraint firstAttribute="bottom" secondItem="72x-eq-oeJ" secondAttribute="bottom" id="oum-PR-9Ys"/>
                                     <constraint firstAttribute="height" constant="720" id="pbx-ew-7wh"/>
                                     <constraint firstAttribute="bottom" secondItem="QaN-k1-sub" secondAttribute="bottom" id="rjK-Jf-94M"/>
                                     <constraint firstItem="4uM-U2-mAi" firstAttribute="leading" secondItem="aI1-fb-hNs" secondAttribute="leading" id="uPO-8O-p1H"/>
-                                    <constraint firstItem="A3H-jJ-X04" firstAttribute="centerX" secondItem="aI1-fb-hNs" secondAttribute="centerX" id="vl2-E8-32c"/>
                                     <constraint firstItem="cwM-1u-bOx" firstAttribute="top" secondItem="aI1-fb-hNs" secondAttribute="top" id="zCi-UL-kWj"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
