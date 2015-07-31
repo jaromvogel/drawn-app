@@ -24,16 +24,19 @@ var lineCounter = 0
 
 class drawingFunctions {
     
-    func tapOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer) {
+    func tapOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, shapelayer: CAShapeLayer!, sender: UITapGestureRecognizer) {
         if sender.numberOfTouches() == 1 {
             
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
-            temp_bezier.setLineDash(nil, count: 0, phase: 0)
-            temp_bezier.lineCapStyle = CGLineCap.Round
-            temp_bezier.lineWidth = lineWeight
-            selectedcolor.value.setStroke()
+            let newlayer = CAShapeLayer()
+            canvas.layer.addSublayer(newlayer)
+            
+            newlayer.lineDashPattern = nil
+            newlayer.lineCap = kCALineCapRound
+            newlayer.lineWidth = lineWeight
+            newlayer.opacity = Float(lineOpacity)
+            newlayer.strokeColor = selectedcolor.value.CGColor
             
             touchLocation = sender.locationInView(canvas)
 
@@ -41,32 +44,14 @@ class drawingFunctions {
             temp_bezier.addLineToPoint(touchLocation)
             temp_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: CGFloat(1.0))
             
-            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = lineOpacity
+            newlayer.path = temp_bezier.CGPath
+            
             UIGraphicsEndImageContext()
             
             temp_bezier.closePath()
             temp_bezier.removeAllPoints()
             
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            
-            cache.image = nil
-            
-            let drawingLayer = UIImageView()
-            drawingLayer.frame = canvas.frame
-            
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height), blendMode: CGBlendMode.Normal, alpha: lineOpacity)
-            drawingLayer.image = UIGraphicsGetImageFromCurrentImageContext();
-            if canvas.subviews.count > 0 {
-                canvas.insertSubview(drawingLayer, aboveSubview: canvas.subviews.last!)
-            } else {
-                canvas.insertSubview(drawingLayer, atIndex: 0)
-            }
-            tempCache.image = nil
-            UIGraphicsEndImageContext()
-            
         }
-        UIGraphicsEndImageContext()
     }
     
     
@@ -81,6 +66,7 @@ class drawingFunctions {
             temp_bezier.moveToPoint(currentPoint)
             full_bezier.moveToPoint(currentPoint)
             startedDrawing = true
+            shapelayer.lineDashPattern = nil
         }
         else if sender.state == UIGestureRecognizerState.Changed {
             
@@ -132,25 +118,26 @@ class drawingFunctions {
     }
 
     
-    func buildShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
+    func buildShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UITapGestureRecognizer, shapelayer: CAShapeLayer!, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
         if sender.numberOfTouches() == 1 {
             if startedShape == false {
                 startedShape = true
             }
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
-            tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
+            //tempCache.image?.drawInRect(CGRect(x: 0, y: 0, width: canvas.frame.size.width, height: canvas.frame.size.height))
             
-            let pattern: [CGFloat] = [1.0, 4.0]
-            temp_bezier.setLineDash(pattern, count: 2, phase: CGFloat(2.0))
-            temp_bezier.lineCapStyle = CGLineCap.Round
-            temp_bezier.lineWidth = CGFloat(1.0)
-            selectedcolor.value.setStroke()
-            selectedcolor.value.setFill()
+            let pattern: [CGFloat] = [0.05, 3.0]
+            
+            shapelayer.lineDashPattern = pattern
+            shapelayer.lineCap = kCALineCapRound
+            shapelayer.lineWidth = CGFloat(1.0)
+            shapelayer.strokeColor = selectedcolor.value.CGColor
             
             touchLocation = sender.locationInView(canvas)
             
             if startedDrawing == false {
                 temp_bezier.moveToPoint(touchLocation)
+                full_bezier.moveToPoint(touchLocation)
                 startPoint = touchLocation
                 tapToFinishButton.hidden = false
                 tapToFinishButton.center = touchLocation
@@ -160,12 +147,13 @@ class drawingFunctions {
                 startedDrawing = true
             } else if startedDrawing == true {
                 if ((touchLocation.x < startPoint.x + 10 && touchLocation.x > startPoint.x - 10)) && ((touchLocation.y < startPoint.y + 10) && (touchLocation.y > startPoint.y - 10)) {
-                    finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
+                    finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, shapelayer: shapelayer, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
                 } else {
                     temp_bezier.addLineToPoint(touchLocation)
+                    full_bezier.addLineToPoint(touchLocation)
                     temp_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
-                    tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-                    tempCache.alpha = lineOpacity
+                    full_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
+                    shapelayer.path = temp_bezier.CGPath
                     
                     UIGraphicsEndImageContext()
                 }
@@ -175,11 +163,15 @@ class drawingFunctions {
     }
     
     
-    func finishShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, tapToFinishButton: UIButton, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
+    func finishShape(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, shapelayer: CAShapeLayer!, tapToFinishButton: UIButton, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
         if startedShape == true {
             tapToFinishButton.hidden = true
+            
+            shapelayer.path = nil
+            shapelayer.sublayers?.removeAll()
             startedShape = false
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            startedDrawing = false
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 4.0)
             
             let context = UIGraphicsGetCurrentContext()
             CGContextSetShouldAntialias(context, true)
@@ -211,11 +203,12 @@ class drawingFunctions {
             
             temp_bezier.closePath()
             temp_bezier.removeAllPoints()
-            startedDrawing = false
+            full_bezier.closePath()
+            full_bezier.removeAllPoints()
+            
             UIGraphicsEndImageContext()
 
-            
-            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
+            UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 4.0)
                         
             let drawingLayer = UIImageView()
             drawingLayer.frame = canvas.frame
@@ -233,54 +226,79 @@ class drawingFunctions {
     }
     
     
-    func drawShapeOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, sender: UIPanGestureRecognizer, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
+    func drawShapeOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, shapelayer: CAShapeLayer!, sender: UIPanGestureRecognizer, tapToFinishButton: UIButton!, paper_texture: UIImage!, muddy_colors: UIImage!, splatter_texture: UIImage!) {
         UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
 
-        let pattern: [CGFloat] = [1.0, 4.0]
-        temp_bezier.setLineDash(pattern, count: 2, phase: CGFloat(2.0))
-        temp_bezier.lineCapStyle = CGLineCap.Round
-        temp_bezier.lineWidth = CGFloat(1.0)
-        selectedcolor.value.setStroke()
-        selectedcolor.value.setFill()
+        let pattern: [CGFloat] = [0.05, 3.0]
+        
+        shapelayer.lineDashPattern = pattern
+        shapelayer.lineCap = kCALineCapRound
+        shapelayer.lineWidth = CGFloat(1.0)
+        shapelayer.strokeColor = selectedcolor.value.CGColor
         
         if sender.state == UIGestureRecognizerState.Began {
             currentPoint = sender.locationInView(canvas)
             previousPoint1 = sender.locationInView(canvas)
             previousPoint2 = sender.locationInView(canvas)
+
+            if startedShape == true {
+                let mid2 = midpoint(currentPoint, point2: previousPoint1)
+
+                temp_bezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
+                full_bezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
+                temp_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
+                full_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
+            } else {
+                temp_bezier.moveToPoint(currentPoint)
+                full_bezier.moveToPoint(currentPoint)
+                tapToFinishButton.hidden = false
+                tapToFinishButton.center = currentPoint
+                tapToFinishButton.layer.borderWidth = CGFloat(2.0)
+                let bordercolor = UIColor(hue: 0.45, saturation: 0.8, brightness: 0.8, alpha: 1.0).CGColor
+                tapToFinishButton.layer.borderColor = bordercolor
+                startPoint = currentPoint
+                startedShape = true
+                startedDrawing = true
+            }
+
+            lineCounter = 0
             
             spring(0.3, animations: { () -> Void in
                 // scale tapToFinishButton a little larger while drawing
                 tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 1.2, 1.2)
             })
         } else if sender.state == UIGestureRecognizerState.Changed {
+            
+            lineCounter += 1
+            
             previousPoint2 = previousPoint1
             previousPoint1 = currentPoint
             currentPoint = sender.locationInView(canvas)
             
-            let mid1 = midpoint(previousPoint1, point2: previousPoint2)
             let mid2 = midpoint(currentPoint, point2: previousPoint1)
             
-            touchLocation = CGPointMake(mid1.x, mid1.y)
-
-            if startedDrawing == false {
-
-                temp_bezier.moveToPoint(touchLocation)
-                
-                startPoint = touchLocation
-                tapToFinishButton.hidden = false
-                tapToFinishButton.center = touchLocation
-                tapToFinishButton.layer.borderWidth = CGFloat(2.0)
-                let bordercolor = UIColor(hue: 0.45, saturation: 0.8, brightness: 0.8, alpha: 1.0).CGColor
-                tapToFinishButton.layer.borderColor = bordercolor
-                
-                startedDrawing = true
-                startedShape = true
-            }
             temp_bezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
+            full_bezier.addQuadCurveToPoint(mid2, controlPoint: previousPoint1)
             temp_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
-            tempCache.image = UIGraphicsGetImageFromCurrentImageContext()
-            tempCache.alpha = lineOpacity
+            full_bezier.strokeWithBlendMode(CGBlendMode.Normal, alpha: 1.0)
+            
+            shapelayer.path = temp_bezier.CGPath
 
+            if lineCounter == 500 {
+                let lastpoint = temp_bezier.currentPoint
+                let segmentlayer = CAShapeLayer()
+                shapelayer.addSublayer(segmentlayer)
+                segmentlayer.lineDashPattern = pattern
+                segmentlayer.lineCap = kCALineCapRound
+                segmentlayer.lineWidth = CGFloat(1.0)
+                segmentlayer.strokeColor = selectedcolor.value.CGColor
+                temp_bezier.closePath()
+                temp_bezier.removeAllPoints()
+                temp_bezier.moveToPoint(lastpoint)
+                shapelayer.path = nil
+                lineCounter = 0
+            }
+            
             UIGraphicsEndImageContext()
 
         } else if sender.state == UIGestureRecognizerState.Ended {
@@ -288,8 +306,8 @@ class drawingFunctions {
                 // Restore tapToFinishButton to scaled state using inverse of 1.2
                 tapToFinishButton.transform = CGAffineTransformScale(tapToFinishButton.transform, 0.834, 0.834)
             })
-            if ((touchLocation.x < startPoint.x + 15 && touchLocation.x > startPoint.x - 15)) && ((touchLocation.y < startPoint.y + 15) && (touchLocation.y > startPoint.y - 15)) {
-                finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
+            if ((currentPoint.x < startPoint.x + 15 && currentPoint.x > startPoint.x - 15)) && ((currentPoint.y < startPoint.y + 15) && (currentPoint.y > startPoint.y - 15)) {
+                finishShape(canvas, canvasContainer: canvasContainer, cache: cache, tempCache: tempCache, shapelayer: shapelayer, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
             }
         }
         UIGraphicsEndImageContext()
