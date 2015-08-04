@@ -33,6 +33,9 @@ let recentcolors = Dynamic([UIColor.blackColor(), UIColor.greenColor(), UIColor.
 let selectedTool = Dynamic("Pencil")
 var previousTool = Dynamic("")
 
+// Subtool setup
+let drawingstyle = Dynamic("pencil")
+
 // Dark mask when a radial menu is active
 let maskVisible = Dynamic(false)
 

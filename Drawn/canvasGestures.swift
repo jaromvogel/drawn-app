@@ -147,7 +147,6 @@ class canvasGestures {
         position.y -= oldPoint.y
         position.y += newPoint.y
         
-        //view.translatesAutoresizingMaskIntoConstraints = true     // Added to deal with auto layout constraints
         view.layer.anchorPoint = anchorPoint
         view.layer.position = position
         centerX.constant = -canvas.frame.width/2 + view.layer.position.x

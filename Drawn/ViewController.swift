@@ -77,6 +77,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var muddy_tile = UIImage(named: "muddy-colors-tile") as UIImage!
     var splatter_tile = UIImage(named: "splatter-tile") as UIImage!
     var paper_tile = UIImage(named: "paper-tile") as UIImage!
+    var pencil_tile = UIImage(named: "pencil-tile") as UIImage!
+    var pencil_texture = UIImage()
     var light_paper_texture = UIImage()
     var offsetdistance = CGFloat(0)
     var coloroffsetdistance = CGFloat(0)
@@ -204,9 +206,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Functions for drawing on the canvas
     @IBAction func drawOnCanvas(sender: UIPanGestureRecognizer) {
+        //This should make sure that shapelayer is always the last layer
+        shapelayer.superlayer?.addSublayer(shapelayer)
+        
         panGestureActive = true
         if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
-            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, sender: sender)
+            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, pencil_texture: pencil_texture, shapelayer: shapelayer, sender: sender)
         } else if selectedTool.value == "Shape" {
             drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
         } else if selectedTool.value == "Eyedropper" {
@@ -225,6 +230,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @IBAction func tappedOnCanvas(sender: UITapGestureRecognizer) {
+        //This should make sure that shapelayer is always the last layer
+        shapelayer.superlayer?.addSublayer(shapelayer)
+        
         if panGestureActive == false {
             if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
                 drawingFunctions().tapOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, sender: sender)
@@ -245,8 +253,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     @IBAction func UndoButton(sender: UIButton) {
-        if canvasView.subviews.count > 1 {
-            canvasView.subviews.last?.removeFromSuperview()
+        //This should make sure that shapelayer is always the last layer
+        shapelayer.superlayer?.addSublayer(shapelayer)
+        
+        if canvasView.layer.sublayers?.count > 2 {
+            var selectedlayer: CALayer
+            selectedlayer = (canvasView.layer.sublayers?[0] as CALayer?)!
+            selectedlayer = (canvasView.layer.sublayers?[(canvasView.layer.sublayers?.count)! - 2] as CALayer?)!
+            print(selectedlayer.name)
+            selectedlayer.removeFromSuperlayer()
+            //canvasView.subviews.last?.removeFromSuperview()
         }
     }
     
@@ -276,15 +292,23 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake {
-            let whiteView = UIImageView()
-            whiteView.backgroundColor = UIColor.whiteColor()
-            whiteView.image = light_paper_texture
-            whiteView.frame = canvasView.frame
-            if canvasView.subviews.count > 0 {
-                canvasView.insertSubview(whiteView, aboveSubview: canvasView.subviews.last!)
-            } else {
-                canvasView.insertSubview(whiteView, atIndex: 0)
-            }
+            let newlayer = CALayer()
+            newlayer.frame = canvasView.frame
+            
+            UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 2.0)
+            
+            let context = UIGraphicsGetCurrentContext()
+            
+            let drawingRect = CGRect(x: 0, y: 0, width: canvasView.frame.size.width, height: canvasView.frame.size.height)
+            
+            UIColor.whiteColor().setFill()
+            UIRectFillUsingBlendMode(drawingRect, CGBlendMode.Normal)
+            CGContextDrawImage(context, CGRectMake(0, 0, light_paper_texture.size.width, light_paper_texture.size.height), light_paper_texture.CGImage)
+            
+            newlayer.contents = UIGraphicsGetImageFromCurrentImageContext().CGImage
+            canvasView.layer.insertSublayer(newlayer, below: shapelayer)
+            
+            UIGraphicsEndImageContext()
         }
     }
     
@@ -352,6 +376,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Add shape layer to canvasView to draw into
         canvasView.layer.addSublayer(shapelayer)
         shapelayer.fillColor = nil
+        shapelayer.name = "shapelayer"
         
         // Set size of canvas and scale it appropriately
         canvasWidth.constant = view.frame.width
@@ -379,6 +404,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
         paper_texture = makeImageFromTile(paper_tile)
+        pencil_texture = makeImageFromTile(pencil_tile)
         
         scaleLabel.layer.borderWidth = CGFloat(2.0)
         scaleLabel.layer.borderColor = UIColor.whiteColor().CGColor
