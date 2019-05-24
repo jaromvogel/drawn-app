@@ -8,24 +8,7 @@
 
 import UIKit
 import Darwin
-
-// Extend UIImage to be able to check the color of a pixel
-extension UIImage {
-    func getPixelColor(pos: CGPoint) -> UIColor {
-        
-        let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
-        var data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
-        
-        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
-        
-        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
-        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
-        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
-        
-        return UIColor(red: r, green: g, blue: b, alpha: a)
-    }
-}
+import SwiftyJSON
 
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -211,7 +194,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         panGestureActive = true
         if selectedTool.value == "Pencil" || selectedTool.value == "Eraser" {
-            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, pencil_texture: pencil_texture, shapelayer: shapelayer, sender: sender)
+            drawingFunctions().drawOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, pencil_texture: pencil_texture, sender: sender)
         } else if selectedTool.value == "Shape" {
             drawingFunctions().drawShapeOnCanvas(self.canvasView, canvasContainer: canvasContainer, cache: self.cacheDrawingView, tempCache: self.tempDrawingView, shapelayer: shapelayer, sender: sender, tapToFinishButton: tapToFinishButton, paper_texture: paper_texture, muddy_colors: muddy_colors, splatter_texture: splatter_texture)
         } else if selectedTool.value == "Eyedropper" {
@@ -260,11 +243,21 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             var selectedlayer: CALayer
             selectedlayer = (canvasView.layer.sublayers?[0] as CALayer?)!
             selectedlayer = (canvasView.layer.sublayers?[(canvasView.layer.sublayers?.count)! - 2] as CALayer?)!
-            print(selectedlayer.name)
             selectedlayer.removeFromSuperlayer()
             //canvasView.subviews.last?.removeFromSuperview()
         }
     }
+    
+    @IBAction func sendData(sender: UIButton) {
+        drawingFunctions().renderLayersToCache(canvasView, canvasContainer: canvasContainer, cache: cacheDrawingView)
+        connect().post(cacheDrawingView, canvasView: canvasView)
+    }
+    
+    @IBAction func getData(sender: UIButton) {
+        connect().get(compositeImage)
+    }
+    
+    
     
     func combineLayers(sender: AnyObject) {
         // This gathers the lowest drawing layers and combines them into a single layer to help with performance
@@ -273,7 +266,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             gatherLayers.insertSubview(lowestlayer, aboveSubview: gatherLayers.subviews.last!)
             UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
             //gatherLayers.drawViewHierarchyInRect(canvasView.bounds, afterScreenUpdates: false)
-            gatherLayers.layer.renderInContext(UIGraphicsGetCurrentContext())
+            gatherLayers.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             compositeImage.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
@@ -297,13 +290,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             
             UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 2.0)
             
-            let context = UIGraphicsGetCurrentContext()
-            
             let drawingRect = CGRect(x: 0, y: 0, width: canvasView.frame.size.width, height: canvasView.frame.size.height)
             
             UIColor.whiteColor().setFill()
             UIRectFillUsingBlendMode(drawingRect, CGBlendMode.Normal)
-            CGContextDrawImage(context, CGRectMake(0, 0, light_paper_texture.size.width, light_paper_texture.size.height), light_paper_texture.CGImage)
             
             newlayer.contents = UIGraphicsGetImageFromCurrentImageContext().CGImage
             canvasView.layer.insertSublayer(newlayer, below: shapelayer)
@@ -393,14 +383,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         brightnessGradient.layer.insertSublayer(gradient, atIndex: 1)
         
-        // Create Paper texture to use for canvas background
-        UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
-        
-        paper_texture.drawInRect(CGRectMake(0, 0, canvasView.frame.size.width, canvasView.frame.size.height), blendMode: CGBlendMode.Normal, alpha: 0.2)
-        light_paper_texture = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        canvasTexture.image = light_paper_texture
-        
         muddy_colors = makeImageFromTile(muddy_tile)
         splatter_texture = makeImageFromTile(splatter_tile)
         paper_texture = makeImageFromTile(paper_tile)
@@ -428,6 +410,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         colorPickerHidden.bind {
             self.displayColorPicker($0)
         }
+        
+        // Register for Remote Push Notifications
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+
+        
+        // Prompt user to accept notifications
+        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+
     }
     
     func makeImageFromTile(tileImage: UIImage!) -> UIImage {
@@ -476,6 +467,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             print("should rotate 90 degrees")
         }
     }
-
+    
 }
 

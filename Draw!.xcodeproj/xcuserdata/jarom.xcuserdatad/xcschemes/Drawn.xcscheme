@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8A9FCC741B252C10003DD303"
-               BuildableName = "Draw!.app"
+               BuildableName = "test.app"
                BlueprintName = "Draw!"
                ReferencedContainer = "container:Draw!.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8A9FCC741B252C10003DD303"
-            BuildableName = "Draw!.app"
+            BuildableName = "test.app"
             BlueprintName = "Draw!"
             ReferencedContainer = "container:Draw!.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8A9FCC741B252C10003DD303"
-            BuildableName = "Draw!.app"
+            BuildableName = "test.app"
             BlueprintName = "Draw!"
             ReferencedContainer = "container:Draw!.xcodeproj">
          </BuildableReference>
@@ -99,7 +99,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8A9FCC741B252C10003DD303"
-            BuildableName = "Draw!.app"
+            BuildableName = "test.app"
             BlueprintName = "Draw!"
             ReferencedContainer = "container:Draw!.xcodeproj">
          </BuildableReference>

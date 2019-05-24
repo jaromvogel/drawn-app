@@ -30,6 +30,8 @@ var startedShape: Bool = false
 var startPoint = CGPoint()
 var touchLocation = CGPoint()
 var lineCounter = 0
+let texture_layer = CALayer()
+
 
 class drawingFunctions {
     
@@ -64,18 +66,18 @@ class drawingFunctions {
     }
     
     
-    func drawOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, pencil_texture: UIImage!, shapelayer: CAShapeLayer!, sender: UIPanGestureRecognizer) {
+    func drawOnCanvas(canvas: CanvasView!, canvasContainer: UIView!, cache: UIImageView!, tempCache: UIImageView!, shapelayer: CAShapeLayer!, pencil_texture: UIImage!, sender: UIPanGestureRecognizer) {
         
         if drawingstyle.value == "pencil" {
             UIGraphicsBeginImageContextWithOptions(canvas.frame.size, false, 0.0)
 
             if sender.state == UIGestureRecognizerState.Began {
-                let texture_layer = CALayer()
-                texture_layer.frame = canvas.frame
-                canvas.layer.insertSublayer(texture_layer, below: shapelayer)
-                texture_layer.contents = pencil_texture.CGImage
-                texture_layer.mask = shapelayer
                 
+//                texture_layer.frame = canvas.frame
+//                canvas.layer.insertSublayer(texture_layer, below: shapelayer)
+//                texture_layer.contents = pencil_texture.CGImage
+//                texture_layer.mask = shapelayer
+
                 currentPoint = sender.locationInView(canvas)
                 previousPoint1 = sender.locationInView(canvas)
                 previousPoint2 = sender.locationInView(canvas)
@@ -113,6 +115,7 @@ class drawingFunctions {
                     shapelayer.path = nil
                     lineCounter = 0
                 }
+                
             }
             else if sender.state == UIGestureRecognizerState.Ended {
                 // Make a copy of shape layer and add it to canvas.layer
@@ -130,8 +133,11 @@ class drawingFunctions {
                 shapelayer.sublayers?.removeAll()
                 
                 startedDrawing = false
+                
             }
+
             UIGraphicsEndImageContext()
+            
         }
         
         if drawingstyle.value == "brush" {
